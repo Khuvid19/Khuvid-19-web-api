@@ -27,6 +27,11 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	//testImplementation 'org.springframework.security:spring-security-test'
+
+	// database
+	compile("org.springframework.boot:spring-boot-starter-data-jpa")
+	compile("org.springframework.boot:spring-boot-starter-jdbc")
+	runtime("com.h2database:h2")
 }
 
 test {
