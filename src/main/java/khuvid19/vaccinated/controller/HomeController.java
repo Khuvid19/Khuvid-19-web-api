@@ -1,4 +1,4 @@
-package khuvid19.vaccinated;
+package khuvid19.vaccinated.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -7,7 +7,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
 
     @RequestMapping("/")
-    public String Home(){
+    public String Home() {
         return "home";
+    }
+
+    @RequestMapping("/board")
+    public String Board(){
+        return "board";
     }
 }
