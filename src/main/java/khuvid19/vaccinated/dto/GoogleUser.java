@@ -20,6 +20,6 @@ public class GoogleUser {
     public String locale;
 
     public User toUser(String accessToken) {
-        return new User(email, name, accessToken);
+        return new User(this.email, this.name, accessToken, this.picture);
     }
 }
