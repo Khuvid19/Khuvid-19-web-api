@@ -1,0 +1,8 @@
+package khuvid19.vaccinated.repository;
+
+import khuvid19.vaccinated.dao.Board;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface BoardRepository extends JpaRepository<Board, Long> {
+
+}
