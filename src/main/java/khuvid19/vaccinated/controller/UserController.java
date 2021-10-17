@@ -1,12 +1,12 @@
 package khuvid19.vaccinated.controller;
 
 import khuvid19.vaccinated.dao.User;
-import khuvid19.vaccinated.dto.UserInfo;
 import khuvid19.vaccinated.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -35,16 +35,16 @@ public class UserController {
     }
 
     @GetMapping("/auth/google")
-    public UserInfo oauthLogin(String code) throws ChangeSetPersister.NotFoundException {
+    public User oauthLogin(String code) throws ChangeSetPersister.NotFoundException {
         log.info("code : {}", code);
-        UserInfo user = userService.oauthLogin(code);
+        User user = userService.oauthLogin(code);
 
         return user;
     }
 
     @PostMapping("/auth/google")
-    public UserInfo setUserName(@RequestParam String email, @RequestParam String userName) {
-        UserInfo user = userService.setUserName(email, userName);
-        return user;
+    public HttpStatus setUserName(@RequestParam String email, @RequestParam String userName) {
+        return userService.setUserName(email, userName);
+
     }
 }

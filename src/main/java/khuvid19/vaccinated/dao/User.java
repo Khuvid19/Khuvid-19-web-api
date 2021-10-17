@@ -1,21 +1,19 @@
 package khuvid19.vaccinated.dao;
 
-import khuvid19.vaccinated.dto.UserInfo;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import khuvid19.vaccinated.dto.login.UserInfo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Random;
 
 @Getter
 @Entity
 @NoArgsConstructor
 public class User {
     @Id
+    @Column(name="user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column
     private String email;
     @Column
@@ -28,8 +26,6 @@ public class User {
     private String userName;
 
     public User(String email, String name, String accessToken, String picUrl) {
-        Random random = new Random();
-        this.id = random.nextLong();
         this.email = email;
         this.name = name;
         this.accessToken = accessToken;

@@ -2,12 +2,12 @@ package khuvid19.vaccinated.service;
 
 import khuvid19.vaccinated.JwtTokenProvider;
 import khuvid19.vaccinated.dao.User;
-import khuvid19.vaccinated.dto.GoogleUser;
-import khuvid19.vaccinated.dto.OAuthToken;
-import khuvid19.vaccinated.dto.UserInfo;
+import khuvid19.vaccinated.dto.login.GoogleUser;
+import khuvid19.vaccinated.dto.login.OAuthToken;
 import khuvid19.vaccinated.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +26,7 @@ public class UserService {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    public UserInfo oauthLogin(String code) throws ChangeSetPersister.NotFoundException {
+    public User oauthLogin(String code) throws ChangeSetPersister.NotFoundException {
         ResponseEntity<String> accessTokenResponse = oAuthService.createPostRequest(code);
         OAuthToken oAuthToken = oAuthService.getAccessToken(accessTokenResponse);
         log.info("Access Token: {}", oAuthToken.getAccessToken());
@@ -39,7 +39,7 @@ public class UserService {
             userRepository.save(user);
         }
         User user = userRepository.findByEmail(googleUser.getEmail()).orElseThrow(ChangeSetPersister.NotFoundException::new);
-        return user.toUserInfo();
+        return user;
     }
 
     private boolean isJoinedUser(GoogleUser googleUser) {
@@ -47,13 +47,18 @@ public class UserService {
         return users.isPresent();
     }
 
-    public UserInfo setUserName(String email, String userName) {
-        Optional<User> user = userRepository.findByEmail(email);
-        if( !user.isEmpty()){
-            User updateUser = user.get().setUserName(userName);
-            userRepository.save(updateUser);
+    public HttpStatus setUserName(String token, String userName) {
+
+        if (userRepository.existsByUserName(userName)){
+            return HttpStatus.FORBIDDEN;
         }
-        return userRepository.findByEmail(email).get().toUserInfo();
+        Optional<User> user = userRepository.findByAccessToken(token);
+        User setUser = user.get();
+
+        setUser.setUserName(userName);
+        userRepository.save(setUser);
+
+        return HttpStatus.OK;
     }
 
 }
