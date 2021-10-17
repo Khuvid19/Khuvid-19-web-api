@@ -5,11 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter
 @NoArgsConstructor
-public class BoardDao {
+public class Board {
     @Id
     @Column
     @GeneratedValue
@@ -19,15 +20,18 @@ public class BoardDao {
     @Column
     private String content;
     @Column
-    private int like = 0;
+    private int likes = 0;
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name="user_id")
     private User user;
 
+    private Date date;
 
-    public BoardDao(String title, String content, User user) {
+
+    public Board(String title, String content, User user) {
         this.title = title;
         this.content = content;
         this.user = user;
+        this.date = new Date();
     }
 }

@@ -1,15 +1,17 @@
 package khuvid19.vaccinated.dto;
 
 import lombok.Getter;
-import lombok.Setter;
+
+import java.util.Date;
 
 @Getter
-public class Board {
+public class BoardDTO {
     Long boardId;
     String title;
     String userName;
     String content;
     Long like;
+    Date date;
 
     public void liked(){
         this.like = this.like+1;

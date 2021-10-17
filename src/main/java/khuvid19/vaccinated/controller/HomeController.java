@@ -11,8 +11,4 @@ public class HomeController {
         return "home";
     }
 
-    @RequestMapping("/board")
-    public String Board(){
-        return "board";
-    }
 }
