@@ -1,4 +1,4 @@
-package khuvid19.vaccinated.dto;
+package khuvid19.vaccinated.dto.board;
 
 import lombok.Getter;
 
@@ -10,12 +10,7 @@ public class BoardDTO {
     String title;
     String userName;
     String content;
-    Long like;
     Date date;
-
-    public void liked(){
-        this.like = this.like+1;
-    }
 
     public void setTitle(String title) {
         this.title = title;

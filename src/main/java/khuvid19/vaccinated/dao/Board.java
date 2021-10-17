@@ -19,8 +19,6 @@ public class Board {
     private String title;
     @Column
     private String content;
-    @Column
-    private int likes = 0;
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name="user_id")
     private User user;
