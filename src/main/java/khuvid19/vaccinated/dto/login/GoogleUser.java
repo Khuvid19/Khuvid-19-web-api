@@ -1,4 +1,4 @@
-package khuvid19.vaccinated.dto;
+package khuvid19.vaccinated.dto.login;
 
 import khuvid19.vaccinated.dao.User;
 import lombok.AllArgsConstructor;
