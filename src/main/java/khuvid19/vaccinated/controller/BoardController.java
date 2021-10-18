@@ -1,7 +1,9 @@
 package khuvid19.vaccinated.controller;
 
 import khuvid19.vaccinated.dao.Board;
-import khuvid19.vaccinated.dto.BoardDTO;
+import khuvid19.vaccinated.dao.Comment;
+import khuvid19.vaccinated.dto.board.BoardDTO;
+import khuvid19.vaccinated.dto.board.CommentDTO;
 import khuvid19.vaccinated.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,9 +22,19 @@ public class BoardController {
         return boardService.saveBoard(postBoard);
     }
 
+    @PostMapping("/board/comment")
+    public HttpStatus newComment(@RequestBody CommentDTO comment) {
+        return boardService.newComment(comment);
+    }
+
     @GetMapping("/board")
-    public Page<Board> getBoard(@RequestParam String page) {
+    public Page<Board> getBoards(@RequestParam String page) {
         Integer p = Integer.parseInt(page);
-        return boardService.getBoard(p-1);
+        return boardService.getBoards(p-1);
+    }
+
+    @GetMapping("/board")
+    public Board getBoard(@RequestParam Long boardId) {
+        
     }
 }

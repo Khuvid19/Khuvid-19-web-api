@@ -13,7 +13,7 @@ import java.util.Date;
 public class Board {
     @Id
     @Column
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
     @Column
     private String title;
@@ -23,13 +23,21 @@ public class Board {
     @JoinColumn(name="user_id")
     private User user;
 
+    @Column
     private Date date;
 
+    @Column
+    private Integer comments = 0;
 
     public Board(String title, String content, User user) {
         this.title = title;
         this.content = content;
         this.user = user;
         this.date = new Date();
+    }
+
+    public Board newComments(){
+        this.comments++;
+        return this;
     }
 }
