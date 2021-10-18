@@ -15,6 +15,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,7 +43,7 @@ public class BoardService {
     }
 
     public HttpStatus newComment(CommentDTO commentDTO) {
-        Optional<User> user = userRepository.findByAccessToken(commentDTO.getAccessToken());
+        Optional<User> user = userRepository.findByUserName(commentDTO.getUserName());
         Optional<Board> board = boardRepository.findById(commentDTO.getBoardId());
 
         if (user.isEmpty()) {
@@ -61,6 +63,22 @@ public class BoardService {
         boardRepository.save(board.get().newComments());
 
         return HttpStatus.OK;
+    }
+
+    public BoardDTO detailBoard(Long boardId) {
+        Optional<Board> board = boardRepository.findById(boardId);
+        if (board.isEmpty()) {
+            return null;
+        }
+        BoardDTO boardDTO = new BoardDTO(board.get());
+        List<Comment> byBoardId = commentRepository.findByBoard(board.get());
+        List<CommentDTO> commentDTOList = new ArrayList<>();
+        byBoardId.forEach(comment -> {
+            commentDTOList.add(new CommentDTO(comment));
+        });
+        boardDTO.setCommentList(commentDTOList);
+
+        return boardDTO;
     }
 
 }

@@ -27,14 +27,14 @@ public class BoardController {
         return boardService.newComment(comment);
     }
 
-    @GetMapping("/board")
-    public Page<Board> getBoards(@RequestParam String page) {
+    @GetMapping("/board/list")
+    public Page<Board> getBoardList(@RequestParam String page) {
         Integer p = Integer.parseInt(page);
         return boardService.getBoards(p-1);
     }
 
-    @GetMapping("/board")
-    public Board getBoard(@RequestParam Long boardId) {
-        
+    @GetMapping("/board/detail")
+    public BoardDTO getBoard(@RequestParam Long boardId) {
+        return boardService.detailBoard(boardId);
     }
 }
