@@ -7,10 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +24,7 @@ public class SimpleReview {
 
     VaccineType vaccine;
 
+    @Enumerated(value = EnumType.STRING)
     @ElementCollection
     List<SideEffectType> sideEffectTypes;
 
