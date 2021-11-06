@@ -16,22 +16,19 @@ import java.util.Map;
 public class SimpleReviewController {
 
     @Autowired
-    SimpleReviewRepository simpleReviewRepository;
+    SimpleReviewService simpleReviewService;
 
     @Autowired
     SideEffectsService sideEffectsService;
 
     @GetMapping
     public List<SimpleReview> getSimpleList() {
-        return simpleReviewRepository.findAll();
+        return simpleReviewService.getAllSimpleReviews();
     }
 
     @PostMapping
     public void postNewSimpleReview(@RequestBody SimpleReview receivedReview) {
-        List<SideEffectType> inputSideEffectTypes = receivedReview.getSideEffectTypes();
-        VaccineType inputVaccineType = receivedReview.getVaccine();
-        simpleReviewRepository.save(receivedReview);
-        sideEffectsService.addSideEffectsCount(inputSideEffectTypes, inputVaccineType);
+        simpleReviewService.insertSimpleReview(receivedReview);
     }
 
     @GetMapping(path = "/sideEffects")
