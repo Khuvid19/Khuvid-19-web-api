@@ -37,6 +37,11 @@ public class User {
         return this;
     }
 
+    public User setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+        return this;
+    }
+
     public UserInfo toUserInfo(){
         return new UserInfo(this.getName(), this.getUserName(), this.getEmail(), this.getPicUrl());
     }
