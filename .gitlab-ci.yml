@@ -7,3 +7,5 @@ build_image:
     - docker build -t KHUVID_19 .
     - docker images list
     - docker run  -d KHUVID_19
+  tags:
+    - KHUVID-19-API
