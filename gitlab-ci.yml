@@ -1,0 +1,9 @@
+
+build_image:
+  only:
+    - feature/config_CI_CD
+  script:
+    - echo "...BUILD DOCKERFILE... PLZ RUN WELL..."
+    - docker build -t KHUVID_19 .
+    - docker images list
+    - docker run  -d KHUVID_19
