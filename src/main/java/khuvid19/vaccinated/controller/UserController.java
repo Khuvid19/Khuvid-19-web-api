@@ -27,12 +27,6 @@ public class UserController {
     private String SCOPE;
     private static final String RESPONSE_TYPE = "code";
 
-    @GetMapping("/users/google")
-    public String login() {
-        log.info("login request");
-        return ENDPOINT + "?client_id=" + CLIENT_ID + "&redirect_uri=" + REDIRECT_URI
-                + "&response_type=" + RESPONSE_TYPE + "&scope=" + SCOPE;
-    }
 
     @GetMapping("/auth/google")
     public User oauthLogin(String code) throws ChangeSetPersister.NotFoundException {
