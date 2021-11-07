@@ -1,6 +1,9 @@
 package khuvid19.vaccinated.controller;
 
 import khuvid19.vaccinated.dao.User;
+import khuvid19.vaccinated.dto.login.GoogleUser;
+import khuvid19.vaccinated.dto.login.UserInfo;
+import khuvid19.vaccinated.service.OAuthService;
 import khuvid19.vaccinated.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,17 +31,14 @@ public class UserController {
     private static final String RESPONSE_TYPE = "code";
 
 
-    @GetMapping("/auth/google")
-    public User oauthLogin(String code) throws ChangeSetPersister.NotFoundException {
-        log.info("code : {}", code);
-        User user = userService.oauthLogin(code);
-
-        return user;
-    }
-
     @PostMapping("/auth/google")
-    public HttpStatus setUserName(@RequestParam String email, @RequestParam String userName) {
-        return userService.setUserName(email, userName);
-
+    public HttpStatus setUserName(@RequestParam String userToken, @RequestParam String userName) {
+        return userService.setUserName(userToken, userName);
     }
+
+    @GetMapping("/auth/google")
+    public User loginByToken(String access_token) {
+        return userService.oauthLogin(access_token);
+    }
+
 }
