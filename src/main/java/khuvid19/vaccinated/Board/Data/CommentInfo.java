@@ -1,6 +1,5 @@
-package khuvid19.vaccinated.dto.board;
+package khuvid19.vaccinated.Board.Data;
 
-import khuvid19.vaccinated.dao.Comment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,13 +7,13 @@ import java.util.Date;
 
 @Getter
 @NoArgsConstructor
-public class CommentDTO {
+public class CommentInfo {
     String content;
     String userName;
     Date date;
     Long boardId;
 
-    public CommentDTO(Comment comment) {
+    public CommentInfo(Comment comment) {
         this.content = comment.getComment();
         this.date = comment.getDate();
         this.boardId = comment.getBoard().getId();

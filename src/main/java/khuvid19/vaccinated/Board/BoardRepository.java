@@ -1,6 +1,6 @@
-package khuvid19.vaccinated.repository;
+package khuvid19.vaccinated.Board;
 
-import khuvid19.vaccinated.dao.Board;
+import khuvid19.vaccinated.Board.Data.Board;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
