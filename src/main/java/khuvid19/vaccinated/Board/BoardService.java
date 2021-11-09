@@ -1,13 +1,12 @@
-package khuvid19.vaccinated.service;
+package khuvid19.vaccinated.Board;
 
-import khuvid19.vaccinated.dao.Board;
-import khuvid19.vaccinated.dao.Comment;
-import khuvid19.vaccinated.dao.User;
-import khuvid19.vaccinated.dto.board.BoardDTO;
-import khuvid19.vaccinated.dto.board.CommentDTO;
-import khuvid19.vaccinated.repository.BoardRepository;
-import khuvid19.vaccinated.repository.CommentRepository;
-import khuvid19.vaccinated.repository.UserRepository;
+import khuvid19.vaccinated.Board.Data.Board;
+import khuvid19.vaccinated.LoginUser.Data.User;
+import khuvid19.vaccinated.Board.Data.Comment;
+import khuvid19.vaccinated.Board.Data.BoardInfo;
+import khuvid19.vaccinated.Board.Data.CommentInfo;
+import khuvid19.vaccinated.Board.Data.CommentRepository;
+import khuvid19.vaccinated.LoginUser.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,7 +25,7 @@ public class BoardService {
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
 
-    public HttpStatus saveBoard(BoardDTO postBoard){
+    public HttpStatus saveBoard(BoardInfo postBoard){
         Optional<User> getUser = userRepository.findByUserName(postBoard.getUserName());
         if (getUser.isEmpty()) {
             return HttpStatus.UNAUTHORIZED;
@@ -42,9 +41,9 @@ public class BoardService {
         return boardRepository.findAll(pageRequest);
     }
 
-    public HttpStatus newComment(CommentDTO commentDTO) {
-        Optional<User> user = userRepository.findByUserName(commentDTO.getUserName());
-        Optional<Board> board = boardRepository.findById(commentDTO.getBoardId());
+    public HttpStatus newComment(CommentInfo commentInfo) {
+        Optional<User> user = userRepository.findByUserName(commentInfo.getUserName());
+        Optional<Board> board = boardRepository.findById(commentInfo.getBoardId());
 
         if (user.isEmpty()) {
             return HttpStatus.UNAUTHORIZED;
@@ -54,7 +53,7 @@ public class BoardService {
         }
 
         Comment comment = new Comment(
-                commentDTO.getContent(),
+                commentInfo.getContent(),
                 user.get(),
                 board.get()
         );
@@ -65,20 +64,20 @@ public class BoardService {
         return HttpStatus.OK;
     }
 
-    public BoardDTO detailBoard(Long boardId) {
+    public BoardInfo detailBoard(Long boardId) {
         Optional<Board> board = boardRepository.findById(boardId);
         if (board.isEmpty()) {
             return null;
         }
-        BoardDTO boardDTO = new BoardDTO(board.get());
+        BoardInfo boardInfo = new BoardInfo(board.get());
         List<Comment> byBoardId = commentRepository.findByBoard(board.get());
-        List<CommentDTO> commentDTOList = new ArrayList<>();
+        List<CommentInfo> commentInfoList = new ArrayList<>();
         byBoardId.forEach(comment -> {
-            commentDTOList.add(new CommentDTO(comment));
+            commentInfoList.add(new CommentInfo(comment));
         });
-        boardDTO.setCommentList(commentDTOList);
+        boardInfo.setCommentList(commentInfoList);
 
-        return boardDTO;
+        return boardInfo;
     }
 
 }

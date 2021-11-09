@@ -1,8 +1,7 @@
-package khuvid19.vaccinated.service;
+package khuvid19.vaccinated.LoginUser;
 
-import khuvid19.vaccinated.dao.User;
-import khuvid19.vaccinated.dto.login.GoogleUser;
-import khuvid19.vaccinated.repository.UserRepository;
+import khuvid19.vaccinated.LoginUser.Data.User;
+import khuvid19.vaccinated.LoginUser.Data.GoogleUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

@@ -1,27 +1,25 @@
-package khuvid19.vaccinated.dto.board;
+package khuvid19.vaccinated.Board.Data;
 
-import khuvid19.vaccinated.dao.Board;
-import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Date;
 import java.util.List;
 
 @Getter
-public class BoardDTO {
+public class BoardInfo {
     Long boardId;
     String title;
     String userName;
     String content;
     Date date;
     Integer comments;
-    List<CommentDTO> commentList;
+    List<CommentInfo> commentList;
 
-    public void setCommentList(List<CommentDTO> commentList){
+    public void setCommentList(List<CommentInfo> commentList){
         this.commentList = commentList;
     }
 
-    public BoardDTO(Board board) {
+    public BoardInfo(Board board) {
         this.boardId = board.getId();
         this.title = board.getTitle();
         this.date = board.getDate();

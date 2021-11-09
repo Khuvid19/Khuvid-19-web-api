@@ -1,14 +1,9 @@
-package khuvid19.vaccinated.controller;
+package khuvid19.vaccinated.LoginUser;
 
-import khuvid19.vaccinated.dao.User;
-import khuvid19.vaccinated.dto.login.GoogleUser;
-import khuvid19.vaccinated.dto.login.UserInfo;
-import khuvid19.vaccinated.service.OAuthService;
-import khuvid19.vaccinated.service.UserService;
+import khuvid19.vaccinated.LoginUser.Data.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

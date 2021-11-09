@@ -1,6 +1,5 @@
-package khuvid19.vaccinated.dto.login;
+package khuvid19.vaccinated.LoginUser.Data;
 
-import khuvid19.vaccinated.dao.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

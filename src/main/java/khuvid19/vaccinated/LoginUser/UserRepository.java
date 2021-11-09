@@ -1,6 +1,6 @@
-package khuvid19.vaccinated.repository;
+package khuvid19.vaccinated.LoginUser;
 
-import khuvid19.vaccinated.dao.User;
+import khuvid19.vaccinated.LoginUser.Data.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
