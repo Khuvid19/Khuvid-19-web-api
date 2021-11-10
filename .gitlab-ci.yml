@@ -14,4 +14,4 @@ build_image:
     - docker images list
     - docker run -d -p 8080:8080 KHUVID_19
   tags:
-    - KHUVID-19-API
+    - KHUVID
