@@ -1,5 +1,5 @@
 build_image:
-  image: gitlab/dind
+  image: docker:latest
   services:
     - docker:dind
   variables:
@@ -9,6 +9,8 @@ build_image:
     - feature/config_CI_CD
   script:
     - echo "...BUILD DOCKERFILE... PLZ RUN WELL"
+    - pwd
+    - ls
 #    - docker build . -t KHUVID_19
     - docker images list
 #    - docker run -d -p 8080:8080 KHUVID_19
