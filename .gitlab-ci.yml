@@ -6,7 +6,7 @@ build_image:
   script:
     - echo "build jar file"
     - ./gradlew clean
-    - ./gradlew build
+#    - ./gradlew build
     - echo "...BUILD DOCKERFILE... PLZ RUN WELL"
 #    - pwd
 #    - ls
