@@ -5,8 +5,8 @@ build_image:
     - echo "...BUILD DOCKERFILE... PLZ RUN WELL"
 #    - pwd
 #    - ls
-    - docker build -t KHUVID_19 .
-#    - docker images list
-#    - docker run -d -p 8080:8080 KHUVID_19
+    - docker build -t khuvid .
+    - docker images list
+    - docker run -d -p 8080:8080 khuvid
   tags:
     - KHUVID_19
