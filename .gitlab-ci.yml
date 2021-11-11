@@ -5,13 +5,13 @@ build_image:
     - chmod +x gradlew
   script:
     - echo "build jar file"
-    - ./gradlew clean
-    - ./gradlew build
-    - echo "...BUILD DOCKERFILE... PLZ RUN WELL"
-    - pwd
-    - ls
-    - docker build -t khuvid .
-    - docker images list
-    - docker run -d -p 8080:8080 khuvid
+#    - ./gradlew clean
+#    - ./gradlew build
+#    - echo "...BUILD DOCKERFILE... PLZ RUN WELL"
+#    - pwd
+#    - ls
+#    - docker build -t khuvid .
+#    - docker images list
+#    - docker run -d -p 8080:8080 khuvid
   tags:
     - KHUVID_19
