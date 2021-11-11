@@ -3,6 +3,7 @@ build_image:
     - feature/config_CI_CD
   script:
     - echo "build jar file"
+    - chmod +x ./gradlew
     - ./gradlew build
     - echo "...BUILD DOCKERFILE... PLZ RUN WELL"
     - pwd
