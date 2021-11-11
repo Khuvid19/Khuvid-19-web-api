@@ -1,17 +1,10 @@
 build_image:
   only:
     - feature/config_CI_CD
-  before_script:
-    - chmod +x gradlew
   script:
     - echo "build jar file"
-    - ./gradlew clean
-#    - ./gradlew build
     - echo "...BUILD DOCKERFILE... PLZ RUN WELL"
-#    - pwd
-#    - ls
-#    - docker build -t khuvid .
-#    - docker images list
-#    - docker run -d -p 8080:8080 khuvid
+    - docker build --build-arg JAR_FILE=build/libs/\*.jar -t khuvid19/coreapi .
+    - docker run -d -p 8080:8080 khuvid19/coreapi
   tags:
     - KHUVID_19
