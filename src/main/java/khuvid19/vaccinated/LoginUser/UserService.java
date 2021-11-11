@@ -24,7 +24,7 @@ public class UserService {
         GoogleUser googleUser = oAuthService.getInfoByToken(access_token);
         log.info("Google User Name : {}", googleUser.getName());
 
-        Optional<User> user = userRepository.findByAccessToken(access_token);
+        Optional<User> user = userRepository.findByEmail(googleUser.getEmail());
         if (user.isEmpty()){
             User newUser = googleUser.toUser(access_token);
             userRepository.save(newUser);
@@ -36,15 +36,15 @@ public class UserService {
     }
 
 
-    public HttpStatus setUserName(String token, String userName) {
+    public HttpStatus setUserName(String token, String nickName) {
 
-        if (userRepository.existsByUserName(userName)){
+        if (userRepository.existsByNickName(nickName)){
             return HttpStatus.FORBIDDEN;
         }
         Optional<User> user = userRepository.findByAccessToken(token);
         User setUser = user.get();
 
-        setUser.setUserName(userName);
+        setUser.setNickName(nickName);
         userRepository.save(setUser);
 
         return HttpStatus.OK;
