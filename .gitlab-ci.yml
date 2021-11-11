@@ -11,4 +11,4 @@ build_image:
     - docker images list
     - docker run -d -p 8080:8080 KHUVID_19
   tags:
-    - CD1_KHUVID
+    - KHUVID_19
