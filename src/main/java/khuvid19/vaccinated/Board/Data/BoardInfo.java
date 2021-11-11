@@ -23,7 +23,7 @@ public class BoardInfo {
         this.boardId = board.getId();
         this.title = board.getTitle();
         this.date = board.getDate();
-        this.userName = board.getUser().getUserName();
+        this.userName = board.getUser().getNickName();
         this.content = board.getContent();
         this.comments = board.getComments();
     }

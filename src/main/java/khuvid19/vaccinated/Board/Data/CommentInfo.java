@@ -17,6 +17,6 @@ public class CommentInfo {
         this.content = comment.getComment();
         this.date = comment.getDate();
         this.boardId = comment.getBoard().getId();
-        this.userName = comment.getUser().getUserName();
+        this.userName = comment.getUser().getNickName();
     }
 }

@@ -26,7 +26,7 @@ public class BoardService {
     private final CommentRepository commentRepository;
 
     public HttpStatus saveBoard(BoardInfo postBoard){
-        Optional<User> getUser = userRepository.findByUserName(postBoard.getUserName());
+        Optional<User> getUser = userRepository.findByNickName(postBoard.getUserName());
         if (getUser.isEmpty()) {
             return HttpStatus.UNAUTHORIZED;
         }
@@ -42,7 +42,7 @@ public class BoardService {
     }
 
     public HttpStatus newComment(CommentInfo commentInfo) {
-        Optional<User> user = userRepository.findByUserName(commentInfo.getUserName());
+        Optional<User> user = userRepository.findByNickName(commentInfo.getUserName());
         Optional<Board> board = boardRepository.findById(commentInfo.getBoardId());
 
         if (user.isEmpty()) {
