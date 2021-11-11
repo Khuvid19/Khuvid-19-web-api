@@ -1,6 +1,8 @@
 build_image:
   only:
     - feature/config_CI_CD
+  before_script:
+    - chmod +x gradlew
   script:
     - echo "build jar file"
     - echo "...BUILD DOCKERFILE... PLZ RUN WELL"
