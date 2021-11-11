@@ -1,18 +1,12 @@
 build_image:
-  image: docker:latest
-  services:
-    - docker:dind
-  variables:
-    DOCKER_DRIVER: overlay2 # not sure if this is needed
-    DOCKER_TLS_CERTDIR: "/certs"
   only:
     - feature/config_CI_CD
   script:
     - echo "...BUILD DOCKERFILE... PLZ RUN WELL"
     - pwd
     - ls
-#    - docker build . -t KHUVID_19
+    - docker build -t KHUVID_19 .
     - docker images list
-#    - docker run -d -p 8080:8080 KHUVID_19
+    - docker run -d -p 8080:8080 KHUVID_19
   tags:
-    - KHUVID
+    - CD1_KHUVID
