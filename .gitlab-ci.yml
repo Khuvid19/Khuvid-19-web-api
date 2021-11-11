@@ -9,8 +9,8 @@ build_image:
     - feature/config_CI_CD
   script:
     - echo "...BUILD DOCKERFILE... PLZ RUN WELL"
-    - docker build . -t KHUVID_19
+#    - docker build . -t KHUVID_19
     - docker images list
-    - docker run -d -p 8080:8080 KHUVID_19
+#    - docker run -d -p 8080:8080 KHUVID_19
   tags:
     - KHUVID
