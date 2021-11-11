@@ -1,7 +1,6 @@
 build_image:
   only:
     - feature/config_CI_CD
-
   before_script:
     - docker info
   script:
