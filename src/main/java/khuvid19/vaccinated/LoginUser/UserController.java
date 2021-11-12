@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-    private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
 
     @PostMapping("/auth/user")
@@ -28,10 +27,16 @@ public class UserController {
         return userService.setUserInfo(user.getUser(), userInfo);
     }
 
+    @GetMapping("/auth/user")
+    public boolean isNickNameExists(@RequestParam String nickName) {
+        return userRepository.existsByNickName(nickName);
+    }
+
     @PostMapping("/auth/google")
     public User loginByToken(@RequestParam(value = "access_token") String access_token) {
         User user = userService.oauthLogin(access_token);
         return user;
     }
+
 
 }
