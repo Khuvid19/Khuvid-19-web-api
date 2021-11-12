@@ -1,14 +1,19 @@
 package khuvid19.vaccinated.LoginUser;
 
 import khuvid19.vaccinated.Configuration.JwtTokenProvider;
+import khuvid19.vaccinated.LoginUser.Data.SecurityUser;
 import khuvid19.vaccinated.LoginUser.Data.User;
 import khuvid19.vaccinated.LoginUser.Data.UserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 
 @RestController
@@ -19,6 +24,7 @@ public class UserController {
 
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final UserRepository userRepository;
 
     @PostMapping("/auth/user")
     public HttpStatus setUserName(@RequestParam String userToken, @RequestParam String userName) {
@@ -34,15 +40,14 @@ public class UserController {
     @PostMapping("/login")
     public User log() {
         User user = new User("Juhee", "lskdjff", "salkdfjlaksdfja", "sldkjfslkdjf");
-        user.setJwtToken(jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getNickName()));
-
+        userRepository.save(user);
+        user.setJwtToken(jwtTokenProvider.createToken(user));
         return user;
     }
 
     @GetMapping("/login")
-    public String log2() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.toString();
+    public SecurityUser log2(@AuthenticationPrincipal SecurityUser user) {
+        return user;
     }
 
 
