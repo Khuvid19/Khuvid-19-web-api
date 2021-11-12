@@ -25,13 +25,8 @@ public class BoardService {
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
 
-    public HttpStatus saveBoard(BoardInfo postBoard){
-        Optional<User> getUser = userRepository.findByNickName(postBoard.getUserName());
-        if (getUser.isEmpty()) {
-            return HttpStatus.UNAUTHORIZED;
-        }
-
-        Board board = new Board(postBoard.getTitle(), postBoard.getContent(), getUser.get());
+    public HttpStatus saveBoard(User user, BoardInfo postBoard){
+        Board board = new Board(postBoard.getTitle(), postBoard.getContent(), user);
         boardRepository.save(board);
         return HttpStatus.OK;
     }
@@ -41,20 +36,16 @@ public class BoardService {
         return boardRepository.findAll(pageRequest);
     }
 
-    public HttpStatus newComment(CommentInfo commentInfo) {
-        Optional<User> user = userRepository.findByNickName(commentInfo.getUserName());
+    public HttpStatus newComment(User user,CommentInfo commentInfo) {
         Optional<Board> board = boardRepository.findById(commentInfo.getBoardId());
 
-        if (user.isEmpty()) {
-            return HttpStatus.UNAUTHORIZED;
-        }
         if (board.isEmpty()) {
             return HttpStatus.GONE;
         }
 
         Comment comment = new Comment(
                 commentInfo.getContent(),
-                user.get(),
+                user,
                 board.get()
         );
 
