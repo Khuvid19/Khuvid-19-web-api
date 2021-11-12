@@ -1,7 +1,9 @@
 package khuvid19.vaccinated.Configuration;
 
 import io.jsonwebtoken.*;
+import khuvid19.vaccinated.LoginUser.Data.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,6 +18,7 @@ import java.util.Date;
 
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class JwtTokenProvider { // JWT 토큰 생성 및 검증 모듈
 
     @Value("${spring.jwt.secret}")
@@ -31,13 +34,11 @@ public class JwtTokenProvider { // JWT 토큰 생성 및 검증 모듈
     }
 
     // Jwt 토큰 생성
-    public String createToken(String userId, String nickName) {
+    public String createToken(User user) {
 
         Date now = new Date();
         return Jwts.builder()
-                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                .claim("userName", userId)
-                .claim("nickName", nickName)
+                .claim("user", user)
                 .claim("roles","ROLE_USER")
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + tokenValidTime))
@@ -56,10 +57,6 @@ public class JwtTokenProvider { // JWT 토큰 생성 및 검증 모듈
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    // Request의 Header에서 token 파싱 : "X-AUTH-TOKEN: jwt토큰"
-    public String resolveToken(HttpServletRequest req) {
-        return req.getHeader("X-AUTH-TOKEN");
-    }
 
     // Jwt 토큰의 유효성 + 만료일자 확인
     public boolean validateToken(String jwtToken) {
@@ -71,25 +68,5 @@ public class JwtTokenProvider { // JWT 토큰 생성 및 검증 모듈
         }
     }
 
-    public Claims parseJwtToken(String authorizationHeader) {
-        validationAuthorizationHeader(authorizationHeader); // (1)
-        String token = extractToken(authorizationHeader); // (2)
-
-        return Jwts.parser()
-                .setSigningKey("secret") // (3)
-                .parseClaimsJws(token) // (4)
-                .getBody();
-    }
-
-
-    private void validationAuthorizationHeader(String header) {
-        if (header == null || !header.startsWith("Bearer ")) {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    private String extractToken(String authorizationHeader) {
-        return authorizationHeader.substring("Bearer ".length());
-    }
 
 }
