@@ -37,18 +37,6 @@ public class UserController {
         return user;
     }
 
-    @PostMapping("/login")
-    public User log() {
-        User user = new User("Juhee", "lskdjff", "salkdfjlaksdfja", "sldkjfslkdjf");
-        userRepository.save(user);
-        user.setJwtToken(jwtTokenProvider.createToken(user));
-        return user;
-    }
-
-    @GetMapping("/login")
-    public SecurityUser log2(@AuthenticationPrincipal SecurityUser user) {
-        return user;
-    }
 
 
     @DeleteMapping("/auth/google")

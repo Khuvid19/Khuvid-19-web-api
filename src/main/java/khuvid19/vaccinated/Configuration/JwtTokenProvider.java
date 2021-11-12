@@ -2,6 +2,7 @@ package khuvid19.vaccinated.Configuration;
 
 import io.jsonwebtoken.*;
 import khuvid19.vaccinated.LoginUser.Data.User;
+import khuvid19.vaccinated.LoginUser.UserSecurityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +27,8 @@ public class JwtTokenProvider { // JWT 토큰 생성 및 검증 모듈
 
     private long tokenValidTime = 1000L * 60 * 60 * 24; // 토큰 유효 기간
 
-    private final UserDetailsService userDetailsService;
+//    private final UserDetailsService userDetailsService;
+    private final UserSecurityService userSecurityService;
 
     @PostConstruct
     protected void init() {
@@ -48,8 +50,12 @@ public class JwtTokenProvider { // JWT 토큰 생성 및 검증 모듈
 
     //인증 정보 조회
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserId(token));
+        UserDetails userDetails = userSecurityService.loadUserByUsername(this.getUserId(token));
+        log.info(userDetails.toString());
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+
+//        Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+//        UserDetails principal = new org.springframework.security.core.userdetails.User(claims.get("user"),"", )
     }
 
     // Jwt 토큰에서 회원 구별 정보 추출

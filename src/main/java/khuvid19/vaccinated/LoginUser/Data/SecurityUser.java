@@ -18,6 +18,7 @@ public class SecurityUser extends User {
 
     public SecurityUser(khuvid19.vaccinated.LoginUser.Data.User user){
         super(String.valueOf(user.getId()), user.getName(),makeGrantedAuthority("user"));
+        this.user = user;
     }
     private static List<GrantedAuthority> makeGrantedAuthority(String userType){
 
