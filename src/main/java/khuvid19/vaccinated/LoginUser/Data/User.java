@@ -2,11 +2,14 @@ package khuvid19.vaccinated.LoginUser.Data;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Getter
 @Entity
+@Setter
 @NoArgsConstructor
 public class User {
     @Id
@@ -23,6 +26,11 @@ public class User {
     private String picUrl;
     @Column
     private String nickName;
+    @Column
+    private String gender;
+    @Column
+    private Date birthday;
+
     private String jwtToken;
 
     public User(String email, String name, String accessToken, String picUrl) {
@@ -32,22 +40,8 @@ public class User {
         this.picUrl = picUrl;
     }
 
-    public User setNickName(String nickName) {
-        this.nickName = nickName;
-        return this;
-    }
-
-    public User setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-        return this;
-    }
-
-    public User setJwtToken(String jwtToken) {
-        this.jwtToken = jwtToken;
-        return this;
-    }
 
     public UserInfo toUserInfo(){
-        return new UserInfo(this.name, this.nickName, this.email, this.picUrl);
+        return new UserInfo(this.name, this.nickName, this.email, this.picUrl, this.birthday, this.gender);
     }
 }
