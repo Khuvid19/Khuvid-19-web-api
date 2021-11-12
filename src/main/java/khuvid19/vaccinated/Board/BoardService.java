@@ -22,7 +22,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardRepository boardRepository;
-    private final UserRepository userRepository;
     private final CommentRepository commentRepository;
 
     public HttpStatus saveBoard(User user, BoardInfo postBoard){
@@ -71,4 +70,8 @@ public class BoardService {
         return boardInfo;
     }
 
+    public Page<Board> searchBoard(String word, Integer page) {
+        PageRequest pageRequest = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "date"));
+        return boardRepository.findByTitleContainingAndContentContaining(word, word, pageRequest);
+    }
 }
