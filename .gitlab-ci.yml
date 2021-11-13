@@ -4,7 +4,7 @@ build_image:
   script:
     - echo "build jar file"
     - touch hello.txt
-#    - docker build -t khuvid19/coreapi .
-#    - docker run --rm khuvid19/coreapi
+    - docker build -t khuvid19/coreapi .
+    - docker run --rm khuvid19/coreapi
   tags:
     - KHUVID_19
