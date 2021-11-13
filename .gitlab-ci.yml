@@ -1,10 +1,22 @@
+image: gradle:alpine
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+before_script:
+  - chmod +x gradlew
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+
+cache:
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
+    - build/
+
 build_image:
   only:
     - feature/config_CI_CD
   script:
-    - echo "build jar file"
-    - touch hello.txt
-    - docker container ls
+    - ./gradlew clean
+    - ./gradlew build
     - docker build -t khuvid19/coreapi .
     - docker run --rm khuvid19/coreapi
   tags:
