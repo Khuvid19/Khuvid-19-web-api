@@ -26,9 +26,10 @@ public class Review {
 
     @Enumerated(value = EnumType.STRING)
     @ElementCollection
-    List<SideEffectType> sideEffectTypes;
+    List<SideEffectType> sideEffects;
 
     Boolean haveDisease;
-
     String diseaseDisc;
+
+    String detailDisc;
 }
