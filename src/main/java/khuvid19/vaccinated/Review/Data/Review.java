@@ -1,4 +1,4 @@
-package khuvid19.vaccinated.SimpleReview.Data;
+package khuvid19.vaccinated.Review.Data;
 
 import khuvid19.vaccinated.Constants.SideEffectType;
 import khuvid19.vaccinated.Constants.VaccineType;
@@ -14,7 +14,7 @@ import java.util.List;
 @Getter @Setter
 @NoArgsConstructor
 @Entity
-public class SimpleReview {
+public class Review {
 
     @Id @GeneratedValue
     Long id;
