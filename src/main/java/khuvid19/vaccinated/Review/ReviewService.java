@@ -5,18 +5,18 @@ import khuvid19.vaccinated.Constants.VaccineType;
 import khuvid19.vaccinated.SideEffects.SideEffectsService;
 import khuvid19.vaccinated.Review.Data.Review;
 import khuvid19.vaccinated.Review.Data.ReviewRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ReviewService {
-    @Autowired
-    ReviewRepository reviewRepository;
 
-    @Autowired
-    SideEffectsService sideEffectsService;
+    private final ReviewRepository reviewRepository;
+    private final SideEffectsService sideEffectsService;
 
     public List<Review> getAllSimpleReviews() {
         return reviewRepository.findAll();
