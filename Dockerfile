@@ -1,4 +1,5 @@
-﻿FROM openjdk:11-jdk
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+﻿FROM adoptopenjdk/openjdk11
+CMD ["./gradlew", "clean", "build"]
+ARG JAR_FILE_PATH=target/*.jar
+COPY ${JAR_FILE_PATH} app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
