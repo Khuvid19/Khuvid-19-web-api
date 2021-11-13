@@ -1,5 +1,6 @@
 package khuvid19.vaccinated.Review;
 
+import khuvid19.vaccinated.Constants.SideEffectType;
 import khuvid19.vaccinated.Constants.VaccineType;
 import khuvid19.vaccinated.LoginUser.Data.SecurityUser;
 import khuvid19.vaccinated.Review.Data.Review;
@@ -9,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,4 +40,13 @@ public class ReviewController {
         return sideEffectsService.getAllSideEffectsCountsByVaccine(vaccineType);
     }
 
+    @GetMapping(path = "/types/sideEffects")
+    public Map<SideEffectType, String> getAllSideEffectTypes() {
+        return SideEffectType.getAllTypes();
+    }
+
+    @GetMapping(path = "/types/vaccine")
+    public Map<VaccineType, String> getAllVaccineTypes() {
+        return VaccineType.getAllTypes();
+    }
 }
