@@ -19,6 +19,8 @@ public class Review {
     @Id @GeneratedValue
     Long id;
 
+    Long userId;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     Date inoculatedDate;
 
