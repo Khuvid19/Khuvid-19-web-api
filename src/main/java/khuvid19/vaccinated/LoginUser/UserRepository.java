@@ -1,6 +1,6 @@
-package khuvid19.vaccinated.repository;
+package khuvid19.vaccinated.LoginUser;
 
-import khuvid19.vaccinated.dao.User;
+import khuvid19.vaccinated.LoginUser.Data.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +11,7 @@ import java.util.Optional;
 @Transactional
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
-    Optional<User> findByUserName(String userName);
+    Optional<User> findByNickName(String nickName);
     Optional<User> findByAccessToken(String accessToken);
-    boolean existsByUserName(String userName);
+    boolean existsByNickName(String nickName);
 }

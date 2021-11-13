@@ -1,4 +1,4 @@
-package khuvid19.vaccinated.config;
+package khuvid19.vaccinated.Configuration;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
