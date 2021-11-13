@@ -1,13 +1,15 @@
-package khuvid19.vaccinated.dao;
+package khuvid19.vaccinated.LoginUser.Data;
 
-import khuvid19.vaccinated.dto.login.UserInfo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Getter
 @Entity
+@Setter
 @NoArgsConstructor
 public class User {
     @Id
@@ -23,7 +25,13 @@ public class User {
     @Column
     private String picUrl;
     @Column
-    private String userName;
+    private String nickName;
+    @Column
+    private String gender;
+    @Column
+    private Date birthday;
+
+    private String jwtToken;
 
     public User(String email, String name, String accessToken, String picUrl) {
         this.email = email;
@@ -32,17 +40,8 @@ public class User {
         this.picUrl = picUrl;
     }
 
-    public User setUserName(String userName) {
-        this.userName = userName;
-        return this;
-    }
-
-    public User setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-        return this;
-    }
 
     public UserInfo toUserInfo(){
-        return new UserInfo(this.getName(), this.getUserName(), this.getEmail(), this.getPicUrl());
+        return new UserInfo(this.name, this.nickName, this.email, this.picUrl, this.birthday, this.gender);
     }
 }

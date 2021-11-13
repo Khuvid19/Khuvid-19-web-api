@@ -1,21 +1,12 @@
-package khuvid19.vaccinated.service;
+package khuvid19.vaccinated.LoginUser;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import khuvid19.vaccinated.dto.login.GoogleUser;
-import khuvid19.vaccinated.dto.login.OAuthToken;
+import khuvid19.vaccinated.LoginUser.Data.GoogleUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @Slf4j
