@@ -1,10 +1,8 @@
-package khuvid19.vaccinated.SimpleReview;
+package khuvid19.vaccinated.Review;
 
-import khuvid19.vaccinated.Constants.SideEffectType;
 import khuvid19.vaccinated.Constants.VaccineType;
 import khuvid19.vaccinated.SideEffects.SideEffectsService;
-import khuvid19.vaccinated.SimpleReview.Data.SimpleReview;
-import khuvid19.vaccinated.SimpleReview.Data.SimpleReviewRepository;
+import khuvid19.vaccinated.Review.Data.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,23 +10,23 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/review/simple")
-public class SimpleReviewController {
+@RequestMapping("/review")
+public class ReviewController {
 
     @Autowired
-    SimpleReviewService simpleReviewService;
+    ReviewService ReviewService;
 
     @Autowired
     SideEffectsService sideEffectsService;
 
     @GetMapping
-    public List<SimpleReview> getSimpleList() {
-        return simpleReviewService.getAllSimpleReviews();
+    public List<Review> getSimpleList() {
+        return ReviewService.getAllSimpleReviews();
     }
 
     @PostMapping
-    public void postNewSimpleReview(@RequestBody SimpleReview receivedReview) {
-        simpleReviewService.insertSimpleReview(receivedReview);
+    public void postNewSimpleReview(@RequestBody Review receivedReview) {
+        ReviewService.insertSimpleReview(receivedReview);
     }
 
     @GetMapping(path = "/sideEffects")

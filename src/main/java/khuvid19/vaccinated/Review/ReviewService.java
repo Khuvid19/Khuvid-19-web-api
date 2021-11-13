@@ -1,31 +1,31 @@
-package khuvid19.vaccinated.SimpleReview;
+package khuvid19.vaccinated.Review;
 
 import khuvid19.vaccinated.Constants.SideEffectType;
 import khuvid19.vaccinated.Constants.VaccineType;
 import khuvid19.vaccinated.SideEffects.SideEffectsService;
-import khuvid19.vaccinated.SimpleReview.Data.SimpleReview;
-import khuvid19.vaccinated.SimpleReview.Data.SimpleReviewRepository;
+import khuvid19.vaccinated.Review.Data.Review;
+import khuvid19.vaccinated.Review.Data.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class SimpleReviewService {
+public class ReviewService {
     @Autowired
-    SimpleReviewRepository simpleReviewRepository;
+    ReviewRepository reviewRepository;
 
     @Autowired
     SideEffectsService sideEffectsService;
 
-    public List<SimpleReview> getAllSimpleReviews() {
-        return simpleReviewRepository.findAll();
+    public List<Review> getAllSimpleReviews() {
+        return reviewRepository.findAll();
     }
 
-    public void insertSimpleReview(SimpleReview receivedReview) {
+    public void insertSimpleReview(Review receivedReview) {
         List<SideEffectType> inputSideEffectTypes = receivedReview.getSideEffectTypes();
         VaccineType inputVaccineType = receivedReview.getVaccine();
-        simpleReviewRepository.save(receivedReview);
+        reviewRepository.save(receivedReview);
         sideEffectsService.addSideEffectsCount(inputSideEffectTypes, inputVaccineType);
     }
 }
