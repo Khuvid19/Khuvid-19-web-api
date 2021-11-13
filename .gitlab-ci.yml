@@ -7,6 +7,6 @@ build_image:
     - echo "build jar file"
     - echo "...BUILD DOCKERFILE... PLZ RUN WELL"
     - docker build -t khuvid19/coreapi .
-#    - docker run -d -p 8080:8080 khuvid19/coreapi
+    - docker run -d -p 8080:8080 khuvid19/coreapi
   tags:
     - KHUVID_19
