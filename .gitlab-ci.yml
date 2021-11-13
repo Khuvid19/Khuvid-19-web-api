@@ -3,7 +3,7 @@ build_image:
     - feature/config_CI_CD
   script:
     - echo "build jar file"
-    - - echo "build jar wahat"
+    - touch hello.txt
     - docker build -t khuvid19/coreapi .
     - docker run -d -p 8080:8080 khuvid19/coreapi
   tags:
