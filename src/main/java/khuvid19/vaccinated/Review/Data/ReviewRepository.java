@@ -1,12 +1,12 @@
 package khuvid19.vaccinated.Review.Data;
 
 import khuvid19.vaccinated.Constants.VaccineType;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-import java.util.List;
-
-public interface ReviewRepository extends JpaRepository<Review, String> {
-    List<Review> findAll();
+public interface ReviewRepository extends PagingAndSortingRepository<Review, String> {
+    Page<Review> findAll(Pageable pageable);
     Boolean existsReviewByUserIdAndVaccine(Long userId, VaccineType vaccine);
 }
 

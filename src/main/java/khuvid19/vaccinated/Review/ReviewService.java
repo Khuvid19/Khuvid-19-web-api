@@ -6,6 +6,9 @@ import khuvid19.vaccinated.Review.Data.Review;
 import khuvid19.vaccinated.Review.Data.ReviewRepository;
 import khuvid19.vaccinated.SideEffects.SideEffectsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +21,9 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final SideEffectsService sideEffectsService;
 
-    public List<Review> getAllSimpleReviews() {
-        return reviewRepository.findAll();
+    public Page<Review> getPagedReview(int pageIndex) {
+        PageRequest request = PageRequest.of(pageIndex, 10, Sort.Direction.DESC);
+        return reviewRepository.findAll(request);
     }
 
     public HttpStatus insertSimpleReview(Review receivedReview) {
