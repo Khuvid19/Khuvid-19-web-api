@@ -6,8 +6,7 @@ build_image:
   script:
     - echo "build jar file"
     - echo "...BUILD DOCKERFILE... PLZ RUN WELL"
-    - ./gradlew bootBuildImage --imageName=springio/gs-spring-boot-docker
-#    - docker build --build-arg JAR_FILE=build/libs/\*.jar -t khuvid19/coreapi .
+    - docker build -t khuvid19/coreapi .
 #    - docker run -d -p 8080:8080 khuvid19/coreapi
   tags:
     - KHUVID_19
