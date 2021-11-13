@@ -6,7 +6,6 @@ import khuvid19.vaccinated.SideEffects.SideEffectsService;
 import khuvid19.vaccinated.Review.Data.Review;
 import khuvid19.vaccinated.Review.Data.ReviewRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +22,7 @@ public class ReviewService {
     }
 
     public void insertSimpleReview(Review receivedReview) {
-        List<SideEffectType> inputSideEffectTypes = receivedReview.getSideEffectTypes();
+        List<SideEffectType> inputSideEffectTypes = receivedReview.getSideEffects();
         VaccineType inputVaccineType = receivedReview.getVaccine();
         reviewRepository.save(receivedReview);
         sideEffectsService.addSideEffectsCount(inputSideEffectTypes, inputVaccineType);
