@@ -17,8 +17,6 @@ build_image:
   script:
     - ./gradlew clean
     - ./gradlew build
-    - docker container stop api
-    - docker container rm api
     - docker image rm khuvid19/coreapi
     - docker build -t khuvid19/coreapi .
     - docker run -d -it -p 20505:8080 --name api khuvid19/coreapi
