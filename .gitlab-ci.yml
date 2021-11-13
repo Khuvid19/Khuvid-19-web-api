@@ -1,8 +1,6 @@
 build_image:
   only:
     - feature/config_CI_CD
-  before_script:
-    - sudo chmod +x gradlew
   script:
     - echo "build jar file"
     - docker build -t khuvid19/coreapi .
