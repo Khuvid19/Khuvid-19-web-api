@@ -6,11 +6,11 @@ import khuvid19.vaccinated.LoginUser.Data.SecurityUser;
 import khuvid19.vaccinated.Review.Data.Review;
 import khuvid19.vaccinated.SideEffects.SideEffectsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -23,8 +23,8 @@ public class ReviewController {
     private final SideEffectsService sideEffectsService;
 
     @GetMapping
-    public List<Review> getSimpleList() {
-        return ReviewService.getAllSimpleReviews();
+    public Page<Review> getSimpleList(@RequestParam Integer page) {
+        return ReviewService.getPagedReview(page);
     }
 
     @PostMapping
