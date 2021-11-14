@@ -4,6 +4,7 @@ import khuvid19.vaccinated.Constants.SideEffectType;
 import khuvid19.vaccinated.Constants.VaccineType;
 import khuvid19.vaccinated.LoginUser.Data.SecurityUser;
 import khuvid19.vaccinated.Review.Data.Review;
+import khuvid19.vaccinated.Review.Data.ReviewFilter;
 import khuvid19.vaccinated.SideEffects.SideEffectsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,10 +30,16 @@ public class ReviewController {
 
     @PostMapping
     public HttpStatus postNewSimpleReview(@RequestBody Review receivedReview, @AuthenticationPrincipal SecurityUser securityUser) {
-        Long userId = securityUser.getUser().getId();
-        receivedReview.setUserId(userId);
+//        Long userId = securityUser.getUser().getId();
+//        receivedReview.setUserId(userId);
         return ReviewService.insertSimpleReview(receivedReview);
     }
+
+    @PostMapping("/search")
+    public Page<Review> searchReviews(@RequestParam Integer page, @RequestBody ReviewFilter filters) {
+        return ReviewService.searchPagedReview(page, filters);
+    }
+
 
     @GetMapping(path = "/sideEffects")
     public Map<String, Integer> getAllSideEffectsCounts(@RequestParam(name = "vaccine") VaccineType vaccineType) {
