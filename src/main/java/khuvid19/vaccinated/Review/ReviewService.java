@@ -41,6 +41,10 @@ public class ReviewService {
             specification.and(SearchReviewSpecs.sideEffectContains(filters.getSideEffects()));
         }
 
+        if (filters.getStartInoculated() != null || filters.getEndInoculated() != null) {
+            specification.and(SearchReviewSpecs.inoculatedBetween(filters.getStartInoculated(), filters.getEndInoculated()));
+        }
+
         return reviewRepository.findAll(specification, paging);
     }
 

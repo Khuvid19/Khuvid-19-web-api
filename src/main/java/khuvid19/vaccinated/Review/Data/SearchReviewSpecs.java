@@ -4,10 +4,7 @@ import khuvid19.vaccinated.Constants.SideEffectType;
 import khuvid19.vaccinated.Constants.VaccineType;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import java.util.Date;
 import java.util.List;
 
 public class SearchReviewSpecs {
@@ -22,5 +19,13 @@ public class SearchReviewSpecs {
 
     public static Specification<Review> sideEffectContains (List<SideEffectType> types) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.in(root.get("sideEffects").in(types));
+    }
+
+    public static Specification<Review> inoculatedBetween (Date start, Date end) {
+        if (start == null) { start = new Date(1); }
+        if (end == null) { end = new Date(); }
+        Date finalStart = start;
+        Date finalEnd = end;
+        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("inoculatedDate"), finalStart, finalEnd);
     }
 }
