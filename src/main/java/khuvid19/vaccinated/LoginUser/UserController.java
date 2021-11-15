@@ -1,21 +1,13 @@
 package khuvid19.vaccinated.LoginUser;
 
-import khuvid19.vaccinated.Configuration.JwtTokenProvider;
 import khuvid19.vaccinated.Constants.AgeType;
 import khuvid19.vaccinated.Constants.Gender;
-import khuvid19.vaccinated.LoginUser.Data.PostUser;
-import khuvid19.vaccinated.LoginUser.Data.SecurityUser;
 import khuvid19.vaccinated.LoginUser.Data.User;
-import khuvid19.vaccinated.LoginUser.Data.UserInfo;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -30,13 +22,8 @@ public class UserController {
     private final UserRepository userRepository;
 
     @PostMapping("/user")
-    public UserInfo setUserInfo(@AuthenticationPrincipal SecurityUser user, PostUser postUser) {
-        return userService.setUserInfo(user.getUser(), postUser);
-    }
-
-    @GetMapping("/user")
-    public boolean isNickNameExists(@RequestParam String nickName) {
-        return userRepository.existsByNickName(nickName);
+    public User setUserInfo(User user) {
+        return userService.setUserInfo(user);
     }
 
     @PostMapping("/google")
@@ -44,6 +31,12 @@ public class UserController {
         User user = userService.oauthLogin(access_token);
         return user;
     }
+
+    @GetMapping("/user")
+    public boolean isNickNameExists(@RequestParam String nickName) {
+        return userRepository.existsByNickName(nickName);
+    }
+
 
     @GetMapping("/types/age")
     public Map<AgeType, String> getAgeTypes() {
