@@ -1,5 +1,6 @@
 package khuvid19.vaccinated.LoginUser;
 
+import khuvid19.vaccinated.Configuration.JwtTokenProvider;
 import khuvid19.vaccinated.Constants.AgeType;
 import khuvid19.vaccinated.Constants.Gender;
 import khuvid19.vaccinated.LoginUser.Data.User;
@@ -20,6 +21,7 @@ public class UserController {
 
     private final UserService userService;
     private final UserRepository userRepository;
+    private final JwtTokenProvider tokenProvider;
 
     @PostMapping("/user")
     public User setUserInfo(User user) {
@@ -44,7 +46,13 @@ public class UserController {
     }
 
     @GetMapping("/types/gender")
-    public Map<Gender, String> getGenderType(){
+    public Map<Gender, String> getGenderType() {
         return Gender.getAllTypes();
+    }
+
+    @GetMapping("/dummy")
+    public User dummyLogin(@RequestParam String dummy) {
+
+        return userService.DummyService(dummy);
     }
 }

@@ -47,17 +47,12 @@ public class UserService {
 
     }
 
-    public User isUserExists(String access_token) {
-        GoogleUser googleUser = oAuthService.getInfoByToken(access_token);
-        Optional<User> user = userRepository.findByEmail(googleUser.getEmail());
-        if (user.isEmpty()) {
-            return null;
-        }else{
-            User logUser = user.get();
-            logUser.setAccessToken(access_token);
-            logUser.setJwtToken(jwtTokenProvider.createToken(logUser));
-            return userRepository.save(logUser);
-        }
+    public User DummyService(String dummyString){
+        User dummyUser = new User(dummyString, dummyString, "access_token", "picURl");
+        dummyUser = userRepository.save(dummyUser);
+        dummyUser.setJwtToken(jwtTokenProvider.createToken(dummyUser));
+        return dummyUser;
     }
+
 
 }
