@@ -3,10 +3,13 @@ package khuvid19.vaccinated.Review;
 import khuvid19.vaccinated.Constants.SideEffectType;
 import khuvid19.vaccinated.Constants.VaccineType;
 import khuvid19.vaccinated.LoginUser.Data.SecurityUser;
+import khuvid19.vaccinated.Review.Data.DTO.ReviewInput;
 import khuvid19.vaccinated.Review.Data.Review;
-import khuvid19.vaccinated.Review.Data.ReviewFilter;
+import khuvid19.vaccinated.Review.Data.DTO.ReviewCard;
+import khuvid19.vaccinated.Review.Data.DTO.ReviewFilter;
 import khuvid19.vaccinated.SideEffects.SideEffectsService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,6 +26,7 @@ public class ReviewController {
 
     private final ReviewService reviewService;
     private final SideEffectsService sideEffectsService;
+    private final ModelMapper modelMapper;
 
     @GetMapping
     public Page<Review> getSimpleList(@RequestParam Integer page) {
@@ -30,17 +34,15 @@ public class ReviewController {
     }
 
     @PostMapping
-    public HttpStatus postNewSimpleReview(@RequestBody Review receivedReview, @AuthenticationPrincipal SecurityUser securityUser) {
-//        Long userId = securityUser.getUser().getId();
-//        receivedReview.setUserId(userId);
-        return reviewService.insertSimpleReview(receivedReview);
+    public HttpStatus postNewReview(@RequestBody ReviewInput inputReview, @AuthenticationPrincipal SecurityUser securityUser) {
+        Review mappedReview = modelMapper.map(inputReview, Review.class);
+        return reviewService.insertReview(mappedReview, securityUser.getUser());
     }
 
     @PostMapping("/search")
     public Page<Review> searchReviews(@RequestParam Integer page, @RequestBody ReviewFilter filters) {
         return reviewService.searchPagedReview(page, filters);
     }
-
 
     @GetMapping(path = "/sideEffects")
     public Map<String, Integer> getAllSideEffectsCounts(@RequestParam(name = "vaccine") VaccineType vaccineType) {
@@ -58,7 +60,7 @@ public class ReviewController {
     }
 
     @GetMapping(path = "/my")
-    public List<Review> getMyReviews(@AuthenticationPrincipal SecurityUser user) {
+    public List<ReviewCard> getMyReviews(@AuthenticationPrincipal SecurityUser user) {
         Long requestUserId = user.getUser().getId();
         return reviewService.getMyReviews(requestUserId);
     }
