@@ -45,8 +45,8 @@ public class BoardController {
     }
 
     @DeleteMapping("/comment")
-    public HttpStatus deleteComment(@RequestParam Long commentId, @AuthenticationPrincipal SecurityUser user) {
-        return boardService.deleteComment(commentId, user.getUser());
+    public HttpStatus deleteComment(@RequestParam Long commentId, @RequestParam Long boardId, @AuthenticationPrincipal SecurityUser user) {
+        return boardService.deleteComment(commentId, boardId, user.getUser());
     }
 
     @GetMapping

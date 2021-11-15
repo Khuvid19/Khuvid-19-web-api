@@ -100,13 +100,18 @@ public class BoardService {
         return HttpStatus.UNAUTHORIZED;
     }
 
-    public HttpStatus deleteComment(Long commentId, User user) {
+    public HttpStatus deleteComment(Long commentId, Long boardId, User user) {
         Optional<Comment> comment = commentRepository.findById(commentId);
+        Optional<Board> board = boardRepository.findById(boardId);
         if (comment.isEmpty()) {
+            return HttpStatus.GONE;
+        }
+        if (board.isEmpty()) {
             return HttpStatus.GONE;
         }
         if (comment.get().getUser().equals(user)) {
             commentRepository.delete(comment.get());
+            boardRepository.save(board.get().deleteComments());
             return HttpStatus.OK;
         }
         return HttpStatus.UNAUTHORIZED;

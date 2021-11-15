@@ -43,4 +43,9 @@ public class Board {
         this.comments++;
         return this;
     }
+
+    public Board deleteComments(){
+        this.comments = this.comments-1;
+        return this;
+    }
 }
