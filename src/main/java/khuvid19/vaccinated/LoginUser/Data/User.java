@@ -1,5 +1,7 @@
 package khuvid19.vaccinated.LoginUser.Data;
 
+import khuvid19.vaccinated.Constants.AgeType;
+import khuvid19.vaccinated.Constants.Gender;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,9 +29,11 @@ public class User {
     @Column
     private String nickName;
     @Column
-    private String gender;
+    @Enumerated(value = EnumType.STRING)
+    private Gender gender;
     @Column
-    private Date birthday;
+    @Enumerated(value = EnumType.STRING)
+    private AgeType age;
     @Transient
     private String jwtToken;
 
@@ -42,6 +46,6 @@ public class User {
 
 
     public UserInfo toUserInfo(){
-        return new UserInfo(this.name, this.nickName, this.email, this.picUrl, this.birthday, this.gender);
+        return new UserInfo(this.name, this.nickName, this.email, this.picUrl, this.age, this.gender);
     }
 }
