@@ -51,6 +51,14 @@ public class ReviewService {
             specification.and(SearchReviewSpecs.inoculatedBetween(filters.getStartInoculated(), filters.getEndInoculated()));
         }
 
+        if (filters.getAuthorGender() != null) {
+            specification.and(SearchReviewSpecs.ageEqual(filters.getAuthorAge()));
+        }
+        
+        if (filters.getAuthorAge() != null) {
+            specification.and(SearchReviewSpecs.ageEqual(filters.getAuthorAge()));
+        }
+
         return reviewRepository.findAll(specification, paging)
                 .map(review -> modelMapper.map(review, ReviewCard.class));
     }
