@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -20,24 +21,24 @@ import java.util.Map;
 @RequestMapping("/review")
 public class ReviewController {
 
-    private final ReviewService ReviewService;
+    private final ReviewService reviewService;
     private final SideEffectsService sideEffectsService;
 
     @GetMapping
     public Page<Review> getSimpleList(@RequestParam Integer page) {
-        return ReviewService.getPagedReview(page);
+        return reviewService.getPagedReview(page);
     }
 
     @PostMapping
     public HttpStatus postNewSimpleReview(@RequestBody Review receivedReview, @AuthenticationPrincipal SecurityUser securityUser) {
 //        Long userId = securityUser.getUser().getId();
 //        receivedReview.setUserId(userId);
-        return ReviewService.insertSimpleReview(receivedReview);
+        return reviewService.insertSimpleReview(receivedReview);
     }
 
     @PostMapping("/search")
     public Page<Review> searchReviews(@RequestParam Integer page, @RequestBody ReviewFilter filters) {
-        return ReviewService.searchPagedReview(page, filters);
+        return reviewService.searchPagedReview(page, filters);
     }
 
 
@@ -54,5 +55,11 @@ public class ReviewController {
     @GetMapping(path = "/types/vaccine")
     public Map<VaccineType, String> getAllVaccineTypes() {
         return VaccineType.getAllTypes();
+    }
+
+    @GetMapping(path = "/my")
+    public List<Review> getMyReviews(@AuthenticationPrincipal SecurityUser user) {
+        Long requestUserId = user.getUser().getId();
+        return reviewService.getMyReviews(requestUserId);
     }
 }
