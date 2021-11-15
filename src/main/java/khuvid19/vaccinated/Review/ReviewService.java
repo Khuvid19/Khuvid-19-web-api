@@ -48,6 +48,10 @@ public class ReviewService {
         return reviewRepository.findAll(specification, paging);
     }
 
+    public List<Review> getMyReviews(Long userId) {
+        return reviewRepository.findAllByUserId(userId);
+    }
+
     public HttpStatus insertSimpleReview(Review receivedReview) {
         List<SideEffectType> inputSideEffectTypes = receivedReview.getSideEffects();
         VaccineType inputVaccineType = receivedReview.getVaccine();
