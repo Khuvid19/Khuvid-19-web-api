@@ -3,9 +3,11 @@ package khuvid19.vaccinated.Review;
 import khuvid19.vaccinated.Constants.SideEffectType;
 import khuvid19.vaccinated.Constants.VaccineType;
 import khuvid19.vaccinated.LoginUser.Data.User;
-import khuvid19.vaccinated.Review.Data.*;
 import khuvid19.vaccinated.Review.Data.DTO.ReviewCard;
 import khuvid19.vaccinated.Review.Data.DTO.ReviewFilter;
+import khuvid19.vaccinated.Review.Data.Review;
+import khuvid19.vaccinated.Review.Data.ReviewRepository;
+import khuvid19.vaccinated.Review.Data.SearchReviewSpecs;
 import khuvid19.vaccinated.SideEffects.SideEffectsService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -27,12 +29,13 @@ public class ReviewService {
     private final SideEffectsService sideEffectsService;
     private final ModelMapper modelMapper;
 
-    public Page<Review> getPagedReview(int pageIndex) {
+    public Page<ReviewCard> getPagedReview(int pageIndex) {
         PageRequest request = PageRequest.of(pageIndex, 10, Sort.by(Sort.Direction.DESC, "id"));
-        return reviewRepository.findAll(request);
+        return reviewRepository.findAll(request)
+                .map(review -> modelMapper.map(review, ReviewCard.class));
     }
 
-    public Page<Review> searchPagedReview(int pageIndex, ReviewFilter filters) {
+    public Page<ReviewCard> searchPagedReview(int pageIndex, ReviewFilter filters) {
         PageRequest paging = PageRequest.of(pageIndex, 10, Sort.by(Sort.Direction.DESC, "id"));
         Specification<Review> specification = SearchReviewSpecs.initial();
 
@@ -48,7 +51,8 @@ public class ReviewService {
             specification.and(SearchReviewSpecs.inoculatedBetween(filters.getStartInoculated(), filters.getEndInoculated()));
         }
 
-        return reviewRepository.findAll(specification, paging);
+        return reviewRepository.findAll(specification, paging)
+                .map(review -> modelMapper.map(review, ReviewCard.class));
     }
 
     public List<ReviewCard> getMyReviews(Long userId) {

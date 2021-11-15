@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 import java.util.Map;
@@ -29,18 +30,19 @@ public class ReviewController {
     private final ModelMapper modelMapper;
 
     @GetMapping
-    public Page<Review> getSimpleList(@RequestParam Integer page) {
+    public Page<ReviewCard> getSimpleList(@RequestParam Integer page) {
         return reviewService.getPagedReview(page);
     }
 
     @PostMapping
-    public HttpStatus postNewReview(@RequestBody ReviewInput inputReview, @AuthenticationPrincipal SecurityUser securityUser) {
+    public HttpStatus postNewReview(@RequestBody ReviewInput inputReview,
+                                    @ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
         Review mappedReview = modelMapper.map(inputReview, Review.class);
         return reviewService.insertReview(mappedReview, securityUser.getUser());
     }
 
     @PostMapping("/search")
-    public Page<Review> searchReviews(@RequestParam Integer page, @RequestBody ReviewFilter filters) {
+    public Page<ReviewCard> searchReviews(@RequestParam Integer page, @RequestBody ReviewFilter filters) {
         return reviewService.searchPagedReview(page, filters);
     }
 
@@ -60,7 +62,7 @@ public class ReviewController {
     }
 
     @GetMapping(path = "/my")
-    public List<ReviewCard> getMyReviews(@AuthenticationPrincipal SecurityUser user) {
+    public List<ReviewCard> getMyReviews(@ApiIgnore @AuthenticationPrincipal SecurityUser user) {
         Long requestUserId = user.getUser().getId();
         return reviewService.getMyReviews(requestUserId);
     }
