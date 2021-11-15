@@ -2,6 +2,7 @@ package khuvid19.vaccinated.LoginUser.Data;
 
 import khuvid19.vaccinated.Constants.AgeType;
 import khuvid19.vaccinated.Constants.Gender;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -43,7 +44,6 @@ public class User {
         this.accessToken = accessToken;
         this.picUrl = picUrl;
     }
-
 
     public UserInfo toUserInfo(){
         return new UserInfo(this.name, this.nickName, this.email, this.picUrl, this.age, this.gender);
