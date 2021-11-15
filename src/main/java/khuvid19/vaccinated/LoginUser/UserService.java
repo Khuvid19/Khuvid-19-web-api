@@ -28,26 +28,22 @@ public class UserService {
 
         User logUser;
         Optional<User> user = userRepository.findByEmail(googleUser.getEmail());
-        if (user.isEmpty()){
+        if (user.isPresent()){
             logUser = googleUser.toUser(access_token);
-            userRepository.save(logUser );
+            logUser.setAccessToken(access_token);
+            logUser.setJwtToken(jwtTokenProvider.createToken(logUser));
+            return userRepository.save(logUser);
         } else {
-            logUser = user.get();
+            return null;
         }
-        logUser.setAccessToken(access_token);
-        logUser.setJwtToken(jwtTokenProvider.createToken(logUser));
-        return userRepository.save(logUser);
+
     }
 
-    public UserInfo setUserInfo(User user, PostUser postUser) {
+    public User setUserInfo(User user) {
 
-        user.setNickName(postUser.getNickName());
-        user.setGender(postUser.getGender());
-        user.setAge(postUser.getAge());
-
-        userRepository.save(user);
-
-        return user.toUserInfo();
+        User logUser = user;
+        logUser.setJwtToken(jwtTokenProvider.createToken(logUser));
+        return userRepository.save(logUser);
 
     }
 
