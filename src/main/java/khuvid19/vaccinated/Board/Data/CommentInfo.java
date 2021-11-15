@@ -11,12 +11,12 @@ public class CommentInfo {
     String content;
     String userName;
     Date date;
-    Long boardId;
+    Long commentId;
 
     public CommentInfo(Comment comment) {
+        this.commentId = comment.getCommentId();
         this.content = comment.getComment();
         this.date = comment.getDate();
-        this.boardId = comment.getBoard().getId();
         this.userName = comment.getUser().getNickName();
     }
 }
