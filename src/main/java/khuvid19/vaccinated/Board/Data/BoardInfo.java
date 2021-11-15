@@ -2,6 +2,7 @@ package khuvid19.vaccinated.Board.Data;
 
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,7 @@ public class BoardInfo {
     String title;
     String userName;
     String content;
-    Date date;
+    LocalDate date;
     Integer comments;
     List<CommentInfo> commentList;
 

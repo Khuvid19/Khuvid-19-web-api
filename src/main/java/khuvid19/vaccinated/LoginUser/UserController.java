@@ -1,6 +1,7 @@
 package khuvid19.vaccinated.LoginUser;
 
 import khuvid19.vaccinated.Configuration.JwtTokenProvider;
+import khuvid19.vaccinated.LoginUser.Data.PostUser;
 import khuvid19.vaccinated.LoginUser.Data.SecurityUser;
 import khuvid19.vaccinated.LoginUser.Data.User;
 import khuvid19.vaccinated.LoginUser.Data.UserInfo;
@@ -10,7 +11,6 @@ import org.springframework.http.HttpStatus;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
 
 
 @RestController
@@ -23,8 +23,8 @@ public class UserController {
     private final UserRepository userRepository;
 
     @PostMapping("/auth/user")
-    public UserInfo setUserName(@AuthenticationPrincipal SecurityUser user, UserInfo userInfo) {
-        return userService.setUserInfo(user.getUser(), userInfo);
+    public UserInfo setUserInfo(@AuthenticationPrincipal SecurityUser user, PostUser postUser) {
+        return userService.setUserInfo(user.getUser(), postUser);
     }
 
     @GetMapping("/auth/user")

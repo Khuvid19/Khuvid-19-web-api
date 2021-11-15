@@ -3,12 +3,15 @@ package khuvid19.vaccinated.Board.Data;
 import khuvid19.vaccinated.LoginUser.Data.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 public class Board {
     @Id
@@ -24,7 +27,7 @@ public class Board {
     private User user;
 
     @Column
-    private Date date;
+    private LocalDate date;
 
     @Column
     private Integer comments = 0;
@@ -33,11 +36,16 @@ public class Board {
         this.title = title;
         this.content = content;
         this.user = user;
-        this.date = new Date();
+        this.date = LocalDate.now();
     }
 
     public Board newComments(){
         this.comments++;
+        return this;
+    }
+
+    public Board deleteComments(){
+        this.comments = this.comments-1;
         return this;
     }
 }
