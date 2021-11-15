@@ -1,5 +1,8 @@
 package khuvid19.vaccinated.Constants;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum SideEffectType {
 
     LOW_FEVER("미열"), HIGH_FEVER("고열"), AREA_PAIN("부위 통증"), VOMITING("구토"),
@@ -16,4 +19,15 @@ public enum SideEffectType {
     public String getKoreanName() {
         return koreanName;
     }
+
+    public static Map<SideEffectType, String> getAllTypes() {
+        Map<SideEffectType, String> result;
+        result = new HashMap<>();
+        for (SideEffectType type :
+                SideEffectType.values()) {
+            result.put(type, type.koreanName);
+        }
+        return result;
+    }
+
 }
