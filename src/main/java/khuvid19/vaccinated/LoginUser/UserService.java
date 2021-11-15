@@ -1,6 +1,7 @@
 package khuvid19.vaccinated.LoginUser;
 
 import khuvid19.vaccinated.Configuration.JwtTokenProvider;
+import khuvid19.vaccinated.LoginUser.Data.PostUser;
 import khuvid19.vaccinated.LoginUser.Data.User;
 import khuvid19.vaccinated.LoginUser.Data.GoogleUser;
 import khuvid19.vaccinated.LoginUser.Data.UserInfo;
@@ -38,15 +39,29 @@ public class UserService {
         return userRepository.save(logUser);
     }
 
-    public UserInfo setUserInfo(User user, UserInfo userInfo) {
-        user.setNickName(userInfo.getNickName());
-        user.setGender(userInfo.getGender());
-        user.setBirthday(userInfo.getBirthday());
+    public UserInfo setUserInfo(User user, PostUser postUser) {
+
+        user.setNickName(postUser.getNickName());
+        user.setGender(postUser.getGender());
+        user.setAge(postUser.getAge());
 
         userRepository.save(user);
 
         return user.toUserInfo();
 
+    }
+
+    public User isUserExists(String access_token) {
+        GoogleUser googleUser = oAuthService.getInfoByToken(access_token);
+        Optional<User> user = userRepository.findByEmail(googleUser.getEmail());
+        if (user.isEmpty()) {
+            return null;
+        }else{
+            User logUser = user.get();
+            logUser.setAccessToken(access_token);
+            logUser.setJwtToken(jwtTokenProvider.createToken(logUser));
+            return userRepository.save(logUser);
+        }
     }
 
 }
