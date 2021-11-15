@@ -31,6 +31,7 @@ public class User {
     @Column
     private Date birthday;
 
+    @Transient
     private String jwtToken;
 
     public User(String email, String name, String accessToken, String picUrl) {
