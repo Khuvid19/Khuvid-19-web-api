@@ -33,7 +33,6 @@ public class UserService {
         } else {
             logUser = user.get();
         }
-        logUser.setAccessToken(access_token);
         logUser.setJwtToken(jwtTokenProvider.createToken(logUser));
         return userRepository.save(logUser);
     }
