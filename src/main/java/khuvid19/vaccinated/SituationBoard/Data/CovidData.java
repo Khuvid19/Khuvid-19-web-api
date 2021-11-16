@@ -1,33 +1,37 @@
 package khuvid19.vaccinated.SituationBoard.Data;
 
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import java.sql.Time;
-import java.time.LocalDateTime;
-import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import java.time.LocalDate;
 
-@XmlRootElement(name = "item")
+@Entity
 @NoArgsConstructor
 @Getter
 public class CovidData {
+    @Id @Column @GeneratedValue @JsonIgnore
+    Long dataId;
+    @Column
+    LocalDate date;
+    @Column
+    Integer decideCnt;
+    @Column
+    Integer todayCnt;
 
+    public CovidData(LocalDate date, Integer decideCnt, Integer todayCnt) {
+        this.date = date;
+        this.decideCnt = decideCnt;
+        this.todayCnt = todayCnt;
+    }
 
-    private Float accDefRate;
-    private Integer accExamCnt;
-    private Integer accExamCompCnt;
-    private Integer careCnt;
-    private Integer clearCnt;
-    private LocalDateTime createDt;
-    private Integer deathCnt;
-    private Integer decideCnt;
-    private Integer examCnt;
-    private Integer resultNegCnt;
-    private Integer seq;
-    private Date stateDt;
-    private Time stateTime;
-    private LocalDateTime updateDt;
+    public CovidData(LocalDate date, Integer decideCnt) {
+        this.date = date;
+        this.decideCnt = decideCnt;
+    }
 
 }

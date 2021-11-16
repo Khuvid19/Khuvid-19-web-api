@@ -1,9 +1,8 @@
 package khuvid19.vaccinated.SituationBoard;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import khuvid19.vaccinated.SituationBoard.Data.CovidData;
-import khuvid19.vaccinated.SituationBoard.Data.CovidInfo;
 import khuvid19.vaccinated.SituationBoard.Data.CovidResponse;
+import khuvid19.vaccinated.SituationBoard.Data.CovidResponseData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,8 +12,13 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Optional;
 
 
 @Component
@@ -22,22 +26,34 @@ import java.util.Date;
 @Slf4j
 public class GetSituationData {
 
-    private final CovidInfoRepository covidInfoRepository;
+    private final CovidRepository covidRepository;
 
     @Value("${portal.secretkey}") private String portalKey;
     @Value("${portal.url}") private String portalUrl;
 
-    @Scheduled(cron = "0 0 10 * * *")
-    public void getData(){
-        Date today = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+    @Scheduled(cron = "0 0 0 * * *")
+    public void getData() throws UnsupportedEncodingException {
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-        params.add("ServiceKey", portalKey);
-        params.add("startCreateDt",df.format(today));
+        String serviceKey_Decoder = URLDecoder.decode(portalKey.toString(), "UTF-8");
+
+        String url = portalUrl + "?ServiceKey=" + serviceKey_Decoder + "&startCreateDt=" + today.format(formatter);
 
         RestTemplate restTemplate = new RestTemplate();
-        String response = restTemplate.getForObject(portalUrl, String.class, params);
+        CovidResponse response = restTemplate.getForObject(url, CovidResponse.class);
 
+        CovidResponseData covidResponseData = response.getBody().getItems().get(0);
+        Optional<CovidData> yesterday = covidRepository.findByDate(LocalDate.now().minusDays(1));
+
+        CovidData todayData;
+        if (yesterday.isPresent()) {
+            todayData = new CovidData(LocalDate.parse(covidResponseData.getStateDt(), formatter),
+                    covidResponseData.getDecideCnt(), covidResponseData.getDecideCnt() - yesterday.get().getDecideCnt());
+        } else {
+            todayData = new CovidData(LocalDate.parse(covidResponseData.getStateDt(), formatter), covidResponseData.getDecideCnt());
+
+        }
+        covidRepository.save(todayData);
     }
 }
