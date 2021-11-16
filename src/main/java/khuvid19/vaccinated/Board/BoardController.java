@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 
 @RestController
@@ -19,33 +20,33 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping
-    public HttpStatus newBoard(@RequestBody BoardPost postBoard, @AuthenticationPrincipal SecurityUser securityUser) {
+    public HttpStatus newBoard(@RequestBody BoardPost postBoard, @ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
         return boardService.saveBoard(securityUser.getUser(),postBoard);
     }
 
     @PutMapping()
-    public HttpStatus reviseBoard(@RequestParam Long boardId, @RequestBody BoardPost post, @AuthenticationPrincipal SecurityUser securityUser) {
+    public HttpStatus reviseBoard(@RequestParam Long boardId, @RequestBody BoardPost post, @ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
         User user = securityUser.getUser();
         return boardService.reviseBoard(boardId, post, user);
     }
 
     @DeleteMapping()
-    public HttpStatus deleteBoard(@RequestParam Long boardId, @AuthenticationPrincipal SecurityUser user) {
+    public HttpStatus deleteBoard(@RequestParam Long boardId, @ApiIgnore @AuthenticationPrincipal SecurityUser user) {
         return boardService.deleteBoard(boardId, user.getUser());
     }
 
     @PostMapping("/comment")
-    public HttpStatus newComment(@RequestBody CommentPost commentInfo, @AuthenticationPrincipal SecurityUser securityUser) {
+    public HttpStatus newComment(@RequestBody CommentPost commentInfo, @ApiIgnore@AuthenticationPrincipal SecurityUser securityUser) {
         return boardService.newComment(securityUser.getUser(), commentInfo);
     }
 
     @PutMapping("/comment")
-    public HttpStatus reviseComment(@RequestParam CommentPost commentPost, @AuthenticationPrincipal SecurityUser user) {
+    public HttpStatus reviseComment(@RequestParam CommentPost commentPost, @ApiIgnore@AuthenticationPrincipal SecurityUser user) {
         return boardService.reviseComment(commentPost, user.getUser());
     }
 
     @DeleteMapping("/comment")
-    public HttpStatus deleteComment(@RequestParam Long commentId, @RequestParam Long boardId, @AuthenticationPrincipal SecurityUser user) {
+    public HttpStatus deleteComment(@RequestParam Long commentId, @RequestParam Long boardId, @ApiIgnore @AuthenticationPrincipal SecurityUser user) {
         return boardService.deleteComment(commentId, boardId, user.getUser());
     }
 
