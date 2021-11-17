@@ -34,6 +34,7 @@ public class UserService {
             logUser.setJwtToken(jwtTokenProvider.createToken(logUser));
             return userRepository.save(logUser);
         } else {
+            log.info("New User : {}", googleUser.getEmail());
             return null;
         }
 
