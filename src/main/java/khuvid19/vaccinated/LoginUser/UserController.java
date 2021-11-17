@@ -3,6 +3,7 @@ package khuvid19.vaccinated.LoginUser;
 import khuvid19.vaccinated.Configuration.JwtTokenProvider;
 import khuvid19.vaccinated.Constants.AgeType;
 import khuvid19.vaccinated.Constants.Gender;
+import khuvid19.vaccinated.LoginUser.Data.Token;
 import khuvid19.vaccinated.LoginUser.Data.User;
 
 import lombok.RequiredArgsConstructor;
@@ -24,13 +25,13 @@ public class UserController {
     private final JwtTokenProvider tokenProvider;
 
     @PostMapping("/user")
-    public User setUserInfo(User user) {
+    public User setUserInfo(@RequestBody User user) {
         return userService.setUserInfo(user);
     }
 
     @PostMapping("/google")
-    public User loginByToken(@RequestParam(value = "access_token") String access_token) {
-        User user = userService.oauthLogin(access_token);
+    public User loginByToken(@RequestBody Token token) {
+        User user = userService.oauthLogin(token.getAccess_token());
         return user;
     }
 
