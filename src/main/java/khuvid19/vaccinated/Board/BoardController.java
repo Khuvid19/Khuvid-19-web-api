@@ -1,6 +1,10 @@
 package khuvid19.vaccinated.Board;
 
-import khuvid19.vaccinated.Board.Data.*;
+import khuvid19.vaccinated.Board.Data.Board.Board;
+import khuvid19.vaccinated.Board.Data.Board.BoardInfo;
+import khuvid19.vaccinated.Board.Data.Board.PostBoard;
+import khuvid19.vaccinated.Board.Data.Board.ReviseBoard;
+import khuvid19.vaccinated.Board.Data.Comment.PostComment;
 import khuvid19.vaccinated.LoginUser.Data.SecurityUser;
 import khuvid19.vaccinated.LoginUser.Data.User;
 import lombok.RequiredArgsConstructor;
@@ -23,29 +27,29 @@ public class BoardController {
     private final BoardRepository boardRepository;
 
     @PostMapping
-    public HttpStatus newBoard(@RequestBody BoardPost postBoard, @AuthenticationPrincipal SecurityUser securityUser) {
+    public HttpStatus newBoard(@RequestBody PostBoard postBoard, @AuthenticationPrincipal SecurityUser securityUser) {
         return boardService.saveBoard(securityUser.getUser(),postBoard);
     }
 
     @PutMapping()
-    public HttpStatus reviseBoard(@RequestParam Long boardId, @RequestBody BoardPost post, @AuthenticationPrincipal SecurityUser securityUser) {
+    public HttpStatus reviseBoard(@RequestBody ReviseBoard post, @AuthenticationPrincipal SecurityUser securityUser) {
         User user = securityUser.getUser();
-        return boardService.reviseBoard(boardId, post, user);
+        return boardService.reviseBoard(post, user);
     }
 
     @DeleteMapping()
-    public HttpStatus deleteBoard(@RequestParam Long boardId, @AuthenticationPrincipal SecurityUser user) {
-        return boardService.deleteBoard(boardId, user.getUser());
+    public HttpStatus deleteBoard(@RequestBody ReviseBoard board, @AuthenticationPrincipal SecurityUser user) {
+        return boardService.deleteBoard(board.getBoardId(), user.getUser());
     }
 
     @PostMapping("/comment")
-    public HttpStatus newComment(@RequestBody CommentPost commentInfo, @AuthenticationPrincipal SecurityUser securityUser) {
+    public HttpStatus newComment(@RequestBody PostComment commentInfo, @AuthenticationPrincipal SecurityUser securityUser) {
         return boardService.newComment(securityUser.getUser(), commentInfo);
     }
 
     @PutMapping("/comment")
-    public HttpStatus reviseComment(@RequestParam CommentPost commentPost, @AuthenticationPrincipal SecurityUser user) {
-        return boardService.reviseComment(commentPost, user.getUser());
+    public HttpStatus reviseComment(@RequestParam PostComment postComment, @AuthenticationPrincipal SecurityUser user) {
+        return boardService.reviseComment(postComment, user.getUser());
     }
 
     @DeleteMapping("/comment")
@@ -68,7 +72,7 @@ public class BoardController {
         return boardService.searchBoard(search, page-1);
     }
 
-    @GetMapping("/board")
+    @GetMapping("/user")
     public List<Board> getMyBoards(@ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
         return boardRepository.findByUser(securityUser.getUser());
     }
