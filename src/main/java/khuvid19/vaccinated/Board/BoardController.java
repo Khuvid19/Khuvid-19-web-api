@@ -8,6 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.List;
 
 
 @RestController
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class BoardController {
 
     private final BoardService boardService;
+    private final BoardRepository boardRepository;
 
     @PostMapping
     public HttpStatus newBoard(@RequestBody BoardPost postBoard, @AuthenticationPrincipal SecurityUser securityUser) {
@@ -62,6 +66,11 @@ public class BoardController {
     @GetMapping("/list")
     public Page<Board> searchBoard(@RequestParam String search, @RequestParam Integer page) {
         return boardService.searchBoard(search, page-1);
+    }
+
+    @GetMapping("/board")
+    public List<Board> getMyBoards(@ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
+        return boardRepository.findByUser(securityUser.getUser());
     }
 
 }
