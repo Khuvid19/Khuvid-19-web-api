@@ -1,7 +1,7 @@
-package khuvid19.vaccinated.Board.Data;
+package khuvid19.vaccinated.Board;
 
-import khuvid19.vaccinated.Board.Data.Board;
-import khuvid19.vaccinated.Board.Data.Comment;
+import khuvid19.vaccinated.Board.Data.Board.Board;
+import khuvid19.vaccinated.Board.Data.Comment.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

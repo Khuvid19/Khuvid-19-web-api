@@ -1,9 +1,9 @@
-package khuvid19.vaccinated.Board.Data;
+package khuvid19.vaccinated.Board.Data.Comment;
 
 import lombok.Getter;
 
 @Getter
-public class CommentPost {
+public class PostComment {
     Long boardId;
     Long commentId;
     String content;

@@ -1,4 +1,4 @@
-package khuvid19.vaccinated.Board.Data;
+package khuvid19.vaccinated.Board.Data.Board;
 
 import khuvid19.vaccinated.LoginUser.Data.User;
 import lombok.Getter;
@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Getter

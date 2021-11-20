@@ -1,9 +1,9 @@
-package khuvid19.vaccinated.Board.Data;
+package khuvid19.vaccinated.Board.Data.Board;
 
+import khuvid19.vaccinated.Board.Data.Comment.CommentInfo;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Getter

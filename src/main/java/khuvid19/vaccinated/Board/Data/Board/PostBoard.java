@@ -1,9 +1,9 @@
-package khuvid19.vaccinated.Board.Data;
+package khuvid19.vaccinated.Board.Data.Board;
 
 import lombok.Getter;
 
 @Getter
-public class BoardPost {
+public class PostBoard {
     String title;
     String content;
 }
