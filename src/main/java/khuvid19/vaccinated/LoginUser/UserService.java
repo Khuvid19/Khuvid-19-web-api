@@ -29,7 +29,7 @@ public class UserService {
         User logUser;
         Optional<User> user = userRepository.findByEmail(googleUser.getEmail());
         if (user.isPresent()){
-            logUser = googleUser.toUser(access_token);
+            logUser = user.get();
             logUser.setAccessToken(access_token);
             logUser.setJwtToken(jwtTokenProvider.createToken(logUser));
             return userRepository.save(logUser);
