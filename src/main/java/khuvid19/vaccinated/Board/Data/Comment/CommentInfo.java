@@ -1,5 +1,6 @@
-package khuvid19.vaccinated.Board.Data;
+package khuvid19.vaccinated.Board.Data.Comment;
 
+import khuvid19.vaccinated.Board.Data.Comment.Comment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
