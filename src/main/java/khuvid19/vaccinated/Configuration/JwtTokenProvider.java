@@ -25,7 +25,6 @@ public class JwtTokenProvider { // JWT 토큰 생성 및 검증 모듈
 
     private long tokenValidTime = 1000L * 60 * 60 * 24; // 토큰 유효 기간
 
-//    private final UserDetailsService userDetailsService;
     private final UserSecurityService userSecurityService;
 
     @PostConstruct
@@ -51,8 +50,6 @@ public class JwtTokenProvider { // JWT 토큰 생성 및 검증 모듈
         UserDetails userDetails = userSecurityService.loadUserByUsername(this.getUserId(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
 
-//        Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
-//        UserDetails principal = new org.springframework.security.core.userdetails.User(claims.get("user"),"", )
     }
 
     // Jwt 토큰에서 회원 구별 정보 추출
