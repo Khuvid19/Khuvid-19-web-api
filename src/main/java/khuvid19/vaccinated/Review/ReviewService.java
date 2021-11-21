@@ -101,4 +101,8 @@ public class ReviewService {
         reviewRepository.save(foundReview);
         return HttpStatus.OK;
     }
+
+    public void removeReview(Long id) {
+        reviewRepository.deleteById(id);
+    }
 }
