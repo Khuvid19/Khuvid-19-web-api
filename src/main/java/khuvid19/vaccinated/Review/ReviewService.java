@@ -102,7 +102,17 @@ public class ReviewService {
         return HttpStatus.OK;
     }
 
-    public void removeReview(Long id) {
-        reviewRepository.deleteById(id);
+    public HttpStatus removeReview(Long reviewId, Long userId) {
+        Optional<Review> optionalReview = reviewRepository.findById(reviewId);
+        if (optionalReview.isEmpty()) {
+            return HttpStatus.GONE;
+        }
+
+        if (!optionalReview.get().getAuthor().getId().equals(userId)) {
+            return HttpStatus.GONE;
+        }
+        reviewRepository.deleteById(reviewId);
+        return HttpStatus.OK;
     }
+
 }

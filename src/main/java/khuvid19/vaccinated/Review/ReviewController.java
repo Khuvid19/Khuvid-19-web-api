@@ -48,8 +48,9 @@ public class ReviewController {
     }
 
     @DeleteMapping
-    public void deleteReview(@RequestParam Long id) {
-        reviewService.removeReview(id);
+    public HttpStatus deleteReview(@RequestParam Long id,
+                             @ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
+        return reviewService.removeReview(id, securityUser.getUser().getId());
     }
 
     @PostMapping("/search")
