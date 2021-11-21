@@ -15,6 +15,9 @@ import java.util.List;
 
 @Getter @Setter @NoArgsConstructor
 public class ReviewInput {
+
+    Long id;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     Date inoculatedDate;
 

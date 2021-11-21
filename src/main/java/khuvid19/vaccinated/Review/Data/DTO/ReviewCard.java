@@ -12,6 +12,7 @@ import java.util.List;
 
 @Getter @Setter
 public class ReviewCard {
+    private Long id;
     private Gender authorGender;
     private VaccineType vaccine;
     private AgeType authorAge;
