@@ -14,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -30,7 +31,7 @@ public class UserController {
     private final JwtTokenProvider tokenProvider;
 
     @PostMapping("/user")
-    public User setUserInfo(User user) {
+    public User setUserInfo(@RequestBody User user) {
         return userService.setUserInfo(user);
     }
 
@@ -47,12 +48,12 @@ public class UserController {
 
 
     @GetMapping("/types/age")
-    public Map<AgeType, String> getAgeTypes() {
+    public List getAgeTypes() {
         return AgeType.getAllTypes();
     }
 
     @GetMapping("/types/gender")
-    public Map<Gender, String> getGenderType() {
+    public List<Map> getGenderType() {
         return Gender.getAllTypes();
     }
 
