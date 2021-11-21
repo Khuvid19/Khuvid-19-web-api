@@ -6,7 +6,9 @@
 //import khuvid19.vaccinated.LoginUser.Data.User;
 //import khuvid19.vaccinated.LoginUser.UserRepository;
 //import khuvid19.vaccinated.Review.Data.DTO.ReviewCard;
+//import khuvid19.vaccinated.Review.Data.DTO.ReviewInput;
 //import khuvid19.vaccinated.Review.Data.Review;
+//import khuvid19.vaccinated.Review.Data.ReviewRepository;
 //import khuvid19.vaccinated.Review.ReviewService;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
@@ -27,6 +29,9 @@
 //    UserRepository userRepository;
 //
 //    @Autowired
+//    ReviewRepository reviewRepository;
+//
+//    @Autowired
 //    ReviewService reviewService;
 //
 //    private User dummyUser;
@@ -37,6 +42,7 @@
 //
 //        dummyUser = new User("emailemail", "winter", null, "image");
 //        dummyUser.setGender(Gender.FEMALE);
+//        dummyUser.setId(10L);
 //        userRepository.save(dummyUser);
 //
 //        dummyReview = new Review();
@@ -52,8 +58,18 @@
 //    @Test
 //    @Transactional
 //    void testInsertNewReview() {
-//        HttpStatus httpStatus = reviewService.insertReview(dummyReview, dummyUser);
-//        List<ReviewCard> myReviews = reviewService.getMyReviews(dummyUser.getId());
-//        myReviews.isEmpty();
+//
+//        reviewService.insertReview(dummyReview, dummyUser);
+//
+//
+//        dummyReview.setVaccine(VaccineType.ANSEN_BOOST);
+//        ReviewInput dummyReviewInput = new ReviewInput();
+//        dummyReviewInput.setId(1L);
+//        dummyReviewInput.setVaccine(VaccineType.ASTRAZENEKA_FIRST);
+//
+//        reviewService.updateReview(dummyReviewInput);
+//
+//        Iterable<Review> all = reviewRepository.findAll();
+//        System.out.println(all);
 //    }
 //}

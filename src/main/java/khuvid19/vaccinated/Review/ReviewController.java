@@ -41,6 +41,18 @@ public class ReviewController {
         return reviewService.insertReview(mappedReview, securityUser.getUser());
     }
 
+    @PutMapping
+    public HttpStatus putReview(@RequestBody ReviewInput updateReview,
+                                @ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
+        return reviewService.updateReview(updateReview, securityUser.getUser());
+    }
+
+    @DeleteMapping
+    public HttpStatus deleteReview(@RequestParam Long id,
+                             @ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
+        return reviewService.removeReview(id, securityUser.getUser().getId());
+    }
+
     @PostMapping("/search")
     public Page<ReviewCard> searchReviews(@RequestParam Integer page, @RequestBody ReviewFilter filters) {
         return reviewService.searchPagedReview(page, filters);

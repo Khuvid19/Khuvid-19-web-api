@@ -5,6 +5,7 @@ import khuvid19.vaccinated.Constants.VaccineType;
 import khuvid19.vaccinated.LoginUser.Data.User;
 import khuvid19.vaccinated.Review.Data.DTO.ReviewCard;
 import khuvid19.vaccinated.Review.Data.DTO.ReviewFilter;
+import khuvid19.vaccinated.Review.Data.DTO.ReviewInput;
 import khuvid19.vaccinated.Review.Data.Review;
 import khuvid19.vaccinated.Review.Data.ReviewRepository;
 import khuvid19.vaccinated.Review.Data.SearchReviewSpecs;
@@ -19,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -82,4 +84,35 @@ public class ReviewService {
         sideEffectsService.addSideEffectsCount(inputSideEffectTypes, inputVaccineType);
         return HttpStatus.OK;
     }
+
+    public HttpStatus updateReview(ReviewInput inputReview, User user) {
+        Long targetId = inputReview.getId();
+        Optional<Review> optionalFoundReview = reviewRepository.findById(targetId);
+        if (optionalFoundReview.isEmpty()) {
+            return HttpStatus.GONE;
+        }
+        Review foundReview = optionalFoundReview.get();
+
+        if (!foundReview.getAuthor().getId().equals(user.getId())) {
+            return HttpStatus.GONE;
+        }
+
+        modelMapper.map(inputReview, foundReview);
+        reviewRepository.save(foundReview);
+        return HttpStatus.OK;
+    }
+
+    public HttpStatus removeReview(Long reviewId, Long userId) {
+        Optional<Review> optionalReview = reviewRepository.findById(reviewId);
+        if (optionalReview.isEmpty()) {
+            return HttpStatus.GONE;
+        }
+
+        if (!optionalReview.get().getAuthor().getId().equals(userId)) {
+            return HttpStatus.GONE;
+        }
+        reviewRepository.deleteById(reviewId);
+        return HttpStatus.OK;
+    }
+
 }
