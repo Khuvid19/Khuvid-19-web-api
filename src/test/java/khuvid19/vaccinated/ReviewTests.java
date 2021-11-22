@@ -58,18 +58,7 @@
 //    @Test
 //    @Transactional
 //    void testInsertNewReview() {
-//
-//        reviewService.insertReview(dummyReview, dummyUser);
-//
-//
-//        dummyReview.setVaccine(VaccineType.ANSEN_BOOST);
-//        ReviewInput dummyReviewInput = new ReviewInput();
-//        dummyReviewInput.setId(1L);
-//        dummyReviewInput.setVaccine(VaccineType.ASTRAZENEKA_FIRST);
-//
-//        reviewService.updateReview(dummyReviewInput);
-//
-//        Iterable<Review> all = reviewRepository.findAll();
-//        System.out.println(all);
+//        ReviewCard reviewCard = reviewService.dummyMappingReview(dummyReview);
+//        System.out.println(reviewCard);
 //    }
 //}
