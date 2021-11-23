@@ -27,7 +27,7 @@ public class GetSituationData {
     @Value("${portal.secretkey}") private String portalKey;
     @Value("${portal.url}") private String portalUrl;
 
-    @Scheduled(cron = "0 38 0 * * *")
+    @Scheduled(cron = "0 0 10 * * *")
     public void getData() {
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -36,13 +36,14 @@ public class GetSituationData {
 
         String url = portalUrl + "?ServiceKey=" + serviceKey_Decoder + "&startCreateDt=" + today.format(formatter);
 
+        log.info(url);
+
         RestTemplate restTemplate = new RestTemplate();
         CovidResponse response = restTemplate.getForObject(url, CovidResponse.class);
 
         CovidResponseData covidResponseData = response.getBody().getItems().get(0);
         Optional<CovidData> yesterday = covidRepository.findByDate(LocalDate.now().minusDays(1));
 
-        log.info(String.valueOf(LocalDate.now()));
         CovidData todayData;
         if (yesterday.isPresent()) {
             todayData = new CovidData(LocalDate.parse(covidResponseData.getStateDt(), formatter),
