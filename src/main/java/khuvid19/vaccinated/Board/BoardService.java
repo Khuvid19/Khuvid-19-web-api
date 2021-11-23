@@ -8,6 +8,7 @@ import khuvid19.vaccinated.Board.Data.Comment.Comment;
 import khuvid19.vaccinated.Board.Data.Comment.CommentInfo;
 import khuvid19.vaccinated.Board.Data.Comment.PostComment;
 import khuvid19.vaccinated.LoginUser.Data.User;
+import khuvid19.vaccinated.LoginUser.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,10 +23,12 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class BoardService {
+    private final UserRepository userRepository;
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
 
     public HttpStatus saveBoard(User user, PostBoard postBoard){
+        Optional<User> byId = userRepository.findById(user.getId());
         Board board = new Board(postBoard.getTitle(), postBoard.getContent(), user);
         boardRepository.save(board);
         return HttpStatus.OK;
@@ -36,7 +39,9 @@ public class BoardService {
         if (board.isEmpty()) {
             return HttpStatus.GONE;
         }
-        if (board.get().getUser().equals(user)) {
+        Board savedBoard = board.get();
+
+        if (savedBoard.getUser().getId().equals(user.getId())) {
             Board revised = board.get();
             revised.setTitle(newBoard.getTitle());
             revised.setContent(newBoard.getContent());
@@ -54,7 +59,9 @@ public class BoardService {
         if (board.isEmpty()){
             return HttpStatus.GONE;
         }
-        if (board.get().getUser().equals(user)) {
+        Board savedBoard = board.get();
+
+        if (savedBoard.getUser().getId().equals(user.getId())) {
             boardRepository.delete(board.get());
             return HttpStatus.OK;
         }
@@ -96,10 +103,12 @@ public class BoardService {
         if (comment.isEmpty()) {
             return HttpStatus.GONE;
         }
-        if (comment.get().getUser().equals(user)) {
+        if (comment.get().getUser().getId().equals(user.getId())) {
             Comment revised = comment.get();
             revised.setComment(postComment.getContent());
             commentRepository.save(revised);
+
+            return HttpStatus.OK;
         }
         return HttpStatus.UNAUTHORIZED;
     }
@@ -113,8 +122,8 @@ public class BoardService {
         if (board.isEmpty()) {
             return HttpStatus.GONE;
         }
-        if (comment.get().getUser().equals(user)) {
-            commentRepository.delete(comment.get());
+        if (comment.get().getUser().getId().equals(user.getId())) {
+            commentRepository.deleteById(comment.get().getCommentId());
             boardRepository.save(board.get().deleteComments());
             return HttpStatus.OK;
         }

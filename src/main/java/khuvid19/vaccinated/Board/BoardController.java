@@ -48,13 +48,13 @@ public class BoardController {
     }
 
     @PutMapping("/comment")
-    public HttpStatus reviseComment(@RequestParam PostComment postComment, @AuthenticationPrincipal SecurityUser user) {
+    public HttpStatus reviseComment(@RequestBody PostComment postComment, @AuthenticationPrincipal SecurityUser user) {
         return boardService.reviseComment(postComment, user.getUser());
     }
 
     @DeleteMapping("/comment")
-    public HttpStatus deleteComment(@RequestParam Long commentId, @RequestParam Long boardId, @AuthenticationPrincipal SecurityUser user) {
-        return boardService.deleteComment(commentId, boardId, user.getUser());
+    public HttpStatus deleteComment(@RequestBody PostComment postComment, @AuthenticationPrincipal SecurityUser user) {
+        return boardService.deleteComment(postComment.getCommentId(), postComment.getBoardId(), user.getUser());
     }
 
     @GetMapping
