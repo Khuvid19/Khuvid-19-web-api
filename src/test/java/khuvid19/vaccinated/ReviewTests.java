@@ -12,6 +12,7 @@
 //import khuvid19.vaccinated.Review.ReviewService;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
+//import org.modelmapper.ModelMapper;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -35,6 +36,9 @@
 //    @Autowired
 //    ReviewService reviewService;
 //
+//    @Autowired
+//    ModelMapper modelMapper;
+//
 //    private User dummyUser;
 //    private Review dummyReview;
 //
@@ -43,8 +47,8 @@
 //
 //        dummyUser = new User("emailemail", "winter", null, "image");
 //        dummyUser.setGender(Gender.FEMALE);
-//        dummyUser.setId(10L);
-//        userRepository.save(dummyUser);
+//        User save = userRepository.save(dummyUser);
+//        dummyUser = save;
 //
 //        dummyReview = new Review();
 //        dummyReview.setDetailDisc("HAHAHAH");
@@ -59,6 +63,14 @@
 //    @Test
 //    @Transactional
 //    void testInsertNewReview() {
+//        ReviewInput reviewInput = new ReviewInput();
+//        reviewInput.setVaccine(VaccineType.ANSEN_BOOST);
+//        Review mappedReview = modelMapper.map(reviewInput, Review.class);
+//        reviewService.insertReview(mappedReview, dummyUser);
+//
+//        List<ReviewCard> myReviews = reviewService.getMyReviews(dummyUser.getId());
+//        System.out.println(myReviews.size());
+//
 //    }
 //
 //    @Test

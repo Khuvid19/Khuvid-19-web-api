@@ -82,7 +82,9 @@ public class ReviewService {
         }
         receivedReview.setAuthor(user);
         reviewRepository.save(receivedReview);
-        sideEffectsService.addSideEffectsCount(inputSideEffectTypes, inputVaccineType);
+        if (receivedReview.getSideEffects() != null) {
+            sideEffectsService.addSideEffectsCount(inputSideEffectTypes, inputVaccineType);
+        }
         return HttpStatus.OK;
     }
 
