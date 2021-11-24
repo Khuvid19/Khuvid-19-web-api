@@ -1,6 +1,8 @@
 package khuvid19.vaccinated.Constants;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public enum VaccineType {
@@ -19,12 +21,13 @@ public enum VaccineType {
         return koreanName;
     }
 
-    public static Map<VaccineType, String> getAllTypes() {
-        Map<VaccineType, String> result;
-        result = new HashMap<>();
+    public static List<Map<VaccineType, String>> getAllTypes() {
+        List<Map<VaccineType, String>> result = new ArrayList<>();
         for (VaccineType type :
                 VaccineType.values()) {
-            result.put(type, type.koreanName);
+            Map<VaccineType, String> element = new HashMap<>();
+            element.put(type, type.koreanName);
+            result.add(element);
         }
         return result;
     }

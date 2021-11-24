@@ -70,7 +70,7 @@ public class ReviewController {
     }
 
     @GetMapping(path = "/types/vaccine")
-    public Map<VaccineType, String> getAllVaccineTypes() {
+    public List<Map<VaccineType, String>> getAllVaccineTypes() {
         return VaccineType.getAllTypes();
     }
 
