@@ -42,8 +42,8 @@ public class ReviewService {
         PageRequest paging = PageRequest.of(pageIndex, 10, Sort.by(Sort.Direction.DESC, "id"));
         Specification<Review> specification = SearchReviewSpecs.initial();
 
-        if (filters.getVaccine() != null) {
-            specification = specification.and(SearchReviewSpecs.vaccineEqual(filters.getVaccine()));
+        if (filters.getVaccines() != null) {
+            specification = specification.and(SearchReviewSpecs.vaccineContains(filters.getVaccines()));
         }
 
         if (filters.getSideEffects() != null) {
@@ -54,12 +54,12 @@ public class ReviewService {
             specification = specification.and(SearchReviewSpecs.inoculatedBetween(filters.getStartInoculated(), filters.getEndInoculated()));
         }
 
-        if (filters.getAuthorGender() != null) {
-            specification = specification.and(SearchReviewSpecs.ageEqual(filters.getAuthorAge()));
+        if (filters.getAuthorGenders() != null) {
+            specification = specification.and(SearchReviewSpecs.genderContains(filters.getAuthorGenders()));
         }
         
-        if (filters.getAuthorAge() != null) {
-            specification = specification.and(SearchReviewSpecs.ageEqual(filters.getAuthorAge()));
+        if (filters.getAuthorAges() != null) {
+            specification = specification.and(SearchReviewSpecs.ageContains(filters.getAuthorAges()));
         }
 
         Page<Review> all = reviewRepository.findAll(specification, paging);
