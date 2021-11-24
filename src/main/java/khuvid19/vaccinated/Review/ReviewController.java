@@ -65,7 +65,7 @@ public class ReviewController {
     }
 
     @GetMapping(path = "/types/sideEffects")
-    public Map<SideEffectType, String> getAllSideEffectTypes() {
+    public List<Map<SideEffectType, String>> getAllSideEffectTypes() {
         return SideEffectType.getAllTypes();
     }
 

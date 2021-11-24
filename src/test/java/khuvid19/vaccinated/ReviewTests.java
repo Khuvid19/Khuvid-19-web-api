@@ -20,6 +20,7 @@
 //import javax.transaction.Transactional;
 //import java.util.ArrayList;
 //import java.util.List;
+//import java.util.Map;
 //
 //@SpringBootTest
 //@EnableJpaRepositories
@@ -58,7 +59,11 @@
 //    @Test
 //    @Transactional
 //    void testInsertNewReview() {
-//        ReviewCard reviewCard = reviewService.dummyMappingReview(dummyReview);
-//        System.out.println(reviewCard);
+//    }
+//
+//    @Test
+//    void testGetSideEffects() {
+//        List<Map<SideEffectType, String>> allTypes = SideEffectType.getAllTypes();
+//        System.out.println(allTypes);
 //    }
 //}
