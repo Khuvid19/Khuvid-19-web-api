@@ -12,9 +12,9 @@ import java.util.List;
 
 @Getter @Setter
 public class ReviewFilter {
-    VaccineType vaccine;
-    Gender authorGender;
-    AgeType authorAge;
+    List<VaccineType> vaccines;
+    List<Gender> authorGenders;
+    List<AgeType> authorAges;
     Boolean haveDisease;
     String detailDisc;
     Date startInoculated;

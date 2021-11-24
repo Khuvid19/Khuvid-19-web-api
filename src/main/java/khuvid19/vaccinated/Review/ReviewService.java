@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,27 +42,32 @@ public class ReviewService {
         PageRequest paging = PageRequest.of(pageIndex, 10, Sort.by(Sort.Direction.DESC, "id"));
         Specification<Review> specification = SearchReviewSpecs.initial();
 
-        if (filters.getVaccine() != null) {
-            specification.and(SearchReviewSpecs.vaccineEqual(filters.getVaccine()));
+        if (filters.getVaccines() != null) {
+            specification = specification.and(SearchReviewSpecs.vaccineContains(filters.getVaccines()));
         }
 
         if (filters.getSideEffects() != null) {
-            specification.and(SearchReviewSpecs.sideEffectContains(filters.getSideEffects()));
+            specification = specification.and(SearchReviewSpecs.sideEffectContains(filters.getSideEffects()));
         }
 
         if (filters.getStartInoculated() != null || filters.getEndInoculated() != null) {
-            specification.and(SearchReviewSpecs.inoculatedBetween(filters.getStartInoculated(), filters.getEndInoculated()));
+            specification = specification.and(SearchReviewSpecs.inoculatedBetween(filters.getStartInoculated(), filters.getEndInoculated()));
         }
 
-        if (filters.getAuthorGender() != null) {
-            specification.and(SearchReviewSpecs.ageEqual(filters.getAuthorAge()));
+        if (filters.getAuthorGenders() != null) {
+            specification = specification.and(SearchReviewSpecs.genderContains(filters.getAuthorGenders()));
         }
         
-        if (filters.getAuthorAge() != null) {
-            specification.and(SearchReviewSpecs.ageEqual(filters.getAuthorAge()));
+        if (filters.getAuthorAges() != null) {
+            specification = specification.and(SearchReviewSpecs.ageContains(filters.getAuthorAges()));
         }
 
-        return reviewRepository.findAll(specification, paging)
+        if (filters.getDetailDisc() != null) {
+            specification = specification.and(SearchReviewSpecs.searchTextContains(filters.getDetailDisc()));
+        }
+
+        Page<Review> all = reviewRepository.findAll(specification, paging);
+        return all
                 .map(review -> modelMapper.map(review, ReviewCard.class));
     }
 
@@ -81,25 +87,28 @@ public class ReviewService {
         }
         receivedReview.setAuthor(user);
         reviewRepository.save(receivedReview);
-        sideEffectsService.addSideEffectsCount(inputSideEffectTypes, inputVaccineType);
+        if (receivedReview.getSideEffects() != null) {
+            sideEffectsService.addSideEffectsCount(inputSideEffectTypes, inputVaccineType);
+        }
         return HttpStatus.OK;
     }
 
-    public HttpStatus updateReview(ReviewInput inputReview, User user) {
+    public ResponseEntity updateReview(ReviewInput inputReview, User user) {
         Long targetId = inputReview.getId();
         Optional<Review> optionalFoundReview = reviewRepository.findById(targetId);
         if (optionalFoundReview.isEmpty()) {
-            return HttpStatus.GONE;
+            return new ResponseEntity<>(HttpStatus.GONE);
         }
         Review foundReview = optionalFoundReview.get();
 
         if (!foundReview.getAuthor().getId().equals(user.getId())) {
-            return HttpStatus.GONE;
+            return new ResponseEntity<>(HttpStatus.GONE);
         }
 
         modelMapper.map(inputReview, foundReview);
         reviewRepository.save(foundReview);
-        return HttpStatus.OK;
+        ReviewCard modifiedReviewCard = modelMapper.map(foundReview, ReviewCard.class);
+        return new ResponseEntity<>(modifiedReviewCard, HttpStatus.OK);
     }
 
     public HttpStatus removeReview(Long reviewId, Long userId) {

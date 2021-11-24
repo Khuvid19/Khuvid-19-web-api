@@ -1,13 +1,15 @@
 package khuvid19.vaccinated.Constants;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public enum VaccineType {
     ANSEN("얀센"), ANSEN_BOOST("얀센 부스터샷"),
     PFIZER_FIRST("화이자 1차"), PFIZER_SECOND("화이자 2차"),
     MODERNA_FIRST("모더나 1차"), MODERNA_SECOND("모더나 2차"),
-    ASTRAZENEKA_FIRST("아스트라제네카 1차"), ASTRAZENEKA_SECOND("아스트라제네카 2차");
+    AZ_FIRST("AZ 1차"), AZ_SECOND("AZ 2차");
 
     private final String koreanName;
 
@@ -19,12 +21,13 @@ public enum VaccineType {
         return koreanName;
     }
 
-    public static Map<VaccineType, String> getAllTypes() {
-        Map<VaccineType, String> result;
-        result = new HashMap<>();
+    public static List<Map<VaccineType, String>> getAllTypes() {
+        List<Map<VaccineType, String>> result = new ArrayList<>();
         for (VaccineType type :
                 VaccineType.values()) {
-            result.put(type, type.koreanName);
+            Map<VaccineType, String> element = new HashMap<>();
+            element.put(type, type.koreanName);
+            result.add(element);
         }
         return result;
     }
