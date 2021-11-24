@@ -6,6 +6,7 @@
 //import khuvid19.vaccinated.LoginUser.Data.User;
 //import khuvid19.vaccinated.LoginUser.UserRepository;
 //import khuvid19.vaccinated.Review.Data.DTO.ReviewCard;
+//import khuvid19.vaccinated.Review.Data.DTO.ReviewFilter;
 //import khuvid19.vaccinated.Review.Data.DTO.ReviewInput;
 //import khuvid19.vaccinated.Review.Data.Review;
 //import khuvid19.vaccinated.Review.Data.ReviewRepository;
@@ -15,8 +16,8 @@
 //import org.modelmapper.ModelMapper;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.data.domain.Page;
 //import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-//import org.springframework.http.HttpStatus;
 //
 //import javax.transaction.Transactional;
 //import java.util.ArrayList;
@@ -58,6 +59,7 @@
 //        dummySideEffects.add(SideEffectType.FATIGUE);
 //        dummySideEffects.add(SideEffectType.HEADACHE);
 //        dummyReview.setSideEffects(dummySideEffects);
+//        reviewService.insertReview(dummyReview, dummyUser);
 //    }
 //
 //    @Test
@@ -70,7 +72,15 @@
 //
 //        List<ReviewCard> myReviews = reviewService.getMyReviews(dummyUser.getId());
 //        System.out.println(myReviews.size());
+//    }
 //
+//    @Test
+//    void testSearchFilters() {
+//        ReviewFilter reviewFilter = new ReviewFilter();
+////        reviewFilter.setVaccines(List.of(new VaccineType[]{VaccineType.ANSEN, VaccineType.AZ_SECOND}));
+//        reviewFilter.setDetailDisc("iiiii");
+//        Page<ReviewCard> reviewCards = reviewService.searchPagedReview(0, reviewFilter);
+//        System.out.println(reviewCards.getContent());
 //    }
 //
 //    @Test

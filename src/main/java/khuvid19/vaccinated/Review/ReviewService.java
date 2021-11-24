@@ -62,6 +62,10 @@ public class ReviewService {
             specification = specification.and(SearchReviewSpecs.ageContains(filters.getAuthorAges()));
         }
 
+        if (filters.getDetailDisc() != null) {
+            specification = specification.and(SearchReviewSpecs.searchTextContains(filters.getDetailDisc()));
+        }
+
         Page<Review> all = reviewRepository.findAll(specification, paging);
         return all
                 .map(review -> modelMapper.map(review, ReviewCard.class));

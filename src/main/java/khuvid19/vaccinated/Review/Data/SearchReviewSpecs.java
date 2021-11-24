@@ -38,4 +38,8 @@ public class SearchReviewSpecs {
         Date finalEnd = end;
         return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("inoculatedDate"), finalStart, finalEnd);
     }
+
+    public static Specification<Review> searchTextContains (String substr) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("detailDisc"), "%" + substr + "%");
+    }
 }
