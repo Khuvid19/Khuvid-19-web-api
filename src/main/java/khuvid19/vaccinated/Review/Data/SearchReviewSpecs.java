@@ -12,7 +12,7 @@ import java.util.List;
 public class SearchReviewSpecs {
 
     public static Specification<Review> initial () {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.isNotNull(root);
+        return Specification.where(null);
     }
 
     public static Specification<Review> vaccineEqual (VaccineType type) {

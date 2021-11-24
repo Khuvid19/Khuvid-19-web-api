@@ -43,26 +43,27 @@ public class ReviewService {
         Specification<Review> specification = SearchReviewSpecs.initial();
 
         if (filters.getVaccine() != null) {
-            specification.and(SearchReviewSpecs.vaccineEqual(filters.getVaccine()));
+            specification = specification.and(SearchReviewSpecs.vaccineEqual(filters.getVaccine()));
         }
 
         if (filters.getSideEffects() != null) {
-            specification.and(SearchReviewSpecs.sideEffectContains(filters.getSideEffects()));
+            specification = specification.and(SearchReviewSpecs.sideEffectContains(filters.getSideEffects()));
         }
 
         if (filters.getStartInoculated() != null || filters.getEndInoculated() != null) {
-            specification.and(SearchReviewSpecs.inoculatedBetween(filters.getStartInoculated(), filters.getEndInoculated()));
+            specification = specification.and(SearchReviewSpecs.inoculatedBetween(filters.getStartInoculated(), filters.getEndInoculated()));
         }
 
         if (filters.getAuthorGender() != null) {
-            specification.and(SearchReviewSpecs.ageEqual(filters.getAuthorAge()));
+            specification = specification.and(SearchReviewSpecs.ageEqual(filters.getAuthorAge()));
         }
         
         if (filters.getAuthorAge() != null) {
-            specification.and(SearchReviewSpecs.ageEqual(filters.getAuthorAge()));
+            specification = specification.and(SearchReviewSpecs.ageEqual(filters.getAuthorAge()));
         }
 
-        return reviewRepository.findAll(specification, paging)
+        Page<Review> all = reviewRepository.findAll(specification, paging);
+        return all
                 .map(review -> modelMapper.map(review, ReviewCard.class));
     }
 
