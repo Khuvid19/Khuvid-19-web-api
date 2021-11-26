@@ -21,12 +21,13 @@ public enum VaccineType {
         return koreanName;
     }
 
-    public static List<Map<VaccineType, String>> getAllTypes() {
-        List<Map<VaccineType, String>> result = new ArrayList<>();
+    public static List<Map<String, String>> getAllTypes() {
+        List<Map<String, String>> result = new ArrayList<>();
         for (VaccineType type :
                 VaccineType.values()) {
-            Map<VaccineType, String> element = new HashMap<>();
-            element.put(type, type.koreanName);
+            Map<String, String> element = new HashMap<>();
+            element.put("code", type.toString());
+            element.put("value", type.koreanName);
             result.add(element);
         }
         return result;
