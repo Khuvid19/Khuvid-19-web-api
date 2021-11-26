@@ -65,12 +65,12 @@ public class ReviewController {
     }
 
     @GetMapping(path = "/types/sideEffects")
-    public List<Map<SideEffectType, String>> getAllSideEffectTypes() {
+    public List<Map<String, String>> getAllSideEffectTypes() {
         return SideEffectType.getAllTypes();
     }
 
     @GetMapping(path = "/types/vaccine")
-    public List<Map<VaccineType, String>> getAllVaccineTypes() {
+    public List<Map<String, String>> getAllVaccineTypes() {
         return VaccineType.getAllTypes();
     }
 

@@ -22,12 +22,13 @@ public enum SideEffectType {
         return koreanName;
     }
 
-    public static List<Map<SideEffectType, String>> getAllTypes() {
-        List<Map<SideEffectType, String>> result = new ArrayList<>();
+    public static List<Map<String, String>> getAllTypes() {
+        List<Map<String, String>> result = new ArrayList<>();
         for (SideEffectType type :
                 SideEffectType.values()) {
-            HashMap<SideEffectType, String> element = new HashMap<>();
-            element.put(type, type.koreanName);
+            HashMap<String, String> element = new HashMap<>();
+            element.put("code", type.toString());
+            element.put("value", type.koreanName);
             result.add(element);
         }
         return result;
