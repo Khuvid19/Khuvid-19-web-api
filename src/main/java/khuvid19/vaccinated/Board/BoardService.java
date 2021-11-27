@@ -149,6 +149,6 @@ public class BoardService {
 
     public Page<Board> searchBoard(String word, Integer page) {
         PageRequest pageRequest = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "date"));
-        return boardRepository.findByTitleContainingAndContentContaining(word, word, pageRequest);
+        return boardRepository.findByTitleContainingOrContentContaining(word, word, pageRequest);
     }
 }

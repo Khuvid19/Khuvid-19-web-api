@@ -14,7 +14,7 @@ import java.util.List;
 @Transactional
 public interface BoardRepository extends PagingAndSortingRepository<Board, Long> {
     Page<Board> findAll(Pageable pageable);
-    Page<Board> findByTitleContainingAndContentContaining(String title, String content, Pageable pageable);
+    Page<Board> findByTitleContainingOrContentContaining(String title, String content, Pageable pageable);
 
     List<Board> findByUser(User user);
 }
