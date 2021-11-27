@@ -69,7 +69,7 @@ public class BoardController {
 
     @GetMapping("/list")
     public Page<Board> searchBoard(@RequestParam String search, @RequestParam Integer page) {
-        return boardService.searchBoard(search, page-1);
+        return boardService.searchBoard(search, page);
     }
 
     @GetMapping("/user")
