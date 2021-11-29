@@ -1,6 +1,8 @@
 package khuvid19.vaccinated.Constants;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public enum AgeType {
@@ -14,12 +16,15 @@ public enum AgeType {
         this.koreanAge = koreanAge;
     }
 
-    public static Map<AgeType, String> getAllTypes(){
-        Map<AgeType, String> result;
-        result = new HashMap<>();
+    public static List getAllTypes(){
+        List ageType = new ArrayList();
+        Map<String, String> result;
         for (AgeType type : AgeType.values()){
-            result.put(type, type.koreanAge);
+            result = new HashMap<>();
+            result.put("code", type.toString());
+            result.put("value", type.koreanAge);
+            ageType.add(result);
         }
-        return result;
+        return ageType;
     }
 }

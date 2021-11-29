@@ -50,9 +50,9 @@ public class UserService {
 
     public User DummyService(String dummyString){
         User dummyUser = new User(dummyString, dummyString, "access_token", "picURl");
-        dummyUser = userRepository.save(dummyUser);
+        dummyUser.setNickName(dummyString);
         dummyUser.setJwtToken(jwtTokenProvider.createToken(dummyUser));
-        return dummyUser;
+        return userRepository.save(dummyUser);
     }
 
 

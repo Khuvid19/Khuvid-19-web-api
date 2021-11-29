@@ -1,6 +1,8 @@
 package khuvid19.vaccinated.Constants;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public enum SideEffectType {
@@ -20,12 +22,14 @@ public enum SideEffectType {
         return koreanName;
     }
 
-    public static Map<SideEffectType, String> getAllTypes() {
-        Map<SideEffectType, String> result;
-        result = new HashMap<>();
+    public static List<Map<String, String>> getAllTypes() {
+        List<Map<String, String>> result = new ArrayList<>();
         for (SideEffectType type :
                 SideEffectType.values()) {
-            result.put(type, type.koreanName);
+            HashMap<String, String> element = new HashMap<>();
+            element.put("code", type.toString());
+            element.put("value", type.koreanName);
+            result.add(element);
         }
         return result;
     }

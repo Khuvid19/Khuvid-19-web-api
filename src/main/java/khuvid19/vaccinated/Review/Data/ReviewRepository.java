@@ -8,7 +8,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 
-public interface ReviewRepository extends PagingAndSortingRepository<Review, String>, JpaSpecificationExecutor<Review> {
+public interface ReviewRepository extends PagingAndSortingRepository<Review, Long>, JpaSpecificationExecutor<Review> {
     Page<Review> findAll(Pageable pageable);
 
     Boolean existsReviewsByAuthor_IdAndVaccine(Long userId, VaccineType vaccine);

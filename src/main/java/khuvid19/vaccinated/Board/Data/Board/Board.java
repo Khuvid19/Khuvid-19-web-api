@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -26,7 +27,7 @@ public class Board {
     private User user;
 
     @Column
-    private LocalDate date;
+    private LocalDateTime date;
 
     @Column
     private Integer comments = 0;
@@ -35,7 +36,7 @@ public class Board {
         this.title = title;
         this.content = content;
         this.user = user;
-        this.date = LocalDate.now();
+        this.date = LocalDateTime.now();
     }
 
     public Board newComments(){

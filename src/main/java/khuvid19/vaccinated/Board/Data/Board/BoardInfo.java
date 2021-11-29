@@ -4,6 +4,7 @@ import khuvid19.vaccinated.Board.Data.Comment.CommentInfo;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -12,7 +13,7 @@ public class BoardInfo {
     String title;
     String userName;
     String content;
-    LocalDate date;
+    LocalDateTime date;
     Integer comments;
     List<CommentInfo> commentList;
 

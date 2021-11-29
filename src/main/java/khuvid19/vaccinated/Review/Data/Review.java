@@ -26,7 +26,8 @@ public class Review {
     @CreatedDate
     Date createdDate;
 
-    @ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "user_id")
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     User author;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -35,7 +36,7 @@ public class Review {
     VaccineType vaccine;
 
     @Enumerated(value = EnumType.STRING)
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     List<SideEffectType> sideEffects;
 
     Boolean haveDisease;

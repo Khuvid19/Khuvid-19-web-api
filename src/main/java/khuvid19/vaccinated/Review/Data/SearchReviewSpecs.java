@@ -12,23 +12,23 @@ import java.util.List;
 public class SearchReviewSpecs {
 
     public static Specification<Review> initial () {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.isNotNull(root);
+        return Specification.where(null);
     }
 
-    public static Specification<Review> vaccineEqual (VaccineType type) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("vaccine"), type);
+    public static Specification<Review> vaccineContains (List<VaccineType> types) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.isTrue(root.get("vaccine").in(types));
     }
 
     public static Specification<Review> sideEffectContains (List<SideEffectType> types) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.in(root.get("sideEffects").in(types));
+        return (root, query, criteriaBuilder) -> criteriaBuilder.isTrue(root.get("sideEffects").in(types));
     }
 
-    public static Specification<Review> genderEqual (Gender gender) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.in(root.get("user").get("gender").in(gender));
+    public static Specification<Review> genderContains (List<Gender> genders) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.isTrue(root.get("user").get("gender").in(genders));
     }
 
-    public static Specification<Review> ageEqual (AgeType age) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.in(root.get("user").get("age").in(age));
+    public static Specification<Review> ageContains (List<AgeType> ages) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.isTrue(root.get("user").get("age").in(ages));
     }
 
     public static Specification<Review> inoculatedBetween (Date start, Date end) {
@@ -37,5 +37,9 @@ public class SearchReviewSpecs {
         Date finalStart = start;
         Date finalEnd = end;
         return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("inoculatedDate"), finalStart, finalEnd);
+    }
+
+    public static Specification<Review> searchTextContains (String substr) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("detailDisc"), "%" + substr + "%");
     }
 }

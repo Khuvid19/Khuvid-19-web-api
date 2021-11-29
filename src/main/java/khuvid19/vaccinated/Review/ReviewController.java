@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -41,6 +42,18 @@ public class ReviewController {
         return reviewService.insertReview(mappedReview, securityUser.getUser());
     }
 
+    @PutMapping
+    public ResponseEntity putReview(@RequestBody ReviewInput updateReview,
+                                    @ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
+        return reviewService.updateReview(updateReview, securityUser.getUser());
+    }
+
+    @DeleteMapping
+    public HttpStatus deleteReview(@RequestParam Long id,
+                             @ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
+        return reviewService.removeReview(id, securityUser.getUser().getId());
+    }
+
     @PostMapping("/search")
     public Page<ReviewCard> searchReviews(@RequestParam Integer page, @RequestBody ReviewFilter filters) {
         return reviewService.searchPagedReview(page, filters);
@@ -52,12 +65,12 @@ public class ReviewController {
     }
 
     @GetMapping(path = "/types/sideEffects")
-    public Map<SideEffectType, String> getAllSideEffectTypes() {
+    public List<Map<String, String>> getAllSideEffectTypes() {
         return SideEffectType.getAllTypes();
     }
 
     @GetMapping(path = "/types/vaccine")
-    public Map<VaccineType, String> getAllVaccineTypes() {
+    public List<Map<String, String>> getAllVaccineTypes() {
         return VaccineType.getAllTypes();
     }
 

@@ -3,17 +3,15 @@ package khuvid19.vaccinated.LoginUser;
 import khuvid19.vaccinated.Configuration.JwtTokenProvider;
 import khuvid19.vaccinated.Constants.AgeType;
 import khuvid19.vaccinated.Constants.Gender;
-import khuvid19.vaccinated.LoginUser.Data.PostUser;
-import khuvid19.vaccinated.LoginUser.Data.SecurityUser;
-import khuvid19.vaccinated.LoginUser.Data.User;
+import khuvid19.vaccinated.LoginUser.Data.*;
 
-import khuvid19.vaccinated.LoginUser.Data.UserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -30,13 +28,13 @@ public class UserController {
     private final JwtTokenProvider tokenProvider;
 
     @PostMapping("/user")
-    public User setUserInfo(User user) {
+    public User setUserInfo(@RequestBody User user) {
         return userService.setUserInfo(user);
     }
 
     @PostMapping("/google")
-    public User loginByToken(@RequestParam(value = "access_token") String access_token) {
-        User user = userService.oauthLogin(access_token);
+    public User loginByToken(@RequestBody Token access_token) {
+        User user = userService.oauthLogin(access_token.getAccess_token());
         return user;
     }
 
@@ -47,12 +45,12 @@ public class UserController {
 
 
     @GetMapping("/types/age")
-    public Map<AgeType, String> getAgeTypes() {
+    public List getAgeTypes() {
         return AgeType.getAllTypes();
     }
 
     @GetMapping("/types/gender")
-    public Map<Gender, String> getGenderType() {
+    public List<Map> getGenderType() {
         return Gender.getAllTypes();
     }
 

@@ -6,18 +6,23 @@
 //import khuvid19.vaccinated.LoginUser.Data.User;
 //import khuvid19.vaccinated.LoginUser.UserRepository;
 //import khuvid19.vaccinated.Review.Data.DTO.ReviewCard;
+//import khuvid19.vaccinated.Review.Data.DTO.ReviewFilter;
+//import khuvid19.vaccinated.Review.Data.DTO.ReviewInput;
 //import khuvid19.vaccinated.Review.Data.Review;
+//import khuvid19.vaccinated.Review.Data.ReviewRepository;
 //import khuvid19.vaccinated.Review.ReviewService;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
+//import org.modelmapper.ModelMapper;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.data.domain.Page;
 //import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-//import org.springframework.http.HttpStatus;
 //
 //import javax.transaction.Transactional;
 //import java.util.ArrayList;
 //import java.util.List;
+//import java.util.Map;
 //
 //@SpringBootTest
 //@EnableJpaRepositories
@@ -27,7 +32,13 @@
 //    UserRepository userRepository;
 //
 //    @Autowired
+//    ReviewRepository reviewRepository;
+//
+//    @Autowired
 //    ReviewService reviewService;
+//
+//    @Autowired
+//    ModelMapper modelMapper;
 //
 //    private User dummyUser;
 //    private Review dummyReview;
@@ -37,7 +48,8 @@
 //
 //        dummyUser = new User("emailemail", "winter", null, "image");
 //        dummyUser.setGender(Gender.FEMALE);
-//        userRepository.save(dummyUser);
+//        User save = userRepository.save(dummyUser);
+//        dummyUser = save;
 //
 //        dummyReview = new Review();
 //        dummyReview.setDetailDisc("HAHAHAH");
@@ -47,13 +59,33 @@
 //        dummySideEffects.add(SideEffectType.FATIGUE);
 //        dummySideEffects.add(SideEffectType.HEADACHE);
 //        dummyReview.setSideEffects(dummySideEffects);
+//        reviewService.insertReview(dummyReview, dummyUser);
 //    }
 //
 //    @Test
 //    @Transactional
 //    void testInsertNewReview() {
-//        HttpStatus httpStatus = reviewService.insertReview(dummyReview, dummyUser);
+//        ReviewInput reviewInput = new ReviewInput();
+//        reviewInput.setVaccine(VaccineType.ANSEN_BOOST);
+//        Review mappedReview = modelMapper.map(reviewInput, Review.class);
+//        reviewService.insertReview(mappedReview, dummyUser);
+//
 //        List<ReviewCard> myReviews = reviewService.getMyReviews(dummyUser.getId());
-//        myReviews.isEmpty();
+//        System.out.println(myReviews.size());
+//    }
+//
+//    @Test
+//    void testSearchFilters() {
+//        ReviewFilter reviewFilter = new ReviewFilter();
+////        reviewFilter.setVaccines(List.of(new VaccineType[]{VaccineType.ANSEN, VaccineType.AZ_SECOND}));
+//        reviewFilter.setDetailDisc("iiiii");
+//        Page<ReviewCard> reviewCards = reviewService.searchPagedReview(0, reviewFilter);
+//        System.out.println(reviewCards.getContent());
+//    }
+//
+//    @Test
+//    void testGetSideEffects() {
+//        List<Map<SideEffectType, String>> allTypes = SideEffectType.getAllTypes();
+//        System.out.println(allTypes);
 //    }
 //}
