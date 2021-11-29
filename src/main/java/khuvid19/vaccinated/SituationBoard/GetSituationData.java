@@ -8,16 +8,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.text.SimpleDateFormat;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Optional;
 
 
@@ -31,7 +28,7 @@ public class GetSituationData {
     @Value("${portal.secretkey}") private String portalKey;
     @Value("${portal.url}") private String portalUrl;
 
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 0 10 * * *")
     public void getData() throws UnsupportedEncodingException {
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -39,6 +36,8 @@ public class GetSituationData {
         String serviceKey_Decoder = URLDecoder.decode(portalKey.toString(), "UTF-8");
 
         String url = portalUrl + "?ServiceKey=" + serviceKey_Decoder + "&startCreateDt=" + today.format(formatter);
+
+
 
         RestTemplate restTemplate = new RestTemplate();
         CovidResponse response = restTemplate.getForObject(url, CovidResponse.class);
