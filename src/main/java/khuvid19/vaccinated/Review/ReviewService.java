@@ -110,12 +110,15 @@ public class ReviewService {
             return new ResponseEntity<>(HttpStatus.GONE);
         }
 
+        sideEffectsService.updateSideEffectsCount(foundReview.getSideEffects(), foundReview.getVaccine(),
+                inputReview.getSideEffects(), inputReview.getVaccine());
+
         modelMapper.map(inputReview, foundReview);
         if (inputReview.getSideEffects().isEmpty()) {
             foundReview.setSideEffects(new ArrayList<>());
         }
-
         reviewRepository.save(foundReview);
+
         ReviewCard modifiedReviewCard = modelMapper.map(foundReview, ReviewCard.class);
         return new ResponseEntity<>(modifiedReviewCard, HttpStatus.OK);
     }

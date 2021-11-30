@@ -28,6 +28,10 @@ public class SideEffectCount {
         count++;
     }
 
+    public void subtractCount() {
+        count--;
+    }
+
     public SideEffectCount(SideEffectType type, VaccineType vaccineType) {
         this.type = type;
         this.vaccineType = vaccineType;

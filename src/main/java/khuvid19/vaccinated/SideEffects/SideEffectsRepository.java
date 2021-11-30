@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface SideEffectsRepository extends JpaRepository<SideEffectCount, SideEffectType> {
     List<SideEffectCount> findAllByVaccineTypeOrderByCountDesc(VaccineType type);
-    List<SideEffectCount> findSideEffectCountsByTypeIn(List<SideEffectType> types);
+    List<SideEffectCount> findSideEffectCountsByTypeInAndVaccineTypeEquals(List<SideEffectType> type, VaccineType vaccineType);
 }
