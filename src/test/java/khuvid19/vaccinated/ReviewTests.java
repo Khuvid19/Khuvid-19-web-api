@@ -92,7 +92,7 @@
 //        reviewFilter.setVaccines(List.of(new VaccineType[]{VaccineType.ANSEN, VaccineType.AZ_SECOND}));
 //        reviewFilter.setSideEffects(filterSideEffects);
 //        reviewFilter.setAuthorAges(filterAgeTypes);
-//        reviewFilter.setStartInoculated(Date.parse("2021-11-30"));
+////        reviewFilter.setStartInoculated(Date.parse("2021-11-30"));
 //        reviewFilter.setDetailDisc("HA");
 //        Page<ReviewCard> reviewCards = reviewService.searchPagedReview(0, reviewFilter);
 //        System.out.println(reviewCards.getContent());
@@ -103,4 +103,6 @@
 //        List<Map<String, String>> allTypes = SideEffectType.getAllTypes();
 //        System.out.println(allTypes);
 //    }
+//
+//
 //}

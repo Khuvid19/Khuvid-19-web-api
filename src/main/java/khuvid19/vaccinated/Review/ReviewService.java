@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -110,6 +111,10 @@ public class ReviewService {
         }
 
         modelMapper.map(inputReview, foundReview);
+        if (inputReview.getSideEffects().isEmpty()) {
+            foundReview.setSideEffects(new ArrayList<>());
+        }
+
         reviewRepository.save(foundReview);
         ReviewCard modifiedReviewCard = modelMapper.map(foundReview, ReviewCard.class);
         return new ResponseEntity<>(modifiedReviewCard, HttpStatus.OK);
