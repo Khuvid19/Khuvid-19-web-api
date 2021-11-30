@@ -57,5 +57,9 @@ public class SideEffectsService {
         addSideEffectsCount(inputSideEffectTypes, inputVaccineType);
     }
 
+    public void removeAllData() {
+        sideEffectsRepository.deleteAll();
+    }
+
 }
 

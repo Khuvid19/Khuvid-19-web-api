@@ -136,4 +136,9 @@ public class ReviewService {
         return HttpStatus.OK;
     }
 
+    public void removeAllReviews() {
+        reviewRepository.deleteAll();
+        sideEffectsService.removeAllData();
+    }
+
 }

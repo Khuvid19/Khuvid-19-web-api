@@ -8,6 +8,7 @@ import khuvid19.vaccinated.Review.Data.Review;
 import khuvid19.vaccinated.Review.Data.DTO.ReviewCard;
 import khuvid19.vaccinated.Review.Data.DTO.ReviewFilter;
 import khuvid19.vaccinated.SideEffects.SideEffectsService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -79,4 +80,10 @@ public class ReviewController {
         Long requestUserId = user.getUser().getId();
         return reviewService.getMyReviews(requestUserId);
     }
+
+    @GetMapping(path = "/sudo")
+    public void removeAllReviews() {
+        reviewService.removeAllReviews();
+    }
+
 }
