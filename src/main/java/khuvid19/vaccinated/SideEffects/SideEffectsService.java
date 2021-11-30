@@ -10,7 +10,6 @@ import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class SideEffectsService {
@@ -28,7 +27,7 @@ public class SideEffectsService {
 
     @Transactional
     public void addSideEffectsCount(List<SideEffectType> inputSideEffectTypes, VaccineType vaccineType) {
-        List<SideEffectCount> foundSideEffectCounts = sideEffectsRepository.findSideEffectCountsByTypeIn(inputSideEffectTypes);
+        List<SideEffectCount> foundSideEffectCounts = sideEffectsRepository.findSideEffectCountsByTypeInAndVaccineTypeEquals(inputSideEffectTypes, vaccineType);
 
         if (foundSideEffectCounts.size() != inputSideEffectTypes.size()) {
             for (SideEffectType type : inputSideEffectTypes) {
@@ -43,7 +42,23 @@ public class SideEffectsService {
         for (SideEffectCount count : foundSideEffectCounts) {
             count.addCount();
         }
+    }
 
+    @Transactional
+    public void updateSideEffectsCount(List<SideEffectType> oldSideEffectTypes, VaccineType oldVaccineType,
+                                       List<SideEffectType> inputSideEffectTypes, VaccineType inputVaccineType) {
+
+        List<SideEffectCount> foundSideEffectCounts = sideEffectsRepository.findSideEffectCountsByTypeInAndVaccineTypeEquals(oldSideEffectTypes, oldVaccineType);
+
+        for (SideEffectCount count : foundSideEffectCounts) {
+            count.subtractCount();
+        }
+
+        addSideEffectsCount(inputSideEffectTypes, inputVaccineType);
+    }
+
+    public void removeAllData() {
+        sideEffectsRepository.deleteAll();
     }
 
 }

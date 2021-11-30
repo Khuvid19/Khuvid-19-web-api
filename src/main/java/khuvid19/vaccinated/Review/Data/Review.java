@@ -39,6 +39,8 @@ public class Review {
     @ElementCollection(fetch = FetchType.EAGER)
     List<SideEffectType> sideEffects;
 
+    String etcSideEffect;
+
     Boolean haveDisease;
     String diseaseDisc;
 

@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -47,7 +48,11 @@ public class ReviewService {
         }
 
         if (filters.getSideEffects() != null) {
-            specification = specification.and(SearchReviewSpecs.sideEffectContains(filters.getSideEffects()));
+            Specification<Review> effectsSpecification = SearchReviewSpecs.initial();
+            for (SideEffectType type : filters.getSideEffects()) {
+                effectsSpecification = effectsSpecification.or(SearchReviewSpecs.sideEffectContain(type));
+            }
+            specification = specification.and(effectsSpecification);
         }
 
         if (filters.getStartInoculated() != null || filters.getEndInoculated() != null) {
@@ -105,8 +110,15 @@ public class ReviewService {
             return new ResponseEntity<>(HttpStatus.GONE);
         }
 
+        sideEffectsService.updateSideEffectsCount(foundReview.getSideEffects(), foundReview.getVaccine(),
+                inputReview.getSideEffects(), inputReview.getVaccine());
+
         modelMapper.map(inputReview, foundReview);
+        if (inputReview.getSideEffects().isEmpty()) {
+            foundReview.setSideEffects(new ArrayList<>());
+        }
         reviewRepository.save(foundReview);
+
         ReviewCard modifiedReviewCard = modelMapper.map(foundReview, ReviewCard.class);
         return new ResponseEntity<>(modifiedReviewCard, HttpStatus.OK);
     }
@@ -122,6 +134,11 @@ public class ReviewService {
         }
         reviewRepository.deleteById(reviewId);
         return HttpStatus.OK;
+    }
+
+    public void removeAllReviews() {
+        reviewRepository.deleteAll();
+        sideEffectsService.removeAllData();
     }
 
 }

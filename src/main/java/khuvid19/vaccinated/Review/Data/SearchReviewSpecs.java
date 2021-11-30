@@ -19,16 +19,16 @@ public class SearchReviewSpecs {
         return (root, query, criteriaBuilder) -> criteriaBuilder.isTrue(root.get("vaccine").in(types));
     }
 
-    public static Specification<Review> sideEffectContains (List<SideEffectType> types) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.isTrue(root.get("sideEffects").in(types));
+    public static Specification<Review> sideEffectContain(SideEffectType type) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.isMember(type, root.get("sideEffects"));
     }
 
     public static Specification<Review> genderContains (List<Gender> genders) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.isTrue(root.get("user").get("gender").in(genders));
+        return (root, query, criteriaBuilder) -> criteriaBuilder.isTrue(root.get("author").get("gender").in(genders));
     }
 
     public static Specification<Review> ageContains (List<AgeType> ages) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.isTrue(root.get("user").get("age").in(ages));
+        return (root, query, criteriaBuilder) -> criteriaBuilder.isTrue(root.get("author").get("age").in(ages));
     }
 
     public static Specification<Review> inoculatedBetween (Date start, Date end) {

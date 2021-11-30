@@ -1,5 +1,6 @@
 //package khuvid19.vaccinated;
 //
+//import khuvid19.vaccinated.Constants.AgeType;
 //import khuvid19.vaccinated.Constants.Gender;
 //import khuvid19.vaccinated.Constants.SideEffectType;
 //import khuvid19.vaccinated.Constants.VaccineType;
@@ -20,7 +21,9 @@
 //import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 //
 //import javax.transaction.Transactional;
+//import java.time.Instant;
 //import java.util.ArrayList;
+//import java.util.Date;
 //import java.util.List;
 //import java.util.Map;
 //
@@ -48,6 +51,7 @@
 //
 //        dummyUser = new User("emailemail", "winter", null, "image");
 //        dummyUser.setGender(Gender.FEMALE);
+//        dummyUser.setAge(AgeType.TEENAGER);
 //        User save = userRepository.save(dummyUser);
 //        dummyUser = save;
 //
@@ -77,15 +81,28 @@
 //    @Test
 //    void testSearchFilters() {
 //        ReviewFilter reviewFilter = new ReviewFilter();
-////        reviewFilter.setVaccines(List.of(new VaccineType[]{VaccineType.ANSEN, VaccineType.AZ_SECOND}));
-//        reviewFilter.setDetailDisc("iiiii");
+//
+//        List<SideEffectType> filterSideEffects = new ArrayList<>();
+//        filterSideEffects.add(SideEffectType.HEADACHE);
+//        filterSideEffects.add(SideEffectType.ITCHING);
+//
+//        List<AgeType> filterAgeTypes = new ArrayList<>();
+//        filterAgeTypes.add(AgeType.TEENAGER);
+//
+//        reviewFilter.setVaccines(List.of(new VaccineType[]{VaccineType.ANSEN, VaccineType.AZ_SECOND}));
+//        reviewFilter.setSideEffects(filterSideEffects);
+//        reviewFilter.setAuthorAges(filterAgeTypes);
+////        reviewFilter.setStartInoculated(Date.parse("2021-11-30"));
+//        reviewFilter.setDetailDisc("HA");
 //        Page<ReviewCard> reviewCards = reviewService.searchPagedReview(0, reviewFilter);
 //        System.out.println(reviewCards.getContent());
 //    }
 //
 //    @Test
 //    void testGetSideEffects() {
-//        List<Map<SideEffectType, String>> allTypes = SideEffectType.getAllTypes();
+//        List<Map<String, String>> allTypes = SideEffectType.getAllTypes();
 //        System.out.println(allTypes);
 //    }
+//
+//
 //}
