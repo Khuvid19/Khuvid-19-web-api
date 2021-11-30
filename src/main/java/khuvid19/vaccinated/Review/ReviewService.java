@@ -47,7 +47,11 @@ public class ReviewService {
         }
 
         if (filters.getSideEffects() != null) {
-            specification = specification.and(SearchReviewSpecs.sideEffectContains(filters.getSideEffects()));
+            Specification<Review> effectsSpecification = SearchReviewSpecs.initial();
+            for (SideEffectType type : filters.getSideEffects()) {
+                effectsSpecification = effectsSpecification.or(SearchReviewSpecs.sideEffectContain(type));
+            }
+            specification = specification.and(effectsSpecification);
         }
 
         if (filters.getStartInoculated() != null || filters.getEndInoculated() != null) {
