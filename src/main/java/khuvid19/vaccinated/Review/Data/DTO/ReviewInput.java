@@ -27,6 +27,8 @@ public class ReviewInput {
     @ElementCollection
     List<SideEffectType> sideEffects;
 
+    String etcSideEffect;
+
     Boolean haveDisease;
     String diseaseDisc;
 

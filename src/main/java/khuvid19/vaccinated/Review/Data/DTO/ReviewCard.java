@@ -20,6 +20,7 @@ public class ReviewCard {
     private Date createdDate;
     private Date inoculatedDate;
     private List<SideEffectType> sideEffects;
+    String etcSideEffect;
     private Boolean haveDisease;
     private String diseaseDisc;
     private String detailDisc;
