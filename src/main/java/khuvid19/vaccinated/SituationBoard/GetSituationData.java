@@ -10,8 +10,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -29,14 +29,13 @@ public class GetSituationData {
 
     @Scheduled(cron = "0 0 10 * * *")
     public void getData() throws UnsupportedEncodingException {
+
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 
-        String serviceKey_Decoder = URLDecoder.decode(portalKey, StandardCharsets.UTF_8);
+        String serviceKey_Decoder = URLDecoder.decode(portalKey.toString(), "UTF-8");
 
         String url = portalUrl + "?ServiceKey=" + serviceKey_Decoder + "&startCreateDt=" + today.format(formatter);
-
-
 
         RestTemplate restTemplate = new RestTemplate();
         CovidResponse response = restTemplate.getForObject(url, CovidResponse.class);
