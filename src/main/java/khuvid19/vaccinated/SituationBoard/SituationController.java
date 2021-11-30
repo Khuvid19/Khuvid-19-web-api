@@ -30,10 +30,6 @@ public class SituationController {
 
     private final CovidRepository covidRepository;
 
-//    @GetMapping("/covid")
-//    public CovidResponse getCovidInfo() {
-//        return infoRepo.findByDate(LocalDate.now()).get();
-//    }
 
     @GetMapping("/test")
     public Object get() throws UnsupportedEncodingException {
@@ -93,7 +89,6 @@ public class SituationController {
 
         if (todayDate.isPresent()) {
             return todayDate.get();
-        }
-        else return null;
+        } else return covidRepository.findByDate(today.minusDays(1)).get();
     }
 }
