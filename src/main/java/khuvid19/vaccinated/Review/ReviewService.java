@@ -82,32 +82,32 @@ public class ReviewService {
                 .collect(Collectors.toList());
     }
 
-    public HttpStatus insertReview(Review receivedReview, User user) {
+    public ResponseEntity insertReview(Review receivedReview, User user) {
         List<SideEffectType> inputSideEffectTypes = receivedReview.getSideEffects();
         VaccineType inputVaccineType = receivedReview.getVaccine();
         Boolean isDuplicatedReview = reviewRepository.existsReviewsByAuthor_IdAndVaccine(user.getId(), receivedReview.getVaccine());
 
         if (isDuplicatedReview) {
-            return HttpStatus.GONE;
+            return ResponseEntity.status(HttpStatus.GONE).build();
         }
         receivedReview.setAuthor(user);
         reviewRepository.save(receivedReview);
         if (receivedReview.getSideEffects() != null) {
             sideEffectsService.addSideEffectsCount(inputSideEffectTypes, inputVaccineType);
         }
-        return HttpStatus.OK;
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     public ResponseEntity updateReview(ReviewInput inputReview, User user) {
         Long targetId = inputReview.getId();
         Optional<Review> optionalFoundReview = reviewRepository.findById(targetId);
         if (optionalFoundReview.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.GONE);
+            return ResponseEntity.status(HttpStatus.GONE).build();
         }
         Review foundReview = optionalFoundReview.get();
 
         if (!foundReview.getAuthor().getId().equals(user.getId())) {
-            return new ResponseEntity<>(HttpStatus.GONE);
+            return ResponseEntity.status(HttpStatus.GONE).build();
         }
 
         sideEffectsService.updateSideEffectsCount(foundReview.getSideEffects(), foundReview.getVaccine(),
@@ -120,23 +120,23 @@ public class ReviewService {
         reviewRepository.save(foundReview);
 
         ReviewCard modifiedReviewCard = modelMapper.map(foundReview, ReviewCard.class);
-        return new ResponseEntity<>(modifiedReviewCard, HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    public HttpStatus removeReview(Long reviewId, Long userId) {
+    public ResponseEntity removeReview(Long reviewId, Long userId) {
         Optional<Review> optionalReview = reviewRepository.findById(reviewId);
         if (optionalReview.isEmpty()) {
-            return HttpStatus.GONE;
+            return ResponseEntity.status(HttpStatus.GONE).build();
         }
 
         if (!optionalReview.get().getAuthor().getId().equals(userId)) {
-            return HttpStatus.GONE;
+            return ResponseEntity.status(HttpStatus.GONE).build();
         }
 
         Review review = optionalReview.get();
         sideEffectsService.subtractSideEffectCount(review.getSideEffects(), review.getVaccine());
         reviewRepository.deleteById(reviewId);
-        return HttpStatus.OK;
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     public void removeAllReviews() {
