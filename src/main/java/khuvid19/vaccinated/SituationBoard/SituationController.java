@@ -16,6 +16,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -40,6 +42,8 @@ public class SituationController {
         String serviceKey_Decoder = URLDecoder.decode(portalKey.toString(), "UTF-8");
 
         String url = portalUrl + "?ServiceKey=" + serviceKey_Decoder + "&startCreateDt=" + today.format(formatter);
+
+        log.info(url);
 
         RestTemplate restTemplate = new RestTemplate();
         CovidResponse response = restTemplate.getForObject(url, CovidResponse.class);
@@ -82,13 +86,24 @@ public class SituationController {
     }
 
     @GetMapping("/covid")
-    public CovidData getCovidData(){
+    public List<CovidData> getCovidData(){
         LocalDate today = LocalDate.now();
 
         Optional<CovidData> todayDate = covidRepository.findByDate(today);
+        List<CovidData> covidList = new ArrayList<>();
 
         if (todayDate.isPresent()) {
-            return todayDate.get();
-        } else return covidRepository.findByDate(today.minusDays(1)).get();
+            covidList.add(todayDate.get());
+            Optional<CovidData> yesterday = covidRepository.findByDate(today.minusDays(1));
+
+            covidList.add(yesterday.get());
+        }else{
+            Optional<CovidData> yesterday = covidRepository.findByDate(today.minusDays(1));
+            Optional<CovidData> yesterday2 = covidRepository.findByDate(today.minusDays(2));
+
+            covidList.add(yesterday.get());
+            covidList.add(yesterday2.get());
+        }
+        return covidList;
     }
 }
