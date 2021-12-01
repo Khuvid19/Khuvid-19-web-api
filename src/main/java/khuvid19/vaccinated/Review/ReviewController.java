@@ -8,11 +8,9 @@ import khuvid19.vaccinated.Review.Data.Review;
 import khuvid19.vaccinated.Review.Data.DTO.ReviewCard;
 import khuvid19.vaccinated.Review.Data.DTO.ReviewFilter;
 import khuvid19.vaccinated.SideEffects.SideEffectsService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -37,8 +35,8 @@ public class ReviewController {
     }
 
     @PostMapping
-    public HttpStatus postNewReview(@RequestBody ReviewInput inputReview,
-                                    @ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
+    public ResponseEntity postNewReview(@RequestBody ReviewInput inputReview,
+                                        @ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
         Review mappedReview = modelMapper.map(inputReview, Review.class);
         return reviewService.insertReview(mappedReview, securityUser.getUser());
     }
@@ -50,8 +48,8 @@ public class ReviewController {
     }
 
     @DeleteMapping
-    public HttpStatus deleteReview(@RequestParam Long id,
-                             @ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
+    public ResponseEntity deleteReview(@RequestParam Long id,
+                                       @ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
         return reviewService.removeReview(id, securityUser.getUser().getId());
     }
 
