@@ -45,15 +45,17 @@ public class SideEffectsService {
     }
 
     @Transactional
-    public void updateSideEffectsCount(List<SideEffectType> oldSideEffectTypes, VaccineType oldVaccineType,
-                                       List<SideEffectType> inputSideEffectTypes, VaccineType inputVaccineType) {
-
+    public void subtractSideEffectCount(List<SideEffectType> oldSideEffectTypes, VaccineType oldVaccineType) {
         List<SideEffectCount> foundSideEffectCounts = sideEffectsRepository.findSideEffectCountsByTypeInAndVaccineTypeEquals(oldSideEffectTypes, oldVaccineType);
-
         for (SideEffectCount count : foundSideEffectCounts) {
             count.subtractCount();
         }
+    }
 
+    @Transactional
+    public void updateSideEffectsCount(List<SideEffectType> oldSideEffectTypes, VaccineType oldVaccineType,
+                                       List<SideEffectType> inputSideEffectTypes, VaccineType inputVaccineType) {
+        subtractSideEffectCount(oldSideEffectTypes, oldVaccineType);
         addSideEffectsCount(inputSideEffectTypes, inputVaccineType);
     }
 

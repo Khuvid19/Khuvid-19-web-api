@@ -132,6 +132,9 @@ public class ReviewService {
         if (!optionalReview.get().getAuthor().getId().equals(userId)) {
             return HttpStatus.GONE;
         }
+
+        Review review = optionalReview.get();
+        sideEffectsService.subtractSideEffectCount(review.getSideEffects(), review.getVaccine());
         reviewRepository.deleteById(reviewId);
         return HttpStatus.OK;
     }
