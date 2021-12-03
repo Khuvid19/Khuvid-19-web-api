@@ -9,7 +9,7 @@ import khuvid19.vaccinated.LoginUser.Data.SecurityUser;
 import khuvid19.vaccinated.LoginUser.Data.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -27,33 +27,33 @@ public class BoardController {
     private final BoardRepository boardRepository;
 
     @PostMapping
-    public HttpStatus newBoard(@RequestBody PostBoard postBoard, @AuthenticationPrincipal SecurityUser securityUser) {
+    public ResponseEntity newBoard(@RequestBody PostBoard postBoard, @ApiIgnore@AuthenticationPrincipal SecurityUser securityUser) {
         return boardService.saveBoard(securityUser.getUser(),postBoard);
     }
 
     @PutMapping()
-    public HttpStatus reviseBoard(@RequestBody ReviseBoard post, @AuthenticationPrincipal SecurityUser securityUser) {
+    public ResponseEntity reviseBoard(@RequestBody ReviseBoard post, @ApiIgnore@AuthenticationPrincipal SecurityUser securityUser) {
         User user = securityUser.getUser();
         return boardService.reviseBoard(post, user);
     }
 
     @DeleteMapping()
-    public HttpStatus deleteBoard(@RequestBody ReviseBoard board, @AuthenticationPrincipal SecurityUser user) {
+    public ResponseEntity deleteBoard(@RequestBody ReviseBoard board, @ApiIgnore@AuthenticationPrincipal SecurityUser user) {
         return boardService.deleteBoard(board.getBoardId(), user.getUser());
     }
 
     @PostMapping("/comment")
-    public HttpStatus newComment(@RequestBody PostComment commentInfo, @AuthenticationPrincipal SecurityUser securityUser) {
+    public ResponseEntity newComment(@RequestBody PostComment commentInfo, @ApiIgnore@AuthenticationPrincipal SecurityUser securityUser) {
         return boardService.newComment(securityUser.getUser(), commentInfo);
     }
 
     @PutMapping("/comment")
-    public HttpStatus reviseComment(@RequestBody PostComment postComment, @AuthenticationPrincipal SecurityUser user) {
+    public ResponseEntity reviseComment(@RequestBody PostComment postComment,@ApiIgnore @AuthenticationPrincipal SecurityUser user) {
         return boardService.reviseComment(postComment, user.getUser());
     }
 
     @DeleteMapping("/comment")
-    public HttpStatus deleteComment(@RequestBody PostComment postComment, @AuthenticationPrincipal SecurityUser user) {
+    public ResponseEntity deleteComment(@RequestBody PostComment postComment, @ApiIgnore@AuthenticationPrincipal SecurityUser user) {
         return boardService.deleteComment(postComment.getCommentId(), postComment.getBoardId(), user.getUser());
     }
 

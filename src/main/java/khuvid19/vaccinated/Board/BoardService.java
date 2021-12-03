@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,47 +28,45 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
 
-    public HttpStatus saveBoard(User user, PostBoard postBoard){
-        Optional<User> byId = userRepository.findById(user.getId());
-        Board board = new Board(postBoard.getTitle(), postBoard.getContent(), user);
+    public ResponseEntity saveBoard(User user, PostBoard postBoard){
+        Optional<User> userById = userRepository.findById(user.getId());
+        if (userById.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        Board board = new Board(postBoard.getTitle(), postBoard.getContent(),userById.get());
         boardRepository.save(board);
-        return HttpStatus.OK;
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    public HttpStatus reviseBoard(ReviseBoard newBoard, User user) {
+    public ResponseEntity reviseBoard(ReviseBoard newBoard, User user) {
         Optional<Board> board = boardRepository.findById(newBoard.getBoardId());
         if (board.isEmpty()) {
-            return HttpStatus.GONE;
+            return ResponseEntity.status(HttpStatus.GONE).build();
         }
         Board savedBoard = board.get();
 
-        if (savedBoard.getUser().getId().equals(user.getId())) {
-            Board revised = board.get();
-            revised.setTitle(newBoard.getTitle());
-            revised.setContent(newBoard.getContent());
-            boardRepository.save(revised);
-            return HttpStatus.OK;
+        if (!savedBoard.getUser().getId().equals(user.getId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        else {
-            return HttpStatus.UNAUTHORIZED;
-        }
+        Board revised = board.get();
+        revised.setTitle(newBoard.getTitle());
+        revised.setContent(newBoard.getContent());
+        boardRepository.save(revised);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 
-    public HttpStatus deleteBoard(Long boardId, User user) {
+    public ResponseEntity deleteBoard(Long boardId, User user) {
         Optional<Board> board = boardRepository.findById(boardId);
         if (board.isEmpty()){
-            return HttpStatus.GONE;
+            return ResponseEntity.status(HttpStatus.GONE).build();
         }
         Board savedBoard = board.get();
-
-        if (savedBoard.getUser().getId().equals(user.getId())) {
-            boardRepository.delete(board.get());
-            return HttpStatus.OK;
+        if (!savedBoard.getUser().getId().equals(user.getId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        else {
-            return HttpStatus.UNAUTHORIZED;
-        }
+        boardRepository.delete(savedBoard);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     public Page<Board> getBoards(Integer page) {
@@ -75,11 +74,10 @@ public class BoardService {
         return boardRepository.findAll(pageRequest);
     }
 
-    public HttpStatus newComment(User user, PostComment postComment) {
+    public ResponseEntity newComment(User user, PostComment postComment) {
         Optional<Board> board = boardRepository.findById(postComment.getBoardId());
-
         if (board.isEmpty()) {
-            return HttpStatus.GONE;
+            return ResponseEntity.status(HttpStatus.GONE).build();
         }
 
         Comment comment = new Comment(
@@ -91,43 +89,43 @@ public class BoardService {
         commentRepository.save(comment);
         boardRepository.save(board.get().newComments());
 
-        return HttpStatus.OK;
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    public HttpStatus reviseComment(PostComment postComment, User user) {
+    public ResponseEntity reviseComment(PostComment postComment, User user) {
         Optional<Board> board = boardRepository.findById(postComment.getBoardId());
         if (board.isEmpty()) {
-            return HttpStatus.GONE;
+            return ResponseEntity.status(HttpStatus.GONE).build();
         }
         Optional<Comment> comment = commentRepository.findById(postComment.getCommentId());
         if (comment.isEmpty()) {
-            return HttpStatus.GONE;
+            return ResponseEntity.status(HttpStatus.GONE).build();
         }
-        if (comment.get().getUser().getId().equals(user.getId())) {
-            Comment revised = comment.get();
-            revised.setComment(postComment.getContent());
-            commentRepository.save(revised);
+        if (!comment.get().getUser().getId().equals(user.getId())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        Comment revised = comment.get();
+        revised.setComment(postComment.getContent());
+        commentRepository.save(revised);
 
-            return HttpStatus.OK;
-        }
-        return HttpStatus.UNAUTHORIZED;
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    public HttpStatus deleteComment(Long commentId, Long boardId, User user) {
+    public ResponseEntity deleteComment(Long commentId, Long boardId, User user) {
         Optional<Comment> comment = commentRepository.findById(commentId);
         Optional<Board> board = boardRepository.findById(boardId);
         if (comment.isEmpty()) {
-            return HttpStatus.GONE;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         if (board.isEmpty()) {
-            return HttpStatus.GONE;
+            return ResponseEntity.status(HttpStatus.GONE).build();
         }
-        if (comment.get().getUser().getId().equals(user.getId())) {
-            commentRepository.deleteById(comment.get().getCommentId());
-            boardRepository.save(board.get().deleteComments());
-            return HttpStatus.OK;
+        if (!comment.get().getUser().getId().equals(user.getId())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        return HttpStatus.UNAUTHORIZED;
+        commentRepository.deleteById(comment.get().getCommentId());
+        boardRepository.save(board.get().deleteComments());
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 
