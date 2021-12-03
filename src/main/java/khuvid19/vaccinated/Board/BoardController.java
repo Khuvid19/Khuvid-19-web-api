@@ -9,7 +9,6 @@ import khuvid19.vaccinated.LoginUser.Data.SecurityUser;
 import khuvid19.vaccinated.LoginUser.Data.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -44,17 +43,17 @@ public class BoardController {
     }
 
     @PostMapping("/comment")
-    public HttpStatus newComment(@RequestBody PostComment commentInfo, @AuthenticationPrincipal SecurityUser securityUser) {
+    public ResponseEntity newComment(@RequestBody PostComment commentInfo, @AuthenticationPrincipal SecurityUser securityUser) {
         return boardService.newComment(securityUser.getUser(), commentInfo);
     }
 
     @PutMapping("/comment")
-    public HttpStatus reviseComment(@RequestBody PostComment postComment, @AuthenticationPrincipal SecurityUser user) {
+    public ResponseEntity reviseComment(@RequestBody PostComment postComment, @AuthenticationPrincipal SecurityUser user) {
         return boardService.reviseComment(postComment, user.getUser());
     }
 
     @DeleteMapping("/comment")
-    public HttpStatus deleteComment(@RequestBody PostComment postComment, @AuthenticationPrincipal SecurityUser user) {
+    public ResponseEntity deleteComment(@RequestBody PostComment postComment, @AuthenticationPrincipal SecurityUser user) {
         return boardService.deleteComment(postComment.getCommentId(), postComment.getBoardId(), user.getUser());
     }
 
