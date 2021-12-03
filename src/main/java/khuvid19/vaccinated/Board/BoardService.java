@@ -31,7 +31,7 @@ public class BoardService {
     public ResponseEntity saveBoard(User user, PostBoard postBoard){
         Optional<User> userById = userRepository.findById(user.getId());
         if (userById.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         Board board = new Board(postBoard.getTitle(), postBoard.getContent(),userById.get());
         boardRepository.save(board);
@@ -102,7 +102,7 @@ public class BoardService {
             return ResponseEntity.status(HttpStatus.GONE).build();
         }
         if (!comment.get().getUser().getId().equals(user.getId())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         Comment revised = comment.get();
         revised.setComment(postComment.getContent());
@@ -121,7 +121,7 @@ public class BoardService {
             return ResponseEntity.status(HttpStatus.GONE).build();
         }
         if (!comment.get().getUser().getId().equals(user.getId())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         commentRepository.deleteById(comment.get().getCommentId());
         boardRepository.save(board.get().deleteComments());
