@@ -44,5 +44,6 @@ public class Review {
     Boolean haveDisease;
     String diseaseDisc;
 
+    @Column(length = 5000)
     String detailDisc;
 }
