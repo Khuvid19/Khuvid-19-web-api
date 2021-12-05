@@ -74,7 +74,7 @@ public class BoardController {
 
     @GetMapping("/user")
     public List<Board> getMyBoards(@ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
-        return boardRepository.findByUser(securityUser.getUser());
+        return boardRepository.findAllByUser_IdOrderByDateDesc(securityUser.getUser().getId());
     }
 
 }
