@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 public enum VaccineType {
-    ANSEN("얀센"), ANSEN_BOOST("얀센 부스터샷"),
     PFIZER_FIRST("화이자 1차"), PFIZER_SECOND("화이자 2차"),
     MODERNA_FIRST("모더나 1차"), MODERNA_SECOND("모더나 2차"),
-    AZ_FIRST("AZ 1차"), AZ_SECOND("AZ 2차");
+    AZ_FIRST("AZ 1차"), AZ_SECOND("AZ 2차"),
+    ANSEN("얀센"), ANSEN_BOOST("얀센 부스터샷");
 
     private final String koreanName;
 
