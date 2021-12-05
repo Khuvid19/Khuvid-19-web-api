@@ -20,7 +20,7 @@ public class Board {
     private Long Id;
     @Column
     private String title;
-    @Column
+    @Column(length=5000)
     private String content;
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name="user_id")

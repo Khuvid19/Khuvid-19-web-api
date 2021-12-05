@@ -22,7 +22,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
 
-    @Column
+    @Column(length = 1000)
     private String comment;
 
     @ManyToOne(targetEntity = User.class)
