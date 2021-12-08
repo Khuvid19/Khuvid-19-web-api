@@ -2,6 +2,8 @@ package khuvid19.vaccinated.SideEffects;
 
 import khuvid19.vaccinated.Constants.SideEffectType;
 import khuvid19.vaccinated.Constants.VaccineType;
+import khuvid19.vaccinated.Review.Data.ReviewRepository;
+import khuvid19.vaccinated.SideEffects.Data.DTO.SideEffectStatistic;
 import khuvid19.vaccinated.SideEffects.Data.SideEffectCount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,16 +15,21 @@ import java.util.Map;
 
 @Service
 public class SideEffectsService {
+
     @Autowired
     SideEffectsRepository sideEffectsRepository;
 
-    public Map<String, Integer> getAllSideEffectsCountsByVaccine(VaccineType vaccineType) {
+    @Autowired
+    ReviewRepository reviewRepository;
+
+    public SideEffectStatistic getAllSideEffectsCountsByVaccine(VaccineType vaccineType) {
+        Integer vaccineCount = reviewRepository.findReviewsByVaccineEquals(vaccineType);
         List<SideEffectCount> allCounts = sideEffectsRepository.findAllByVaccineTypeOrderByCountDesc(vaccineType);
         Map<String, Integer> result = new HashMap<>();
         for (SideEffectCount count: allCounts) {
             result.put(count.getType().name(), count.getCount());
         }
-        return result;
+        return new SideEffectStatistic(vaccineCount, result);
     }
 
     @Transactional

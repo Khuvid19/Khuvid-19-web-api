@@ -13,5 +13,7 @@ public interface ReviewRepository extends PagingAndSortingRepository<Review, Lon
 
     Boolean existsReviewsByAuthor_IdAndVaccine(Long userId, VaccineType vaccine);
     List<Review> findAllByAuthor_Id(Long id);
+
+    Integer findReviewsByVaccineEquals(VaccineType vaccineType);
 }
 
