@@ -23,7 +23,7 @@ public class SideEffectsService {
     ReviewRepository reviewRepository;
 
     public SideEffectStatistic getAllSideEffectsCountsByVaccine(VaccineType vaccineType) {
-        Integer vaccineCount = reviewRepository.findReviewsByVaccineEquals(vaccineType);
+        Integer vaccineCount = reviewRepository.countReviewsByVaccineEquals(vaccineType);
         List<SideEffectCount> allCounts = sideEffectsRepository.findAllByVaccineTypeOrderByCountDesc(vaccineType);
         Map<String, Integer> result = new HashMap<>();
         for (SideEffectCount count: allCounts) {
