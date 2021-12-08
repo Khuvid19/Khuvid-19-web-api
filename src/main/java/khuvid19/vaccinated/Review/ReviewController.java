@@ -7,6 +7,7 @@ import khuvid19.vaccinated.Review.Data.DTO.ReviewInput;
 import khuvid19.vaccinated.Review.Data.Review;
 import khuvid19.vaccinated.Review.Data.DTO.ReviewCard;
 import khuvid19.vaccinated.Review.Data.DTO.ReviewFilter;
+import khuvid19.vaccinated.SideEffects.Data.DTO.SideEffectStatistic;
 import khuvid19.vaccinated.SideEffects.SideEffectsService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -59,7 +60,7 @@ public class ReviewController {
     }
 
     @GetMapping(path = "/sideEffects")
-    public Map<String, Integer> getAllSideEffectsCounts(@RequestParam(name = "vaccine") VaccineType vaccineType) {
+    public SideEffectStatistic getAllSideEffectsCounts(@RequestParam(name = "vaccine") VaccineType vaccineType) {
         return sideEffectsService.getAllSideEffectsCountsByVaccine(vaccineType);
     }
 
