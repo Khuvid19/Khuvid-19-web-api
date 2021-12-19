@@ -41,7 +41,7 @@ public class SituationController {
 
         String serviceKey_Decoder = URLDecoder.decode(portalKey.toString(), "UTF-8");
 
-        String url = portalUrl + "?ServiceKey=" + serviceKey_Decoder + "&startCreateDt=" + today.format(formatter);
+        String url = portalUrl + "?ServiceKey=" + serviceKey_Decoder + "&startCreateDt=" + today.format(formatter) + "endCreateDt="+today.format(formatter);
 
         log.info(url);
 
