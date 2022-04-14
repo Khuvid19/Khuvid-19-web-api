@@ -80,9 +80,4 @@ public class ReviewController {
         return reviewService.getMyReviews(requestUserId);
     }
 
-    @GetMapping(path = "/sudo")
-    public void removeAllReviews() {
-        reviewService.removeAllReviews();
-    }
-
 }

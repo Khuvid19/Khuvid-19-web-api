@@ -139,9 +139,5 @@ public class ReviewService {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    public void removeAllReviews() {
-        reviewRepository.deleteAll();
-        sideEffectsService.removeAllData();
-    }
 
 }
