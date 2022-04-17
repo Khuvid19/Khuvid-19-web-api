@@ -11,6 +11,7 @@ import khuvid19.vaccinated.Review.Data.ReviewRepository;
 import khuvid19.vaccinated.Review.Data.SearchReviewSpecs;
 import khuvid19.vaccinated.SideEffects.SideEffectsService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,8 +26,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
@@ -42,10 +45,30 @@ public class ReviewService {
     public Page<ReviewCard> searchPagedReview(int pageIndex, ReviewFilter filters) {
         PageRequest paging = PageRequest.of(pageIndex, 10, Sort.by(Sort.Direction.DESC, "id"));
         Specification<Review> specification = SearchReviewSpecs.initial();
+        boolean isDetailVaccine = false;
 
         if (filters.getVaccines() != null) {
             specification = specification.and(SearchReviewSpecs.vaccineContains(filters.getVaccines()));
         }
+
+        if (filters.getDetailDisc() != null) {
+            String searchWord = filters.getDetailDisc();
+            List<VaccineType> vaccineTypes = new ArrayList<>();
+            for (VaccineType type : VaccineType.values()) {
+                if (type.getKoreanName().contains(searchWord)) {
+                    vaccineTypes.add(type);
+                    isDetailVaccine = true;
+                }
+            }
+
+            if (isDetailVaccine) {
+                specification = specification.and(SearchReviewSpecs.vaccineContains(vaccineTypes));
+            }
+            else {
+                specification = specification.and(SearchReviewSpecs.searchTextContains(filters.getDetailDisc()));
+            }
+        }
+
 
         if (filters.getSideEffects() != null) {
             Specification<Review> effectsSpecification = SearchReviewSpecs.initial();
@@ -53,7 +76,7 @@ public class ReviewService {
                 effectsSpecification = effectsSpecification.or(SearchReviewSpecs.sideEffectContain(type));
             }
             specification = specification.and(effectsSpecification);
-        }
+    }
 
         if (filters.getStartInoculated() != null || filters.getEndInoculated() != null) {
             specification = specification.and(SearchReviewSpecs.inoculatedBetween(filters.getStartInoculated(), filters.getEndInoculated()));
@@ -65,10 +88,6 @@ public class ReviewService {
         
         if (filters.getAuthorAges() != null) {
             specification = specification.and(SearchReviewSpecs.ageContains(filters.getAuthorAges()));
-        }
-
-        if (filters.getDetailDisc() != null) {
-            specification = specification.and(SearchReviewSpecs.searchTextContains(filters.getDetailDisc()));
         }
 
         Page<Review> all = reviewRepository.findAll(specification, paging);
