@@ -65,7 +65,7 @@ public class ReviewService {
                 specification = specification.and(SearchReviewSpecs.vaccineContains(vaccineTypes));
             }
 
-            specification = specification.and(SearchReviewSpecs.searchTextContains(filters.getDetailDisc()));
+            specification = specification.or(SearchReviewSpecs.searchTextContains(filters.getDetailDisc()));
         }
 
 
