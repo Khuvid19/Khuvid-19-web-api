@@ -64,9 +64,8 @@ public class ReviewService {
             if (isDetailVaccine) {
                 specification = specification.and(SearchReviewSpecs.vaccineContains(vaccineTypes));
             }
-            else {
-                specification = specification.and(SearchReviewSpecs.searchTextContains(filters.getDetailDisc()));
-            }
+
+            specification = specification.and(SearchReviewSpecs.searchTextContains(filters.getDetailDisc()));
         }
 
 
