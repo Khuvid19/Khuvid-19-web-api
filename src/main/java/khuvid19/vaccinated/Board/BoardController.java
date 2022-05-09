@@ -5,7 +5,7 @@ import khuvid19.vaccinated.Board.Data.Board.BoardInfo;
 import khuvid19.vaccinated.Board.Data.Board.PostBoard;
 import khuvid19.vaccinated.Board.Data.Board.ReviseBoard;
 import khuvid19.vaccinated.Board.Data.Comment.PostComment;
-import khuvid19.vaccinated.LoginUser.Data.SecurityUser;
+import khuvid19.vaccinated.LoginUser.Data.DTO.SecurityUser;
 import khuvid19.vaccinated.LoginUser.Data.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

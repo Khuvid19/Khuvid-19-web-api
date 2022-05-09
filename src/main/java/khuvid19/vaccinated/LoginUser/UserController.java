@@ -5,6 +5,10 @@ import khuvid19.vaccinated.Constants.AgeType;
 import khuvid19.vaccinated.Constants.Gender;
 import khuvid19.vaccinated.LoginUser.Data.*;
 
+import khuvid19.vaccinated.LoginUser.Data.DTO.PostUser;
+import khuvid19.vaccinated.LoginUser.Data.DTO.SecurityUser;
+import khuvid19.vaccinated.LoginUser.Data.DTO.Token;
+import khuvid19.vaccinated.LoginUser.Data.DTO.UserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

@@ -1,5 +1,6 @@
-package khuvid19.vaccinated.LoginUser.Data;
+package khuvid19.vaccinated.LoginUser.Data.DTO;
 
+import khuvid19.vaccinated.LoginUser.Data.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -2,7 +2,7 @@ package khuvid19.vaccinated.Review;
 
 import khuvid19.vaccinated.Constants.SideEffectType;
 import khuvid19.vaccinated.Constants.VaccineType;
-import khuvid19.vaccinated.LoginUser.Data.SecurityUser;
+import khuvid19.vaccinated.LoginUser.Data.DTO.SecurityUser;
 import khuvid19.vaccinated.Review.Data.DTO.ReviewInput;
 import khuvid19.vaccinated.Review.Data.Review;
 import khuvid19.vaccinated.Review.Data.DTO.ReviewCard;
