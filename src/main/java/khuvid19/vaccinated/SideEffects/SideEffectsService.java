@@ -5,6 +5,8 @@ import khuvid19.vaccinated.Constants.VaccineType;
 import khuvid19.vaccinated.Review.Data.ReviewRepository;
 import khuvid19.vaccinated.SideEffects.Data.DTO.SideEffectStatistic;
 import khuvid19.vaccinated.SideEffects.Data.SideEffectCount;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +16,13 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class SideEffectsService {
 
-    @Autowired
-    SideEffectsRepository sideEffectsRepository;
+    private final SideEffectsRepository sideEffectsRepository;
 
-    @Autowired
-    ReviewRepository reviewRepository;
+    private final ReviewRepository reviewRepository;
+
 
     public SideEffectStatistic getAllSideEffectsCountsByVaccine(VaccineType vaccineType) {
         Integer vaccineCount = reviewRepository.countReviewsByVaccineEquals(vaccineType);
@@ -64,10 +66,6 @@ public class SideEffectsService {
                                        List<SideEffectType> inputSideEffectTypes, VaccineType inputVaccineType) {
         subtractSideEffectCount(oldSideEffectTypes, oldVaccineType);
         addSideEffectsCount(inputSideEffectTypes, inputVaccineType);
-    }
-
-    public void removeAllData() {
-        sideEffectsRepository.deleteAll();
     }
 
 }
