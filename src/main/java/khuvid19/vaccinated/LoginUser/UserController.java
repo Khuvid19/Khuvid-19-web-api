@@ -32,6 +32,7 @@ public class UserController {
     private final UserRepository userRepository;
     private final JwtTokenProvider tokenProvider;
     private final ModelMapper modelMapper;
+    private final ChildRepository childRepository;
 
     @PostMapping("/user")
     public User setUserInfo(@RequestBody User user) {
@@ -96,4 +97,10 @@ public class UserController {
 
     }
 
+    @GetMapping("/child")
+    public Optional<Child> myChildInfo(@ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
+        User user = securityUser.getUser();
+        Optional<Child> child = childRepository.findChildByParent_Id(user.getId());
+        return child;
+    }
 }
