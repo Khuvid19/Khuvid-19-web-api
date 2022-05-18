@@ -19,6 +19,7 @@ import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -98,9 +99,12 @@ public class UserController {
     }
 
     @GetMapping("/child")
-    public Optional<Child> myChildInfo(@ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
+    public List<ChildInfo> myChildInfo(@ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
         User user = securityUser.getUser();
         Optional<Child> child = childRepository.findChildByParent_Id(user.getId());
-        return child;
+        List<ChildInfo> childList = child.stream().map(children -> modelMapper.map(children, ChildInfo.class)).collect(Collectors.toList());
+
+        return childList;
     }
+
 }
