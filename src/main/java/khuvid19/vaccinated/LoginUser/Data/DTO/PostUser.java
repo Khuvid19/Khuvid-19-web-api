@@ -1,4 +1,4 @@
-package khuvid19.vaccinated.LoginUser.Data;
+package khuvid19.vaccinated.LoginUser.Data.DTO;
 
 import khuvid19.vaccinated.Constants.AgeType;
 import khuvid19.vaccinated.Constants.Gender;

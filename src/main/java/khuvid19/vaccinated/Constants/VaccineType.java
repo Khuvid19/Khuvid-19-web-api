@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 public enum VaccineType {
-    PFIZER_FIRST("화이자 1차"), PFIZER_SECOND("화이자 2차"),
-    MODERNA_FIRST("모더나 1차"), MODERNA_SECOND("모더나 2차"),
+    PFIZER_FIRST("화이자 1차"), PFIZER_SECOND("화이자 2차"), PFIZER_THIRD("화이자 3차"),
+    MODERNA_FIRST("모더나 1차"), MODERNA_SECOND("모더나 2차"),MODERNA_THIRD("모더나 3차"),
+    INFANT_FIRST("소아 1차"), INFANT_SECOND("소아 2차"),
     AZ_FIRST("AZ 1차"), AZ_SECOND("AZ 2차"),
     ANSEN("얀센"), ANSEN_BOOST("얀센 부스터샷");
 

@@ -23,6 +23,8 @@ public class ReviewInput {
 
     VaccineType vaccine;
 
+    ReviewUser reviewTarget;
+
     @Enumerated(value = EnumType.STRING)
     @ElementCollection
     List<SideEffectType> sideEffects;

@@ -2,7 +2,7 @@ package khuvid19.vaccinated.LoginUser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import khuvid19.vaccinated.LoginUser.Data.GoogleUser;
+import khuvid19.vaccinated.LoginUser.Data.DTO.GoogleUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

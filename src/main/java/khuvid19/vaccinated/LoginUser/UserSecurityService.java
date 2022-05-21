@@ -1,6 +1,6 @@
 package khuvid19.vaccinated.LoginUser;
 
-import khuvid19.vaccinated.LoginUser.Data.SecurityUser;
+import khuvid19.vaccinated.LoginUser.Data.DTO.SecurityUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

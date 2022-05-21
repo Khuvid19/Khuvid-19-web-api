@@ -1,5 +1,6 @@
 package khuvid19.vaccinated.Review.Data;
 
+import khuvid19.vaccinated.Constants.ReviewType;
 import khuvid19.vaccinated.Constants.SideEffectType;
 import khuvid19.vaccinated.Constants.VaccineType;
 import khuvid19.vaccinated.LoginUser.Data.User;
@@ -35,6 +36,10 @@ public class Review {
 
     VaccineType vaccine;
 
+    ReviewType reviewTargetType;
+
+    Long reviewTargetId;
+
     @Enumerated(value = EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
     List<SideEffectType> sideEffects;
@@ -43,6 +48,7 @@ public class Review {
 
     Boolean haveDisease;
     String diseaseDisc;
+
 
     @Column(length = 5000)
     String detailDisc;

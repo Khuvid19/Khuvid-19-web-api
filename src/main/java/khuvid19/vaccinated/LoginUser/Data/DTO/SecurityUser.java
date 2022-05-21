@@ -1,4 +1,4 @@
-package khuvid19.vaccinated.LoginUser.Data;
+package khuvid19.vaccinated.LoginUser.Data.DTO;
 
 import lombok.Getter;
 import lombok.Setter;

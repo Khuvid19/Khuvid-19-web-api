@@ -2,8 +2,10 @@ package khuvid19.vaccinated.Review;
 
 import khuvid19.vaccinated.Constants.SideEffectType;
 import khuvid19.vaccinated.Constants.VaccineType;
-import khuvid19.vaccinated.LoginUser.Data.SecurityUser;
+import khuvid19.vaccinated.LoginUser.Data.DTO.SecurityUser;
+import khuvid19.vaccinated.LoginUser.Data.User;
 import khuvid19.vaccinated.Review.Data.DTO.ReviewInput;
+import khuvid19.vaccinated.Review.Data.DTO.ReviewUser;
 import khuvid19.vaccinated.Review.Data.Review;
 import khuvid19.vaccinated.Review.Data.DTO.ReviewCard;
 import khuvid19.vaccinated.Review.Data.DTO.ReviewFilter;
@@ -72,6 +74,12 @@ public class ReviewController {
     @GetMapping(path = "/types/vaccine")
     public List<Map<String, String>> getAllVaccineTypes() {
         return VaccineType.getAllTypes();
+    }
+
+    @GetMapping("/my/reviewer")
+    public List<ReviewUser> getAvailableUser(@ApiIgnore @AuthenticationPrincipal SecurityUser user) {
+        User requestUser = user.getUser();
+        return reviewService.getAllReviewers(requestUser);
     }
 
     @GetMapping(path = "/my")

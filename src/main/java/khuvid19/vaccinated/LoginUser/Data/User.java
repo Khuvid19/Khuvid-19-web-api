@@ -2,13 +2,12 @@ package khuvid19.vaccinated.LoginUser.Data;
 
 import khuvid19.vaccinated.Constants.AgeType;
 import khuvid19.vaccinated.Constants.Gender;
-import lombok.AllArgsConstructor;
+import khuvid19.vaccinated.LoginUser.Data.DTO.UserInfo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Getter
 @Entity
@@ -37,6 +36,7 @@ public class User {
     private AgeType age;
     @Transient
     private String jwtToken;
+
 
     public User(String email, String name, String accessToken, String picUrl) {
         this.email = email;
