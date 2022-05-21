@@ -113,6 +113,16 @@ public class ReviewService {
         if (isDuplicatedReview) {
             return ResponseEntity.status(HttpStatus.GONE).build();
         }
+
+        ReviewType target = receivedReview.getReviewTargetType();
+        if (target.equals(ReviewType.CHILD) && !inputVaccineType.getKoreanName().contains("소아")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        if (target.equals(ReviewType.MYSELF) && inputVaccineType.getKoreanName().contains("소아")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
         receivedReview.setAuthor(user);
         reviewRepository.save(receivedReview);
         if (receivedReview.getSideEffects() != null) {
