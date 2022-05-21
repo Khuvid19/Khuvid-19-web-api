@@ -1,11 +1,15 @@
 package khuvid19.vaccinated.Review;
 
+import khuvid19.vaccinated.Constants.ReviewType;
 import khuvid19.vaccinated.Constants.SideEffectType;
 import khuvid19.vaccinated.Constants.VaccineType;
+import khuvid19.vaccinated.LoginUser.ChildRepository;
+import khuvid19.vaccinated.LoginUser.Data.Child;
 import khuvid19.vaccinated.LoginUser.Data.User;
 import khuvid19.vaccinated.Review.Data.DTO.ReviewCard;
 import khuvid19.vaccinated.Review.Data.DTO.ReviewFilter;
 import khuvid19.vaccinated.Review.Data.DTO.ReviewInput;
+import khuvid19.vaccinated.Review.Data.DTO.ReviewUser;
 import khuvid19.vaccinated.Review.Data.Review;
 import khuvid19.vaccinated.Review.Data.ReviewRepository;
 import khuvid19.vaccinated.Review.Data.SearchReviewSpecs;
@@ -33,6 +37,7 @@ import java.util.stream.Collectors;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final ChildRepository childRepository;
     private final SideEffectsService sideEffectsService;
     private final ModelMapper modelMapper;
 
@@ -157,5 +162,21 @@ public class ReviewService {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    public List<ReviewUser> getAllReviewers(User user) {
+        List<ReviewUser> reviewUsers = new ArrayList<>();
+        ReviewUser self = modelMapper.map(user, ReviewUser.class);
+        self.setPersonType(ReviewType.MYSELF);
+        reviewUsers.add(self);
+
+        Optional<Child> childByParent_id = childRepository.findChildByParent_Id(user.getId());
+        List<ReviewUser> child = childByParent_id.stream()
+                .map(c -> modelMapper.map(c, ReviewUser.class))
+                .peek(u -> u.setPersonType(ReviewType.CHILD))
+                .collect(Collectors.toList());
+
+        reviewUsers.addAll(child);
+
+        return reviewUsers;
+    }
 
 }
