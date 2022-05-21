@@ -56,6 +56,12 @@ public class UserService {
     }
 
     public ResponseEntity addChild(User user, Child child) {
+
+        Optional<Child> childByParent_id = childRepository.findByNameAndParent_Id(child.getName(), user.getId());
+        if (childByParent_id.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
         child.setParent(user);
         //check logic?
         childRepository.save(child);
