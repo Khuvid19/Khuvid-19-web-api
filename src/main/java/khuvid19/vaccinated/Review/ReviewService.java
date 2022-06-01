@@ -115,6 +115,12 @@ public class ReviewService {
         }
 
         ReviewType target = receivedReview.getReviewTargetType();
+
+        if (target.equals(null)){
+            receivedReview.setReviewTargetType(ReviewType.MYSELF);
+            receivedReview.setReviewTargetId(user.getId());
+        }
+
         if (target.equals(ReviewType.CHILD) && !inputVaccineType.getKoreanName().contains("소아")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
