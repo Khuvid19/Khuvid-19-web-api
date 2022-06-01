@@ -14,6 +14,8 @@ public interface ReviewRepository extends PagingAndSortingRepository<Review, Lon
     Page<Review> findAll(Pageable pageable);
 
     Boolean existsReviewsByAuthor_IdAndVaccine(Long userId, VaccineType vaccine);
+
+    Boolean existsByReviewTargetIdAndVaccine(Long targetId, VaccineType vaccineType);
     List<Review> findAllByAuthor_Id(Long id);
 
     Integer countReviewsByVaccineEquals(VaccineType vaccineType);

@@ -4,9 +4,11 @@ import khuvid19.vaccinated.Constants.ReviewType;
 import khuvid19.vaccinated.Constants.SideEffectType;
 import khuvid19.vaccinated.Constants.VaccineType;
 import khuvid19.vaccinated.LoginUser.Data.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,8 +17,11 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+import static khuvid19.vaccinated.Constants.ReviewType.MYSELF;
+
 @Getter @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 public class Review {
@@ -36,7 +41,7 @@ public class Review {
 
     VaccineType vaccine;
 
-    ReviewType reviewTargetType;
+    ReviewType reviewTargetType = MYSELF;
 
     Long reviewTargetId;
 

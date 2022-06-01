@@ -1,5 +1,6 @@
 package khuvid19.vaccinated.Review.Data.DTO;
 
+import khuvid19.vaccinated.Constants.ReviewType;
 import khuvid19.vaccinated.Constants.SideEffectType;
 import khuvid19.vaccinated.Constants.VaccineType;
 import lombok.Getter;

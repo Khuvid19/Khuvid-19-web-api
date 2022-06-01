@@ -108,19 +108,25 @@ public class ReviewService {
     public ResponseEntity insertReview(Review receivedReview, User user) {
         List<SideEffectType> inputSideEffectTypes = receivedReview.getSideEffects();
         VaccineType inputVaccineType = receivedReview.getVaccine();
+
+
         Boolean isDuplicatedReview = reviewRepository.existsReviewsByAuthor_IdAndVaccine(user.getId(), receivedReview.getVaccine());
+//        Boolean isDuplicated = reviewRepository.existsByReviewTargetIdAndVaccine(receivedReview.getReviewTargetId(), inputVaccineType);
 
         if (isDuplicatedReview) {
             return ResponseEntity.status(HttpStatus.GONE).build();
         }
 
-        ReviewType target = receivedReview.getReviewTargetType();
-
-        if (target.equals(null)){
+        try {
+            log.info("SETTED");
+            log.info(receivedReview.getReviewTargetType().toString());
+        } catch (NullPointerException e) {
+            log.info("Default MySELF");
             receivedReview.setReviewTargetType(ReviewType.MYSELF);
             receivedReview.setReviewTargetId(user.getId());
         }
 
+        ReviewType target = receivedReview.getReviewTargetType();
         if (target.equals(ReviewType.CHILD) && !inputVaccineType.getKoreanName().contains("소아")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -181,13 +187,13 @@ public class ReviewService {
     public List<ReviewUser> getAllReviewers(User user) {
         List<ReviewUser> reviewUsers = new ArrayList<>();
         ReviewUser self = modelMapper.map(user, ReviewUser.class);
-        self.setPersonType(ReviewType.MYSELF);
+        self.setType(ReviewType.MYSELF);
         reviewUsers.add(self);
 
         Optional<Child> childByParent_id = childRepository.findChildByParent_Id(user.getId());
         List<ReviewUser> child = childByParent_id.stream()
                 .map(c -> modelMapper.map(c, ReviewUser.class))
-                .peek(u -> u.setPersonType(ReviewType.CHILD))
+                .peek(u -> u.setType(ReviewType.CHILD))
                 .collect(Collectors.toList());
 
         reviewUsers.addAll(child);

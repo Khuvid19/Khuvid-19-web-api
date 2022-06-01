@@ -12,6 +12,7 @@ import khuvid19.vaccinated.Review.Data.DTO.ReviewFilter;
 import khuvid19.vaccinated.SideEffects.Data.DTO.SideEffectStatistic;
 import khuvid19.vaccinated.SideEffects.SideEffectsService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/review")
+@Slf4j
 public class ReviewController {
 
     private final ReviewService reviewService;

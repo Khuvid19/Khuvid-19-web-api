@@ -9,7 +9,6 @@ import lombok.Setter;
 public class ReviewUser {
 
     Long id;
-    String Name;
-    ReviewType personType;
+    ReviewType Type;
 
 }
