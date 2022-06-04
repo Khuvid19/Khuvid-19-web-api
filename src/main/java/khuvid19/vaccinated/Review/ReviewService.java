@@ -1,18 +1,15 @@
 package khuvid19.vaccinated.Review;
 
+import com.querydsl.core.Tuple;
+import javassist.compiler.ast.Pair;
 import khuvid19.vaccinated.Constants.ReviewType;
 import khuvid19.vaccinated.Constants.SideEffectType;
 import khuvid19.vaccinated.Constants.VaccineType;
 import khuvid19.vaccinated.LoginUser.ChildRepository;
 import khuvid19.vaccinated.LoginUser.Data.Child;
 import khuvid19.vaccinated.LoginUser.Data.User;
-import khuvid19.vaccinated.Review.Data.DTO.ReviewCard;
-import khuvid19.vaccinated.Review.Data.DTO.ReviewFilter;
-import khuvid19.vaccinated.Review.Data.DTO.ReviewInput;
-import khuvid19.vaccinated.Review.Data.DTO.ReviewUser;
-import khuvid19.vaccinated.Review.Data.Review;
-import khuvid19.vaccinated.Review.Data.ReviewRepository;
-import khuvid19.vaccinated.Review.Data.SearchReviewSpecs;
+import khuvid19.vaccinated.Review.Data.*;
+import khuvid19.vaccinated.Review.Data.DTO.*;
 import khuvid19.vaccinated.SideEffects.SideEffectsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +22,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +39,7 @@ public class ReviewService {
     private final ChildRepository childRepository;
     private final SideEffectsService sideEffectsService;
     private final ModelMapper modelMapper;
+    private final EntityManager entityManager;
 
     public Page<ReviewCard> getPagedReview(int pageIndex) {
         PageRequest request = PageRequest.of(pageIndex, 10, Sort.by(Sort.Direction.DESC, "id"));
@@ -201,4 +201,41 @@ public class ReviewService {
         return reviewUsers;
     }
 
+    public List<SimilarReviewCard> getSimilarity(Long userId, Long reviewID, Integer page) {
+
+        String query = "select a.*,\n" +
+                "(select count(*)  from (select t1.side_effects\n" +
+                "       from review_side_effects AS t1 JOIN review_side_effects AS t2 ON t1.side_effects = t2.side_effects \n" +
+                "       where t1.review_id = a.id and t2.review_id =b.id) f)  / \n" +
+                "(select count(*) \n" +
+                " from \n" +
+                " (select side_effects from review_side_effects s1\n" +
+                "where s1.review_id = a.id union select s2.side_effects from review_side_effects s2 where s2.review_id = b.id) c) *100 as similarity \n" +
+                "from review a, (select * from review where id = %d ) b where a.id != b.id and a.vaccine = b.vaccine\n" +
+                "order by similarity desc";
+
+        String result = String.format(query, reviewID);
+        Query searchSimilarity = entityManager.createNativeQuery(
+                result, "searchSimilarity");
+
+        List<Object[]> resultList = searchSimilarity.setFirstResult(page * 10)
+                .setMaxResults(10)
+                .getResultList();
+
+        List<SimilarReviewCard> similarityList = new ArrayList<>();
+
+        for (Object[] similarResult : resultList) {
+            Review review = (Review) similarResult[0];
+            Long similarity = (Long) similarResult[1];
+
+            similarityList.add(
+                    new SimilarReviewCard(
+                            modelMapper.map(review, ReviewCard.class),
+                            similarity
+                    )
+            );
+        }
+
+        return similarityList;
+    }
 }
