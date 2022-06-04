@@ -6,7 +6,6 @@ import khuvid19.vaccinated.LoginUser.Data.DTO.SecurityUser;
 import khuvid19.vaccinated.LoginUser.Data.User;
 import khuvid19.vaccinated.Review.Data.DTO.*;
 import khuvid19.vaccinated.Review.Data.Review;
-import khuvid19.vaccinated.Review.Data.SimilarReview;
 import khuvid19.vaccinated.SideEffects.Data.DTO.SideEffectStatistic;
 import khuvid19.vaccinated.SideEffects.SideEffectsService;
 import lombok.RequiredArgsConstructor;
