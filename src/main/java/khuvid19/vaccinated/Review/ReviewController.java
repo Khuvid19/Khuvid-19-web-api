@@ -55,7 +55,7 @@ public class ReviewController {
         return reviewService.removeReview(id, securityUser.getUser().getId());
     }
 
-    @PostMapping("/search")
+    @GetMapping("/search")
     public Page<ReviewCard> searchReviews(@RequestParam Integer page, @RequestBody ReviewFilter filters) {
         return reviewService.searchPagedReview(page, filters);
     }
