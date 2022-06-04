@@ -1,7 +1,5 @@
 package khuvid19.vaccinated.Review;
 
-import com.querydsl.core.Tuple;
-import javassist.compiler.ast.Pair;
 import khuvid19.vaccinated.Constants.ReviewType;
 import khuvid19.vaccinated.Constants.SideEffectType;
 import khuvid19.vaccinated.Constants.VaccineType;

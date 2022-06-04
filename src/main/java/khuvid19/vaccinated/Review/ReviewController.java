@@ -89,7 +89,8 @@ public class ReviewController {
 
 
     @GetMapping("/similarity")
-    public List<SimilarReviewCard> getSimilarity(@RequestParam Long userId, @RequestParam Long reviewId, @RequestParam Integer page) {
+    public List<SimilarReviewCard> getSimilarity(@ApiIgnore @AuthenticationPrincipal SecurityUser securityUser, @RequestParam Long reviewId, @RequestParam Integer page) {
+        Long userId = securityUser.getUser().getId();
         return reviewService.getSimilarity(userId, reviewId, page);
     }
 }
