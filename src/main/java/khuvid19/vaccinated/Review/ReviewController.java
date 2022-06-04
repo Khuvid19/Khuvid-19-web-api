@@ -4,11 +4,9 @@ import khuvid19.vaccinated.Constants.SideEffectType;
 import khuvid19.vaccinated.Constants.VaccineType;
 import khuvid19.vaccinated.LoginUser.Data.DTO.SecurityUser;
 import khuvid19.vaccinated.LoginUser.Data.User;
-import khuvid19.vaccinated.Review.Data.DTO.ReviewInput;
-import khuvid19.vaccinated.Review.Data.DTO.ReviewUser;
+import khuvid19.vaccinated.Review.Data.DTO.*;
 import khuvid19.vaccinated.Review.Data.Review;
-import khuvid19.vaccinated.Review.Data.DTO.ReviewCard;
-import khuvid19.vaccinated.Review.Data.DTO.ReviewFilter;
+import khuvid19.vaccinated.Review.Data.SimilarReview;
 import khuvid19.vaccinated.SideEffects.Data.DTO.SideEffectStatistic;
 import khuvid19.vaccinated.SideEffects.SideEffectsService;
 import lombok.RequiredArgsConstructor;
@@ -90,4 +88,9 @@ public class ReviewController {
         return reviewService.getMyReviews(requestUserId);
     }
 
+
+    @GetMapping("/similarity")
+    public List<SimilarReviewCard> getSimilarity(@RequestParam Long userId, @RequestParam Long reviewId, @RequestParam Integer page) {
+        return reviewService.getSimilarity(userId, reviewId, page);
+    }
 }
